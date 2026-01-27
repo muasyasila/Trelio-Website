@@ -596,13 +596,18 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+.pillars-section .section-header {
+    margin-bottom: 20px !important; /* Adjust this number (e.g., 10px or 0px) to get it even tighter */
+}
 
 .pillars-grid {
+   
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 0 !important;
 }
 
 .pillar-card {
@@ -1054,6 +1059,95 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     background: var(--primary-blue);
     color: white;
     transform: scale(1.1);
+}
+
+.video-spotlight {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8%;
+    background: var(--bg-body); /* Ensure this contrasts with the glass */
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-wrapper {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 60px;
+    max-width: 1300px;
+    width: 100%;
+    z-index: 2;
+}
+
+/* Text Styling */
+.bento-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+.bento-description {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 450px;
+    margin-bottom: 30px;
+}
+
+/* The Sleek Video Container */
+.bento-video {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* This creates the "Light" behind the video */
+.ambient-glow {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(0, 163, 255, 0.15) 0%, transparent 60%);
+    filter: blur(60px);
+    z-index: -1;
+}
+
+.video-sleek-container {
+    position: relative;
+    border-radius: 32px;
+    padding: 10px; /* The "Frame" space */
+    background: rgba(255, 255, 255, 0.03); /* Glass base */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* The "Glass" edge */
+    box-shadow: 
+        0 4px 24px -1px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px 0 rgba(255, 255, 255, 0.05); /* Internal reflection */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.main-video {
+    width: 100%;
+    border-radius: 24px; /* Slightly smaller than container for nested look */
+    display: block;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-height: 50vh;
+}
+
+/* Interactive Hover */
+.video-sleek-container:hover {
+    transform: translateY(-10px) scale(1.02);
+    border: 1px solid rgba(0, 163, 255, 0.4); /* Glow on hover */
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Fix */
+@media (max-width: 1024px) {
+    .video-spotlight { height: auto; padding: 100px 20px; }
+    .bento-wrapper { grid-template-columns: 1fr; text-align: center; }
+    .bento-text { align-items: center; }
 }
 
 /* 4. KEYFRAMES */
