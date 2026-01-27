@@ -10,193 +10,310 @@
 <body>
 
     <nav class="navbar">
-        <div class="nav-container" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
-            <a href="#" class="logo">
-    <svg width="200" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
-        <path d="M45 20c-5.5 0-10.4 3.4-12.4 8.2-1-.1-2.1-.2-3.1-.2-7.7 0-14 6.3-14 14s6.3 14 14 14h30c6.6 0 12-5.4 12-12 0-5.1-3.2-9.4-7.7-11.1.1-.3.2-.6.2-.9 0-6.6-5.4-12-12-12-2.3 0-4.4.6-6.3 1.7-1.4-3.3-4.7-5.7-8.7-5.7z" fill="#D6F5FF" />
-        <path d="M33 38c.5 0 1 .4 1 1s-.5 1-1 1-1-.4-1-1 .5-1 1-1zm16 0c.5 0 1 .4 1 1s-.5 1-1 1-1-.4-1-1 .5-1 1-1z" fill="#0F1724" />
-        <path d="M39 42c1.5 0 2.5 1 2.5 1s.5-1 2.5-1" fill="none" stroke="#0F1724" stroke-width="1.5" stroke-linecap="round" />
-        <circle cx="28" cy="41" r="3" fill="#FFB4C2" />
-        <circle cx="54" cy="41" r="3" fill="#FFB4C2" />
-        <text x="75" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="34" fill="#38BDF8">TRELIO</text>
-    </svg>
-</a>
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <svg width="180" height="45" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+                <path d="M45 20c-5.5 0-10.4 3.4-12.4 8.2-1-.1-2.1-.2-3.1-.2-7.7 0-14 6.3-14 14s6.3 14 14 14h30c6.6 0 12-5.4 12-12 0-5.1-3.2-9.4-7.7-11.1.1-.3.2-.6.2-.9 0-6.6-5.4-12-12-12-2.3 0-4.4.6-6.3 1.7-1.4-3.3-4.7-5.7-8.7-5.7z" fill="#D6F5FF" />
+                <path d="M33 38c.5 0 1 .4 1 1s-.5 1-1 1-1-.4-1-1 .5-1 1-1zm16 0c.5 0 1 .4 1 1s-.5 1-1 1-1-.4-1-1 .5-1 1-1z" fill="#0F1724" />
+                <path d="M39 42c1.5 0 2.5 1 2.5 1s.5-1 2.5-1" fill="none" stroke="#0F1724" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="28" cy="41" r="3" fill="#FFB4C2" />
+                <circle cx="54" cy="41" r="3" fill="#FFB4C2" />
+                <text x="75" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="34" fill="#38BDF8">TRELIO</text>
+            </svg>
+        </a>
+
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#mission" class="nav-item">Mission</a></li>
+                <li><a href="#how-it-works" class="nav-item">How it Works</a></li>
+                <li><a href="#pillars" class="nav-item">Four Pillars</a></li>
+               
+                <li><button class="btn-blue open-modal">Get Started</button></li>
+            </ul>
+<div class="theme-wrapper">
+    <button id="theme-switch" class="theme-toggle-modern" aria-label="Switch Theme">
+        <div class="toggle-circle">
+            <svg class="sun-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg class="moon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </div>
+    </button>
+</div>
             <button class="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-links">
-                <li><a href="#mission">Mission</a></li>
-                <li><a href="#how-it-works">How it Works</a></li>
-                <li><a href="#pillars">Four Pillars</a></li>
-                <li><button id="theme-switch" class="theme-toggle">🌙 Dark Mode</button></li>
-                <li><button class="btn-blue open-modal">Get Started</button></li>
-            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <header class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="badge">TRELIO MENTAL HEALTH APP</div>
-                <h1>Your Mind's <span class="text-blue">Safe Harbor.</span></h1>
-                <p>An AI-powered sanctuary where everyone finds accessible, anonymous, and professional mental health support.</p>
-                <div class="hero-btns">
-                    <button class="btn-blue" onclick="window.location.href='https://drive.google.com/file/d/1K7_54YHexMJ_ayqwYIO3f5xE5jVzgdD-/view?usp=sharing'">
-        Launch App
-    </button>
-                    <a href="#how-it-works" class="btn-outline" style="margin-left: 15px; text-decoration: none; border: 2px solid var(--primary-blue); padding: 10px 25px; border-radius: 8px; color: var(--primary-blue); font-weight: 700;">Learn More</a>
-                </div>
-            </div>
-            <div class="hero-phone">
-                <img src="images/phone.jpeg" alt="Trelio App on Phone" />
-            </div>
-        </div>
-    </header>
-
-    <section class="mood-showcase section" id="mood-section">
-    <div class="container mood-flex">
-        <div class="mood-text">
-            <h2>Start from scratch or explore our gallery.</h2>
-            <p>Find instant inspiration based on how you feel right now.</p>
-            <button class="btn-blue open-modal">Explore Gallery</button>
-        </div>
-        
-    <div class="mood-center">
-        <img src="images/trelio logo.jpeg" alt="Trelio">
-    </div>
-    <div class="mood-orbit-container">
-    
-    <div class="orbiting-mood" style="--i:1;" data-color="#e0f2fe" data-mood="Happy">
-        <div class="mood-float-layer">
-            <img src="images/happy.jpeg" alt="Happy">
-            <p>HAPPY</p>
-        </div>
-    </div>
-    <div class="orbiting-mood" style="--i:2;" data-color="#fef9c3" data-mood="Angry">
-        <div class="mood-float-layer">
-            <img src="images/angry.jpeg" alt="Angry">
-            <p>ANGRY</p>
-        </div>
-    </div>
-    <div class="orbiting-mood" style="--i:3;" data-color="#f3f4f6" data-mood="Anxious">
-        <div class="mood-float-layer">
-            <img src="images/anxious.jpeg" alt="Anxious">
-            <p>ANXIOUS</p>
-        </div>
-    </div>
-    <div class="orbiting-mood" style="--i:4;" data-color="#f5f3ff" data-mood="Tired">
-        <div class="mood-float-layer">
-            <img src="images/tired.jpeg" alt="Tired">
-            <p>TIRED</p>
-        </div>
-    </div>
-    <div class="orbiting-mood" style="--i:5;" data-color="#ecfdf5" data-mood="Peaceful">
-        <div class="mood-float-layer">
-            <img src="images/peaceful.jpeg" alt="Peaceful">
-            <p>PEACEFUL</p>
-        </div>
-    </div>
-    <div class="orbiting-mood" style="--i:6;" data-color="#e2e8f0" data-mood="Sad">
-        <div class="mood-float-layer">
-            <img src="images/sad.jpeg" alt="Sad">
-            <p>SAD</p>
-        </div>
-    </div>
-</div>
-    </div>
-    <div id="mood-gallery" class="modal-overlay">
-    <div class="modal-card gallery-card" style="max-width: 900px; width: 95%;">
-        <button class="close-gallery" style="position: absolute; top: 20px; right: 20px; font-size: 2rem; border: none; background: none; cursor: pointer;">&times;</button>
-        
-        <div class="gallery-header">
-            <h2 id="gallery-title">Inspiration for your Mood</h2>
-            <p id="gallery-subtitle">Hand-picked resources to support your journey.</p>
-        </div>
-
-        <div class="gallery-grid" id="gallery-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
-            </div>
-    </div>
-</div>
-</section>
-    <section id="mission" class="section">
-        <div class="container">
-            <div class="grid-2">
-                <div class="text-block">
-                    <span class="badge" style="background: var(--bg-alt); color: var(--primary-blue);">THE GENESIS</span>
-                    <h2>Built by Students, for Students</h2>
-                    <p>Trelio was created to bridge the gap between academic pressure and emotional well-being. It is a judgment-free space designed for the unique challenges of university life.</p>
-                    <div class="privacy-box" style="margin-top: 20px; padding: 20px; background: var(--bg-alt); border-left: 5px solid var(--primary-blue); border-radius: 8px;">
-                        <strong style="display: block; margin-bottom: 5px;">Privacy is Non-Negotiable</strong>
-                        <p>Full encryption and anonymous access ensure your identity remains protected at all times.</p>
-                    </div>
-                </div>
-                <div class="image-block">
-                    <img src="images/mission.jpeg" alt="Mission Illustration" style="width: 100%; border-radius: 20px;">
-                </div>
-            </div>
-        </div>
-    </section>
-   
-
-    <section id="how-it-works" class="section" style="background-color: var(--bg-alt);">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">How Trelio Works</h2>
+    <section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="badge-new">✨ New: Version 2.0 now live</div>
+            <h1 class="hero-title">Your Mind Deserves a <span class="gradient-text">Safe Harbor.</span></h1>
+            <p class="hero-subtitle">
+                Trelio helps you navigate the waves of emotion with science-backed tools, 
+                personalized mood tracking, and a community that understands.
+            </p>
             
-            <div class="steps-wrapper">
-                <div class="step-item grid-2" style="margin-bottom: 100px;">
-                    <div class="image-block">
-                        <img src="images/step1.jpeg" alt="Registration Screen" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+            <div class="hero-btns-group">
+                <a href="#" class="store-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play"></a>
+                <a href="#" class="store-badge"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"></a>
+            </div>
+            
+            <div class="hero-social-proof">
+                <div class="avatar-group">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&h=100" alt="User 1" class="user-avatar">
+                    <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=100&h=100" alt="User 2" class="user-avatar">
+                    <img src="https://images.unsplash.com/photo-1507152832244-10d45c7eda57?auto=format&fit=crop&w=100&h=100" alt="User 3" class="user-avatar">
+                    <div class="avatar-more">+10k</div>
+                </div>
+                <div class="proof-text">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <span>4.9/5 Average Rating</span>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="hero-visual">
+            <div class="phone-wrapper">
+                <div class="phone-screen-content">
+                    <div class="app-ui-header">Good morning, Joy</div>
+                    <div class="app-ui-mood-tracker">
+                        <div class="mood-wave"></div>
+                        <p>Your calmness is up 12% today</p>
                     </div>
-                    <div class="text-block">
-                        <span class="badge">STEP 01</span>
-                        <h3>Secure Onboarding</h3>
-                        <p>Begin your journey by creating an anonymous profile. Trelio uses end-to-end encryption to ensure that your data and conversations stay yours alone.</p>
+                    <div class="app-ui-tasks">
+                        <div class="task-item"><span>🧘</span> Mindfulness</div>
+                        <div class="task-item"><span>📓</span> Journaling</div>
                     </div>
                 </div>
+                <div class="floating-card glass-card">🧘 Deep Zen - 10 min</div>
+                <div class="floating-card glass-card-alt">📈 Mood is up 12%</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                <div class="step-item grid-2">
-                    <div class="text-block">
-                        <span class="badge">STEP 02</span>
-                        <h3>Choose Your Support Path</h3>
-                        <p>Whether you need an immediate chat with our AI, a connection with a fellow student, or a formal session with a licensed therapist, the choice is in your hands.</p>
+<section id="pillars" class="section pillars-section">
+    <div class="section-container"> 
+        
+        <div class="section-header">
+            <span class="badge-pill">The Methodology</span>
+            <h2 class="section-title">Built on Three Core Pillars</h2>
+            <p class="section-subtitle">We combined clinical psychology with intuitive design to help you stay grounded.</p>
+        </div>
+
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon-wrapper">
+                    <div class="pillar-icon">📊</div>
+                </div>
+                <h3>Personalized Tracking</h3>
+                <p>Log your emotional weather patterns to identify triggers before they become overwhelming.</p>
+                <ul class="pillar-list">
+                    <li>Quick 5-second check-ins</li>
+                    <li>Trigger identification</li>
+                </ul>
+            </div>
+
+            <div class="pillar-card active-pillar">
+                <div class="pillar-icon-wrapper">
+                    <div class="pillar-icon">🧘</div>
+                </div>
+                <h3>Science-Backed Relief</h3>
+                <p>Access a library of CBT and mindfulness exercises tailored to your current state of mind.</p>
+                <ul class="pillar-list">
+                    <li>Box breathing guides</li>
+                    <li>Guided somatic relief</li>
+                </ul>
+            </div>
+
+            <div class="pillar-card">
+                <div class="pillar-icon-wrapper">
+                    <div class="pillar-icon">📉</div>
+                </div>
+                <h3>Monthly Insights</h3>
+                <p>Receive deep-dive reports on your progress and resilience growth over time.</p>
+                <ul class="pillar-list">
+                    <li>Resilience scoring</li>
+                    <li>Trend analysis</li>
+                </ul>
+            </div>
+        </div>
+        
+    </div> 
+</section>
+
+<section class="carousel-section">
+    <div class="carousel-inner-container">
+        <h2 class="gradient-text section-title">Explore the Trelio Gallery</h2>
+        
+        <div class="carousel-viewport">
+            <div class="carousel-track" id="track">
+                <div class="card glass-card" style="--card-accent: #00a3ff;">
+                    <div class="card-image-wrapper"><img src="https://picsum.photos/seed/res/400/300" alt="Research"></div>
+                    <div class="card-content">
+                        <span class="category-tag">Strategy</span>
+                        <h3 class="title">Product Research</h3>
+                        <p class="description">AI-driven sentiment tracking.</p>
+                        <span class="hidden-data" data-full="Deep-dive market analysis tools."></span>
                     </div>
-                    <div class="image-block">
-                        <img src="images/step2.jpeg" alt="App Dashboard" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                </div>
+                <div class="card glass-card" style="--card-accent: #00a3ff;">
+                    <div class="card-image-wrapper"><img src="https://picsum.photos/seed/soc/400/300" alt="Social"></div>
+                    <div class="card-content">
+                        <span class="category-tag">Marketing</span>
+                        <h3 class="title">Social Media</h3>
+                        <p class="description">High-conversion visuals.</p>
+                        <span class="hidden-data" data-full="Automated social media engine."></span>
+                    </div>
+                </div>
+                <div class="card glass-card" style="--card-accent: #00a3ff;">
+                    <div class="card-image-wrapper"><img src="https://picsum.photos/seed/vid/400/300" alt="Video"></div>
+                    <div class="card-content">
+                        <span class="category-tag">Content</span>
+                        <h3 class="title">Video Marketer</h3>
+                        <p class="description">Cinematic AI video ads.</p>
+                        <span class="hidden-data" data-full="Script-to-video automation."></span>
+                    </div>
+                </div>
+                <div class="card glass-card" style="--card-accent: #00a3ff;">
+                    <div class="card-image-wrapper"><img src="https://picsum.photos/seed/seo/400/300" alt="Blog"></div>
+                    <div class="card-content">
+                        <span class="category-tag">Writing</span>
+                        <h3 class="title">SEO Writer</h3>
+                        <p class="description">Optimized long-form articles.</p>
+                        <span class="hidden-data" data-full="Human-sounding SEO blog posts."></span>
+                    </div>
+                </div>
+                <div class="card glass-card" style="--card-accent: #00a3ff;">
+                    <div class="card-image-wrapper"><img src="https://picsum.photos/seed/seo/400/300" alt="Blog"></div>
+                    <div class="card-content">
+                        <span class="category-tag">Writing</span>
+                        <h3 class="title">SEO Writer</h3>
+                        <p class="description">Optimized long-form articles.</p>
+                        <span class="hidden-data" data-full="Human-sounding SEO blog posts."></span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section id="pillars" class="section">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 40px;">The Four Pillars</h2>
-            <div class="pillars-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-                <div class="card">
-                    <div class="icon" style="font-size: 3rem; margin-bottom: 15px;">🤖</div>
-                    <h3>Talk to Trelio AI</h3>
-                    <p>A 24/7 intelligent companion that listens with genuine compassion.</p>
+        <div class="carousel-navigation">
+            <button id="prevBtn" class="nav-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div id="indicators" class="nav-indicators"></div>
+            <button id="nextBtn" class="nav-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+</section>
+<section class="feature-spotlight section">
+    <div class="container spotlight-grid">
+        <div class="spotlight-content">
+            <span class="badge-pill">Daily Awareness</span>
+            <h2 class="section-title">Track your thoughts, <br><span class="gradient-text">find your pattern.</span></h2>
+            <p class="section-subtitle">
+                Our intuitive journaling interface makes it easy to capture your state of mind in seconds. Over time, Trelio reveals the hidden connections between your habits and your happiness.
+            </p>
+            
+            <div class="feature-check-list">
+                <div class="check-item">
+                    <div class="check-icon">✨</div>
+                    <div>
+                        <strong>Smart Tagging</strong>
+                        <p>Quickly tag activities, people, and sleep quality.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="icon" style="font-size: 3rem; margin-bottom: 15px;">🤝</div>
-                    <h3>Meet New Friends</h3>
-                    <p>Peer matching to reduce isolation and connect with students sharing similar journeys.</p>
-                </div>
-                <div class="card">
-                    <div class="icon" style="font-size: 3rem; margin-bottom: 15px;">🩺</div>
-                    <h3>Professional Support</h3>
-                    <p>Access licensed therapists specialized in student-specific mental health needs.</p>
-                </div>
-                <div class="card">
-                    <div class="icon" style="font-size: 3rem; margin-bottom: 15px;">🏰</div>
-                    <h3>Peer Communities</h3>
-                    <p>Join supportive networks for real-time conversations and shared community healing.</p>
+                <div class="check-item">
+                    <div class="check-icon">🔒</div>
+                    <div>
+                        <strong>Private & Encrypted</strong>
+                        <p>Your thoughts are yours alone. End-to-end encryption by default.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="spotlight-visual">
+            <div class="glass-ui-box">
+                <div class="ui-header">Wednesday, Jan 27</div>
+                <div class="ui-mood-indicator">😊 Happy</div>
+                <div class="ui-graph-placeholder">
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 90%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="connection-hub section">
+    <div class="container">
+        <div class="section-header">
+            <span class="badge-pill">Human Connection</span>
+            <h2 class="section-title">You don't have to <br><span class="gradient-text">walk alone.</span></h2>
+        </div>
+
+        <div class="connection-grid">
+            <div class="connection-card main-card">
+                <div class="card-content">
+                    <div class="icon-circle">🤝</div>
+                    <h3>Peer Matching</h3>
+                    <p>Get matched with students who share similar journeys. Build real friendships in a safe, moderated space.</p>
+                    <button class="btn-outline-small">
+                        <span>Learn about safety</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+                <div class="card-visual">
+                    <div class="match-pulse">
+                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=200&h=200" alt="User" class="match-img img-left">
+                        <div class="pulse-ring"></div>
+                        <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=200&h=200" alt="User" class="match-img img-right">
+                    </div>
+                </div>
+            </div>
+
+            <div class="connection-card side-card">
+                <div class="icon-circle">🩺</div>
+                <h3>Expert Care</h3>
+                <p>Instant access to licensed student-specialist therapists when you need professional guidance.</p>
+            </div>
+
+            <div class="connection-card side-card">
+                <div class="icon-circle">🤖</div>
+                <h3>24/7 AI Support</h3>
+                <p>Trelio AI is always awake to listen, provide grounding exercises, and offer compassion.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="final-cta section">
+    <div class="container">
+        <div class="cta-glass-card">
+            <div class="cta-content">
+                <span class="badge-pill">Start Your Journey</span>
+                <h2 class="cta-title">Ready to find your <br><span class="gradient-text">Safe Harbor?</span></h2>
+                <p class="cta-subtitle">Join 10,000+ students who are navigating their mental health journey with Trelio. Download today and get your first week of premium for free.</p>
+                
+                <div class="hero-btns-group cta-btns">
+                    <a href="#" class="store-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play"></a>
+                    <a href="#" class="store-badge"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"></a>
+                </div>
+            </div>
+            
+            <div class="cta-decoration"></div>
+        </div>
+    </div>
+</section>
+
+
 
     <section class="section">
         <div class="container" style="text-align: center;">
@@ -235,6 +352,46 @@
     </div>
 
     <script src="script.js"></script>
+
+<div id="cardModal" class="details-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="details-content glass-card">
+        <button class="close-btn neon-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
+        <div class="details-grid">
+            <div class="details-image">
+                <img id="modalImg" src="" alt="Detail View">
+            </div>
+            
+            <div class="details-info">
+                <span id="modalCategory" class="category-tag">CONTENT</span>
+                <h2 id="modalTitle" class="gradient-text">Video Marketer</h2>
+                
+                <div class="module-integration">
+                    <h4>Deep-Dive Module Integration</h4>
+                    <ul id="modalFeatures"></ul>
+                </div>
+                
+                <p id="modalDesc"></p>
+                
+                <div class="details-actions">
+                    <a href="#" id="downloadBtn" class="download-app-btn">
+                        <span>Download</span>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </a>
+                    
+                    <button class="share-btn">
+                        <div class="share-icon-circle">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                        </div>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
