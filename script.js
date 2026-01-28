@@ -308,12 +308,15 @@ const updateIndicators = () => {
 
 // Calculate responsive carousel dimensions
 const getCarouselDimensions = () => {
-    const isMobile = window.innerWidth < 768;
-    const isSmallMobile = window.innerWidth < 480;
+    const width = window.innerWidth;
+    const isMobile = width < 768;
+    const isSmallMobile = width < 480;
     
     return {
-        radiusX: isSmallMobile ? window.innerWidth * 0.35 : (isMobile ? window.innerWidth * 0.42 : 550),
-        radiusY: isSmallMobile ? 30 : (isMobile ? 50 : 100)
+        // Increase the X radius on mobile so cards spread out more horizontally
+        radiusX: isSmallMobile ? width * 0.45 : (isMobile ? width * 0.5 : 500),
+        // Reduce the Y radius significantly on mobile to keep cards flatter
+        radiusY: isSmallMobile ? 15 : (isMobile ? 25 : 60) 
     };
 };
 
@@ -322,37 +325,51 @@ const updateCarousel = () => {
     if (carouselCards.length === 0) return;
     
     const { radiusX, radiusY } = getCarouselDimensions();
+    const width = window.innerWidth;
+    const isMobile = width < 768;
+    const isSmallMobile = width < 480;
     
     carouselCards.forEach((card, i) => {
         let offset = i - carouselIndex;
         
-        // Handle circular wrapping
+        // Handle circular wrapping logic
         if (offset > carouselCards.length / 2) offset -= carouselCards.length;
         if (offset < -carouselCards.length / 2) offset += carouselCards.length;
         
+        // Calculate positioning
         const angle = (offset * 0.4) + 4.712;
         const x = Math.cos(angle) * radiusX;
         const y = Math.sin(angle) * radiusY;
-        const isCenter = i === carouselIndex;
-        const tilt = offset * -12;
         
-        // Apply styles
+        const isCenter = i === carouselIndex;
+        
+        // --- RESPONSIVE TWEAKS ---
+        // Reduce tilt on mobile to keep text readable
+        const tilt = isMobile ? offset * -5 : offset * -12; 
+        
+        // Adjust scales: mobile needs to be slightly smaller to fit the screen
+        const baseScale = isSmallMobile ? 0.6 : (isMobile ? 0.7 : 0.8);
+        const centerScale = isSmallMobile ? 0.95 : (isMobile ? 1.0 : 1.15);
+        
+        // Update styles
         card.style.position = 'absolute';
         card.style.left = '50%';
         card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
         
-        const baseScale = window.innerWidth < 768 ? 0.65 : 0.75;
-        const centerScale = window.innerWidth < 768 ? 1.0 : 1.15;
+        // Apply the transform
+        // Note: Removed the hardcoded '+ 50' on Y to prevent bottom clipping
+        card.style.transform = `translate(calc(-50% + ${x}px), ${y}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
-        card.style.transform = `translate(calc(-50% + ${x}px), ${y + 50}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+        // Layering
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
-        // Handle visibility on small screens
-        if (window.innerWidth < 480 && Math.abs(offset) > 1) {
+        // Visibility Logic
+        if (isSmallMobile && Math.abs(offset) > 1) {
+            // Hide cards that are more than 1 index away on tiny screens
             card.style.opacity = '0';
             card.style.pointerEvents = 'none';
         } else {
-            card.style.opacity = window.innerWidth < 768 && Math.abs(offset) > 1 ? '0.4' : '1';
+            card.style.opacity = !isCenter && isMobile ? '0.5' : '1';
             card.style.pointerEvents = 'auto';
         }
         

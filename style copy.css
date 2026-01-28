@@ -1227,14 +1227,13 @@ section:nth-child(even) .section-container {
 }
 
 .carousel-viewport {
-    height: 450px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 450px; /* Increased from 350px to fit card height + tilt */
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     perspective: 1000px;
-    overflow: hidden;
-    width: 100%;
+    overflow: visible !important; /* Crucial for tilted cards */
 }
 
 .carousel-navigation {
@@ -1325,8 +1324,9 @@ section:nth-child(even) .section-container {
 
 @media (max-width: 480px) {
     .carousel-viewport {
-        height: 320px;
+        height: 400px; 
     }
+
     
     .carousel-inner-container {
         padding: 30px 10px;
@@ -3017,10 +3017,11 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         max-width: 160px !important;
     }
     
-    /* Carousel spacing */
-    .carousel-section .section-title {
-        margin-bottom: 30px !important;
-    }
+.carousel-section {
+    overflow: hidden; /* Keeps the cards from creating a horizontal scroll on the page */
+    width: 100%;
+    position: relative;
+}
     
     .carousel-inner-container {
         padding-top: 50px !important;
