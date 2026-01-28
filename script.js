@@ -743,7 +743,7 @@ function initializeVideoPlaybackControl() {
     });
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', function() {
     // Small delay to ensure videos are loaded
     setTimeout(initializeVideoPlaybackControl, 500);
