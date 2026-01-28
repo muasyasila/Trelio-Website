@@ -332,40 +332,35 @@ const updateCarousel = () => {
     carouselCards.forEach((card, i) => {
         let offset = i - carouselIndex;
         
-        // Handle circular wrapping logic
         if (offset > carouselCards.length / 2) offset -= carouselCards.length;
         if (offset < -carouselCards.length / 2) offset += carouselCards.length;
         
-        // Calculate positioning
         const angle = (offset * 0.4) + 4.712;
         const x = Math.cos(angle) * radiusX;
         const y = Math.sin(angle) * radiusY;
         
         const isCenter = i === carouselIndex;
+
+        // 1. CHOOSE YOUR LIFT: 
+        // Negative numbers move the cards UP. 
+        // We use -40 for desktop and -20 for mobile to keep it tight.
+        const verticalLift = isMobile ? -40 : -30; 
         
-        // --- RESPONSIVE TWEAKS ---
-        // Reduce tilt on mobile to keep text readable
         const tilt = isMobile ? offset * -5 : offset * -12; 
-        
-        // Adjust scales: mobile needs to be slightly smaller to fit the screen
         const baseScale = isSmallMobile ? 0.6 : (isMobile ? 0.7 : 0.8);
         const centerScale = isSmallMobile ? 0.95 : (isMobile ? 1.0 : 1.15);
         
-        // Update styles
         card.style.position = 'absolute';
         card.style.left = '50%';
         card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
         
-        // Apply the transform
-        // Note: Removed the hardcoded '+ 50' on Y to prevent bottom clipping
-        card.style.transform = `translate(calc(-50% + ${x}px), ${y}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+        // 2. APPLY TRANSFORM:
+        // We add verticalLift to 'y' to pull the cards toward the title.
+        card.style.transform = `translate(calc(-50% + ${x}px), ${y + verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
-        // Layering
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
-        // Visibility Logic
         if (isSmallMobile && Math.abs(offset) > 1) {
-            // Hide cards that are more than 1 index away on tiny screens
             card.style.opacity = '0';
             card.style.pointerEvents = 'none';
         } else {
@@ -378,7 +373,6 @@ const updateCarousel = () => {
     
     updateIndicators();
 };
-
 // Auto-play functionality
 const startAutoPlay = () => {
     stopAutoPlay();
