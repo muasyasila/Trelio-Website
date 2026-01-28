@@ -3279,3 +3279,186 @@ section:nth-child(even) .section-container {
         height: 220px !important;
     }
 }
+/* =========================================
+   FIX 1: Reduce space between carousel title and cards
+   ========================================= */
+
+/* For all screen sizes */
+.carousel-section .section-title {
+    margin-bottom: 20px !important; /* Reduced from 40px/30px */
+    padding-bottom: 10px !important;
+}
+
+/* Adjust the carousel inner container padding */
+.carousel-inner-container {
+    padding-top: 40px !important; /* Reduced from 60px/50px */
+    padding-bottom: 40px !important;
+}
+
+/* Ensure glow isn't cut - adjust viewport */
+.carousel-viewport {
+    margin-top: 10px !important; /* Add space but less than before */
+}
+
+/* =========================================
+   FIX 2: Store badges in one line and centered
+   ========================================= */
+
+/* For all screen sizes */
+.hero-btns-group {
+    display: flex !important;
+    flex-direction: row !important; /* Ensure horizontal layout */
+    flex-wrap: nowrap !important; /* Prevent wrapping to new line */
+    justify-content: center !important; /* Center the badges */
+    align-items: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+    max-width: 340px !important; /* Limit width to keep in one line */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 25px !important;
+}
+
+/* Ensure store badges don't shrink */
+.store-badge {
+    flex: 0 0 auto !important; /* Don't grow or shrink */
+    display: inline-block !important;
+}
+
+.store-badge img {
+    height: 50px !important; /* Consistent height */
+    width: auto !important;
+    min-width: 130px !important; /* Minimum width to prevent squishing */
+    max-width: 150px !important; /* Maximum width */
+}
+
+/* =========================================
+   Mobile-specific adjustments
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* Carousel spacing on mobile */
+    .carousel-section .section-title {
+        margin-bottom: 15px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    /* Store badges on mobile - ensure one line */
+    .hero-btns-group {
+        max-width: 300px !important;
+        gap: 12px !important;
+    }
+    
+    .store-badge img {
+        height: 46px !important;
+        min-width: 120px !important;
+        max-width: 140px !important;
+    }
+}
+
+/* =========================================
+   Small phone adjustments
+   ========================================= */
+
+@media (max-width: 480px) {
+    /* Still keep badges in one line on small phones */
+    .hero-btns-group {
+        max-width: 280px !important;
+        gap: 10px !important;
+    }
+    
+    .store-badge img {
+        height: 42px !important;
+        min-width: 110px !important;
+        max-width: 130px !important;
+    }
+    
+    /* If absolutely must wrap, do it gracefully */
+    @media (max-width: 360px) {
+        .hero-btns-group {
+            max-width: 250px !important;
+        }
+        
+        .store-badge img {
+            height: 40px !important;
+            min-width: 100px !important;
+            max-width: 120px !important;
+        }
+    }
+}
+
+/* =========================================
+   Medium/laptop screen adjustments
+   ========================================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Center store badges on medium screens */
+    .hero-content > .hero-btns-group {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        justify-content: center !important;
+        max-width: 350px !important;
+    }
+    
+    /* Carousel adjustments */
+    .carousel-section .section-title {
+        margin-bottom: 25px !important;
+    }
+}
+
+/* =========================================
+   Large screen adjustments
+   ========================================= */
+
+@media (min-width: 1025px) {
+    /* Store badges on desktop */
+    .hero-btns-group {
+        max-width: 360px !important;
+        gap: 20px !important;
+    }
+    
+    .store-badge img {
+        height: 54px !important;
+        min-width: 140px !important;
+        max-width: 160px !important;
+    }
+    
+    /* Carousel spacing */
+    .carousel-section .section-title {
+        margin-bottom: 30px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+}
+
+/* =========================================
+   Ensure glow isn't cut - update previous fix
+   ========================================= */
+
+@media (min-width: 1025px) {
+    .carousel-viewport {
+        padding: 15px 20px !important; /* Add horizontal padding for glow */
+        margin-top: 15px !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .carousel-viewport {
+        padding: 10px 15px !important;
+        margin-top: 10px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .carousel-viewport {
+        padding: 8px 10px !important;
+        margin-top: 8px !important;
+    }
+}
