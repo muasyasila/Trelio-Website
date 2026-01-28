@@ -594,8 +594,157 @@ function initializeVideoMuteTracking() {
     window.addEventListener('resize', handleVideoVisibility);
 }
 
+// =========================================
+// VIDEO AUTO-PAUSE/RESUME ON SCROLL
+// =========================================
+
+function isElementInViewport(el) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+function handleVideoPlayback() {
+    const videos = document.querySelectorAll('video');
+    
+    videos.forEach(video => {
+        const isInViewport = isElementInViewport(video);
+        const shouldPlay = video.hasAttribute('data-user-unmuted') || isInViewport;
+        
+        if (isInViewport && shouldPlay) {
+            // Video is in viewport and should play
+            if (video.paused) {
+                video.play().catch(e => console.log("Video play failed:", e));
+            }
+        } else {
+            // Video is out of viewport - pause it
+            if (!video.paused) {
+                video.pause();
+            }
+        }
+    });
+}
+
+function initializeVideoPlaybackControl() {
+    const videos = document.querySelectorAll('video');
+    
+    videos.forEach(video => {
+        // Start videos muted (browser requirement for autoplay)
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('autoplay', '');
+        video.setAttribute('loop', '');
+        
+        // Store original mute state for reference
+        video.setAttribute('data-originally-muted', 'true');
+        
+        // Try to autoplay muted video
+        video.play().catch(e => {
+            console.log("Autoplay muted failed, will play on interaction:", e);
+            // Mark that we need user interaction
+            video.setAttribute('data-needs-interaction', 'true');
+        });
+        
+        // Add click listener for sound toggle buttons
+        const soundButton = video.parentElement.querySelector('.sound-toggle, [data-sound-video]');
+        if (soundButton) {
+            soundButton.addEventListener('click', function() {
+                if (video.muted) {
+                    // Unmute video
+                    video.muted = false;
+                    video.removeAttribute('data-originally-muted');
+                    video.setAttribute('data-user-unmuted', 'true');
+                    
+                    // Try to play if paused
+                    if (video.paused) {
+                        video.play().catch(e => console.log("Video play failed after unmute:", e));
+                    }
+                    
+                    // Update button icon
+                    this.innerHTML = '🔊';
+                    this.setAttribute('aria-label', 'Mute video');
+                } else {
+                    // Mute video
+                    video.muted = true;
+                    video.setAttribute('data-originally-muted', 'true');
+                    video.removeAttribute('data-user-unmuted');
+                    
+                    // Update button icon
+                    this.innerHTML = '🔇';
+                    this.setAttribute('aria-label', 'Unmute video');
+                }
+            });
+            
+            // Set initial button icon
+            soundButton.innerHTML = video.muted ? '🔇' : '🔊';
+            soundButton.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+        }
+        
+        // Also allow unmuting by clicking the video itself
+        video.addEventListener('click', () => {
+            if (video.hasAttribute('data-needs-interaction')) {
+                video.removeAttribute('data-needs-interaction');
+                video.play().catch(e => console.log("Video play failed on click:", e));
+            }
+            
+            // If still muted, toggle mute
+            if (video.muted && soundButton) {
+                soundButton.click();
+            }
+        });
+        
+        // Handle video errors
+        video.addEventListener('error', () => {
+            console.error('Video error:', video.error);
+        });
+        
+        // Track time update to save position (optional)
+        video.addEventListener('timeupdate', () => {
+            // Store current time in case we need to restore
+            localStorage.setItem(`video-${video.src}-time`, video.currentTime);
+        });
+    });
+    
+    // Initial check
+    handleVideoPlayback();
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', handleVideoPlayback);
+    
+    // Also check when resizing
+    window.addEventListener('resize', handleVideoPlayback);
+    
+    // Handle page visibility (when user switches tabs)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // Page is hidden - pause all videos
+            document.querySelectorAll('video').forEach(video => {
+                if (!video.paused) video.pause();
+            });
+        } else {
+            // Page is visible again - check which videos should play
+            handleVideoPlayback();
+        }
+    });
+    
+    // Also handle when user interacts with page (for autoplay policies)
+    document.addEventListener('click', () => {
+        document.querySelectorAll('video[data-needs-interaction]').forEach(video => {
+            if (isElementInViewport(video)) {
+                video.removeAttribute('data-needs-interaction');
+                video.play().catch(e => console.log("Video play failed on page interaction:", e));
+            }
+        });
+    });
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Small delay to ensure videos are loaded
-    setTimeout(initializeVideoMuteTracking, 1000);
+    setTimeout(initializeVideoPlaybackControl, 500);
 });
