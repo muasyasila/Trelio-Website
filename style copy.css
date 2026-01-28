@@ -3471,4 +3471,13 @@ section:nth-child(even) .section-container {
         padding-top: 30px !important;
         padding-bottom: 30px !important;
     }
+}@media (max-width: 480px) {
+    .carousel-section .section-title {
+        margin-bottom: 15px !important; /* Reduced for phones */
+    }
+    
+    .carousel-inner-container {
+        padding-top: 25px !important; /* Reduced for phones */
+        padding-bottom: 25px !important;
+    }
 }
