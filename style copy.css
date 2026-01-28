@@ -2850,22 +2850,42 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* Pillars */
+    .pillars-section {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* 2. Force the container to take up more space */
+    .pillars-section .section-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 5px !important;
+    }
+
+    /* 3. Make the cards wider and less cramped */
     .pillars-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
     }
-    
+
     .pillar-card {
-        padding: 30px 20px;
-        min-height: 320px;
+        padding: 30px 20px !important; /* Less side padding inside the card */
+        width: 100% !important;
+        min-height: auto !important;   /* Let the card height adjust to the text */
+        box-sizing: border-box !important;
     }
-    
-    .pillar-card h3 {
-        font-size: 1.3rem;
-    }
-    
+
+    /* 4. Align text for a cleaner mobile look */
+    .pillar-card h3, 
     .pillar-card p {
-        font-size: 0.95rem;
+        text-align: left !important;
+    }
+    
+    .pillar-list {
+        padding-left: 20px !important;
+        text-align: left !important;
     }
     
     /* Connection section */
