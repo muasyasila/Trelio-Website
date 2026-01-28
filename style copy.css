@@ -377,6 +377,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .store-badge img {
@@ -530,12 +531,14 @@ h2 {
     padding: 40px 20px;
     color: white;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
 }
 
 .app-ui-header {
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .app-ui-mood-tracker {
@@ -682,7 +685,7 @@ h2 {
 }
 
 /* =========================================
-   8. PILLARS SECTION
+   8. PILLARS SECTION - IMPROVED LAYOUT
    ========================================= */
 .pillars-section {
     padding: 120px 5%;
@@ -710,19 +713,19 @@ h2 {
 
 .pillars-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     margin-top: 0 !important;
     width: 100%;
-    align-items: start;
+    align-items: stretch;
     justify-items: center;
 }
 
 .pillar-card {
     background: var(--bg-alt);
-    padding: 40px 30px;
+    padding: 45px 35px;
     border-radius: 28px;
     border: 1px solid var(--border);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -730,7 +733,7 @@ h2 {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    max-width: 420px;
+    min-height: 380px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -747,36 +750,40 @@ h2 {
 }
 
 .pillar-icon-wrapper {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background: rgba(6, 182, 212, 0.1);
-    border-radius: 12px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
 }
 
 .pillar-card h3 {
-    font-size: 1.4rem;
-    margin: 20px 0 12px;
+    font-size: 1.5rem;
+    margin: 20px 0 15px;
     color: var(--text-main);
+    line-height: 1.3;
 }
 
 .pillar-card p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.7;
     color: var(--text-muted);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    flex-grow: 1;
 }
 
 .pillar-list {
     list-style: none;
     padding: 0;
+    margin-top: auto;
 }
 
 .pillar-list li {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -788,6 +795,7 @@ h2 {
     content: "✓";
     color: var(--primary-blue);
     font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .section-header {
@@ -812,7 +820,7 @@ h2 {
 }
 
 /* =========================================
-   9. CAROUSEL
+   9. CAROUSEL - IMPROVED FOR MEDIUM DEVICES
    ========================================= */
 .carousel-section {
     padding: 80px 0;
@@ -831,7 +839,7 @@ h2 {
     background: var(--card-bg);
     border-radius: 40px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    overflow: visible;
+    overflow: hidden;
     position: relative;
 }
 
@@ -839,8 +847,11 @@ h2 {
     height: 450px;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
     perspective: 1000px;
+    overflow: hidden;
+    width: 100%;
 }
 
 .carousel-navigation {
@@ -1024,15 +1035,16 @@ h2 {
 }
 
 /* =========================================
-   11. CONNECTION & ORBITAL
+   11. CONNECTION & ORBITAL - WITH TOP SPACE
    ========================================= */
 .connection-section {
     position: relative;
-    padding: 120px 8%;
-    background-color: #f8fafc;
+    padding: 140px 8% 120px;
+    background-color: var(--bg-body);
     overflow: hidden;
     display: flex;
     justify-content: center;
+    margin-top: 40px;
 }
 
 .map-overlay {
@@ -1923,8 +1935,9 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 /* =========================================
-   18. RESPONSIVE DESIGN
+   18. MOBILE RESPONSIVENESS FIXES
    ========================================= */
+
 @media (max-width: 1100px) {
     .bento-wrapper {
         grid-template-columns: 1fr; 
@@ -1978,6 +1991,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .hero-btns-group { 
         justify-content: center; 
+        flex-direction: row;
     }
     
     .hero-visual { 
@@ -2083,6 +2097,17 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
     .orbiting-mood { 
         transform: rotate(calc(var(--i) * (360deg / 6))) translateY(-150px) rotate(calc(var(--i) * (-360deg / 6))); 
+    }
+    
+    /* Fix carousel for medium screens */
+    .carousel-viewport {
+        height: 400px;
+        overflow: hidden;
+    }
+    
+    .carousel-inner-container {
+        width: 95%;
+        padding: 40px 20px;
     }
 }
 
@@ -2260,185 +2285,44 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .bento-description {
         max-width: 450px;
     }
-}
-
-@media (max-width: 480px) {
-    .hero-btns {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .navbar {
-        width: 95%;
-        top: 10px;
-        padding: 0.5rem 1rem;
-    }
-
-    .nav-links.active {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-    }
-
+    
+    /* Fix store badges to stay in one line */
     .hero-btns-group {
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
     }
-
+    
     .store-badge img {
         height: 42px;
     }
-
-    .carousel-viewport {
-        height: 300px;
-    }
-
-    .card {
-        width: 180px;
-        height: 240px;
-    }
-
-    .details-image img { 
-        max-height: 24vh !important; 
-        border-radius: 10px !important; 
-    }
     
-    .details-content { 
-        padding: 12px !important; 
-        width: calc(100% - 24px) !important; 
-    }
-
-    .cta-title { 
-        font-size: 2.2rem; 
-    }
-    
-    .cta-glass-card { 
-        padding: 60px 20px; 
-        border-radius: 32px; 
-    }
-}
-
-/* Wide screen adjustments */
-section:nth-child(even) .section-container {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-}
-
-[data-theme="dark"] section:nth-child(even) .section-container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-}
-
-@media (min-width: 1200px) {
+    /* Improve pillars layout on tablet */
     .pillars-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
-        gap: 36px;
-        max-width: 1400px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .pillars-grid {
-        max-width: 1400px;
-        grid-template-columns: repeat(3, minmax(320px, 1fr));
+        grid-template-columns: 1fr;
+        gap: 25px;
     }
     
-    .pillars-section .section-container {
-        max-width: 1600px;
+    .pillar-card {
+        padding: 35px 25px;
+        min-height: 350px;
     }
 }
 
-body.modal-open { 
-    overflow: hidden !important; 
-}
-
-.details-modal.show, .details-modal.show * { 
-    max-width: 100% !important; 
-    box-sizing: border-box !important; 
-    word-break: break-word !important; 
-    -webkit-overflow-scrolling: touch !important; 
-}
 /* =========================================
-   19. MOBILE RESPONSIVENESS FIXES (NEW SECTION)
+   19. SMALL DEVICES FIXES (480px and below)
    ========================================= */
 
-/* Fix for phone UI content on small screens */
 @media (max-width: 480px) {
-    /* Phone wrapper sizing for small screens */
-    .phone-wrapper {
-        width: 240px;
-        height: 500px;
-        border-width: 8px;
-        border-radius: 30px;
+    /* Hero section fixes */
+    .hero {
+        padding: 100px 5% 40px;
     }
     
-    /* Adjust phone screen content */
-    .phone-screen-content {
-        padding: 25px 15px;
-    }
-    
-    /* Fix text sizing in phone UI */
-    .app-ui-header {
-        font-size: 1rem;
-        margin-bottom: 20px;
-    }
-    
-    /* Mood tracker adjustments */
-    .app-ui-mood-tracker {
-        padding: 15px;
-        margin-bottom: 15px;
-        border-radius: 15px;
-    }
-    
-    /* Mood wave graphic */
-    .mood-wave {
-        height: 40px;
-    }
-    
-    /* Task items in phone */
-    .task-item {
-        padding: 8px 10px;
-        font-size: 0.8rem;
-        margin-bottom: 8px;
-    }
-    
-    /* Mood status text - FIX for the "Mood is up 12%" */
-    .app-ui-mood-tracker > div {
-        font-size: 0.75rem;
-        padding: 0 5px;
-        text-align: center;
-        white-space: nowrap;
-        overflow: visible;
-        max-width: 100%;
-    }
-    
-    /* Ensure text doesn't get cut off */
-    .app-ui-mood-tracker * {
-        max-width: 100%;
-        overflow: visible;
-        text-overflow: clip;
-    }
-    
-    /* Fix floating cards positioning */
-    .floating-card {
-        padding: 10px 15px;
-        font-size: 0.8rem;
-        max-width: 150px;
-    }
-    
-    .glass-card {
-        top: 80px;
-        right: -40px;
-    }
-    
-    .glass-card-alt {
-        bottom: 80px;
-        left: -60px;
-    }
-    
-    /* Hero adjustments for very small screens */
     .hero-title {
-        font-size: 2.2rem;
-        line-height: 1;
+        font-size: 2rem;
+        line-height: 1.1;
         margin-bottom: 15px;
     }
     
@@ -2448,29 +2332,112 @@ body.modal-open {
         padding: 0 10px;
     }
     
-    /* Better button spacing on mobile */
+    /* Store badges - ensure they stay in one line */
     .hero-btns {
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
         width: 100%;
+        gap: 15px;
     }
     
     .hero-btns-group {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 10px;
         width: 100%;
-        align-items: center;
+        max-width: 320px;
     }
     
-    .btn-blue, .btn-outline {
-        width: 100%;
-        max-width: 280px;
-        justify-content: center;
+    .store-badge {
+        flex: 1;
         text-align: center;
     }
     
-    /* Store badges sizing */
     .store-badge img {
         height: 40px;
+        width: auto;
+        max-width: 100%;
+    }
+    
+    .app-badge img {
+        height: 45px;
+    }
+    
+    /* Fix phone UI for small screens */
+    .phone-wrapper {
+        width: 240px;
+        height: 500px;
+        border-width: 8px;
+        border-radius: 30px;
+    }
+    
+    .phone-screen-content {
+        padding: 25px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .app-ui-header {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .app-ui-mood-tracker {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .mood-wave {
+        height: 40px;
+    }
+    
+    .task-item {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+    }
+    
+    /* Ensure mood text doesn't overflow */
+    .app-ui-mood-tracker > div:last-child {
+        font-size: 0.75rem !important;
+        padding: 0 5px !important;
+        text-align: center !important;
+        white-space: normal !important;
+        word-break: break-word;
+        line-height: 1.3;
+        margin-top: 5px;
+    }
+    
+    /* Fix floating cards */
+    .floating-card {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+        max-width: 150px;
+    }
+    
+    .glass-card {
+        top: 60px;
+        right: -30px;
+        transform: scale(0.8);
+    }
+    
+    .glass-card-alt {
+        bottom: 60px;
+        left: -40px;
+        transform: scale(0.8);
+    }
+    
+    /* Navigation fixes */
+    .navbar {
+        width: 95%;
+        top: 10px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .nav-links.active {
+        width: 90%;
+        right: 5%;
+        left: 5%;
     }
     
     /* Stats adjustments */
@@ -2496,14 +2463,7 @@ body.modal-open {
         border-width: 2px;
     }
     
-    /* Fix proof text wrapping */
-    .proof-text span {
-        font-size: 0.75rem;
-        text-align: center;
-        display: block;
-    }
-    
-    /* Section container padding fixes */
+    /* Section container fixes */
     .section-container {
         padding: 30px 20px;
         margin: 15px 10px;
@@ -2515,54 +2475,47 @@ body.modal-open {
         padding: 25px 20px;
     }
     
-    /* Modal fixes for very small screens */
-    .details-modal.show {
-        padding: 10px !important;
+    /* Carousel fixes for small screens */
+    .carousel-viewport {
+        height: 300px;
     }
     
-    .details-content {
-        padding: 12px !important;
-        width: calc(100% - 20px) !important;
-        max-width: calc(100% - 20px) !important;
-        border-radius: 12px !important;
+    .carousel-card {
+        width: 180px;
+        height: 240px;
     }
     
-    /* Ensure all text is readable */
-    h2 {
-        font-size: 1.8rem;
-    }
-    
-    .section-header h2 {
-        font-size: 2rem;
-    }
-    
-    /* Pillars grid on mobile */
-    .pillars-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    /* Carousel fixes */
     .carousel-inner-container {
         padding: 30px 15px;
         border-radius: 20px;
     }
     
-    .carousel-viewport {
-        height: 280px;
+    /* Pillars improvements */
+    .pillars-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .carousel-card {
-        width: 160px;
-        height: 220px;
+    .pillar-card {
+        padding: 30px 20px;
+        min-height: 320px;
     }
     
-    /* Connection section fixes */
+    .pillar-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .pillar-card p {
+        font-size: 0.95rem;
+    }
+    
+    /* Connection section spacing */
     .connection-section {
-        padding: 60px 5%;
+        padding: 80px 5% 60px;
+        margin-top: 20px;
     }
     
-    /* Video spotlight on mobile */
+    /* Video spotlight */
     .video-spotlight {
         height: auto;
         min-height: 80vh;
@@ -2573,7 +2526,7 @@ body.modal-open {
         max-height: 40vh;
     }
     
-    /* Harbor net section on mobile */
+    /* Harbor net section */
     .harbor-net-section {
         padding: 60px 5%;
         min-height: auto;
@@ -2584,7 +2537,7 @@ body.modal-open {
         border-radius: 20px;
     }
     
-    /* Final CTA adjustments */
+    /* Final CTA */
     .final-cta {
         padding: 60px 5% 80px;
     }
@@ -2597,11 +2550,37 @@ body.modal-open {
     .cta-title {
         font-size: 1.8rem;
     }
+    
+    /* Modal fixes */
+    .details-modal.show {
+        padding: 10px !important;
+    }
+    
+    .details-content {
+        padding: 12px !important;
+        width: calc(100% - 20px) !important;
+        max-width: calc(100% - 20px) !important;
+        border-radius: 12px !important;
+    }
+    
+    /* Typography fixes */
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    /* Ensure no horizontal scroll */
+    body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
 }
 
 /* Extra small devices (phones under 360px) */
 @media (max-width: 360px) {
-    /* Even smaller adjustments */
     .phone-wrapper {
         width: 220px;
         height: 460px;
@@ -2615,35 +2594,66 @@ body.modal-open {
         font-size: 0.9rem;
     }
     
-    /* Ensure no horizontal scrolling */
-    body {
-        overflow-x: hidden;
-        max-width: 100%;
+    .hero-btns-group {
+        flex-direction: column;
+        max-width: 280px;
     }
     
-    /* Fix any remaining overflow issues */
-    .section-container, .carousel-inner-container, .harbor-flow-container {
-        overflow: hidden;
+    .store-badge {
+        width: 100%;
     }
     
-    /* Text size adjustments */
-    .app-ui-header {
-        font-size: 0.9rem;
+    .store-badge img {
+        height: 38px;
     }
     
-    .task-item {
-        font-size: 0.75rem;
-    }
-    
-    /* Fix for the specific "Mood is up 12%" text */
+    /* Fix for the mood text */
     .app-ui-mood-tracker > div:last-child {
-        font-size: 0.7rem;
-        padding: 0 2px;
+        font-size: 0.7rem !important;
+        padding: 0 2px !important;
         letter-spacing: -0.5px;
     }
 }
 
-/* Fix for landscape mode on mobile */
+/* Fix for medium screens (laptop half-screen) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Keep carousel within container */
+    .carousel-inner-container {
+        width: 95%;
+        overflow: hidden;
+    }
+    
+    .carousel-viewport {
+        height: 380px;
+    }
+    
+    .card {
+        width: 180px;
+        height: 250px;
+    }
+    
+    /* Adjust carousel radius for medium screens */
+    .carousel-section {
+        padding: 60px 0;
+    }
+    
+    /* Improve pillars layout */
+    .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .pillar-card {
+        padding: 35px 25px;
+    }
+    
+    /* Connection section spacing */
+    .connection-section {
+        padding: 100px 5% 80px;
+    }
+}
+
+/* Landscape mode on mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero {
         min-height: 100vh;
@@ -2708,7 +2718,7 @@ body.modal-open {
     }
 }
 
-/* Smooth scrolling for mobile */
+/* Smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
@@ -2720,37 +2730,42 @@ html {
     }
 }
 
-/* Add this to fix the specific "Mood is up 12%" text overflow */
-.app-ui-mood-tracker > div:last-child {
-    word-break: keep-all;
-    white-space: nowrap;
-    overflow: visible;
-    text-overflow: unset;
-    width: auto;
-    display: inline-block;
-    max-width: 100%;
+/* Ensure body lock when modal open */
+body.modal-open { 
+    overflow: hidden !important; 
 }
-/* Additional mobile-specific fixes */
-.is-mobile .phone-wrapper {
+
+/* Ensure all text is readable on mobile */
+.is-mobile .phone-screen-content {
     transform: scale(0.95);
+    transform-origin: top center;
 }
 
-.is-mobile .floating-card {
-    animation-duration: 3s;
+/* Additional specific fixes */
+section:nth-child(even) .section-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
 }
 
-/* Ensure proper viewport for mobile */
-@media (max-width: 480px) {
-    .phone-screen-content {
-        transform: scale(0.95);
-        transform-origin: top center;
+[data-theme="dark"] section:nth-child(even) .section-container {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* Wide screen adjustments for pillars */
+@media (min-width: 1200px) {
+    .pillars-grid {
+        grid-template-columns: repeat(3, minmax(340px, 1fr));
+        gap: 36px;
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .pillars-grid {
+        max-width: 1400px;
+        grid-template-columns: repeat(3, minmax(360px, 1fr));
     }
     
-    /* Specific fix for the mood percentage text */
-    .app-ui-mood-tracker > div:last-child {
-        font-size: 11px !important;
-        letter-spacing: -0.3px;
-        transform: scale(0.95);
-        margin-top: 5px;
+    .pillars-section .section-container {
+        max-width: 1600px;
     }
 }
