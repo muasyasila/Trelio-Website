@@ -1135,7 +1135,7 @@ h2 {
     margin-bottom: 20px;
     font-size: 2.2rem;
     text-align: center;
-    white-space: nowrap; /* Forces "Explore Trelio Features" onto one line */
+   
     width: 100%;
 }
 
