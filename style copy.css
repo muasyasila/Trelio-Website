@@ -1131,8 +1131,8 @@ h2 {
 /* Ensure your title (assuming it's an h2 or has a class) has consistent spacing */
 .carousel-section h2 {
     margin-top: -40px;
-    font-size: 1.5rem;
-    margin-bottom: 40px; /* More space since there is no box boundary */
+    font-size: 2rem;
+    margin-bottom: 30px; /* More space since there is no box boundary */
     color: #ffffff;      /* Or your primary text color */
 }
 
