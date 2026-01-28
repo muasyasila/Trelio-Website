@@ -2997,3 +2997,285 @@ section:nth-child(even) .section-container {
         padding-left: 3% !important;
     }
 }
+/* =========================================
+   MOBILE FIX - Center store badges & social proof
+   ========================================= */
+
+/* For all phones (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Center everything in hero section */
+    .hero-content {
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    /* Center hero subtitle */
+    .hero-subtitle {
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 95% !important;
+    }
+    
+    /* Center store badges container */
+    .hero-btns-group {
+        justify-content: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 320px !important;
+    }
+    
+    /* Ensure store badge images are properly sized */
+    .store-badge {
+        flex: 1 !important;
+        text-align: center !important;
+    }
+    
+    .store-badge img {
+        height: 48px !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+    
+    /* Center social proof section */
+    .hero-social-proof {
+        justify-content: center !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        flex-direction: row !important; /* Keep avatars and rating in one line */
+        align-items: center !important;
+        gap: 15px !important;
+        margin-top: 25px !important;
+    }
+    
+    /* Center avatar group */
+    .avatar-group {
+        justify-content: center !important;
+        margin-left: 0 !important;
+    }
+    
+    /* Center proof text */
+    .proof-text {
+        align-items: center !important;
+        text-align: center !important;
+    }
+}
+
+/* Extra small phones (max-width: 480px) */
+@media (max-width: 480px) {
+    .hero-btns-group {
+        flex-direction: column !important; /* Stack badges vertically if needed */
+        gap: 10px !important;
+        max-width: 250px !important;
+    }
+    
+    .store-badge img {
+        height: 44px !important;
+    }
+    
+    /* Stack social proof on very small screens */
+    .hero-social-proof {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    
+    .avatar-group {
+        justify-content: center !important;
+    }
+}
+
+/* Small phones (max-width: 360px) */
+@media (max-width: 360px) {
+    .hero-btns-group {
+        max-width: 220px !important;
+    }
+    
+    .store-badge img {
+        height: 40px !important;
+    }
+    
+    /* Adjust avatar sizes */
+    .user-avatar, .avatar-more {
+        width: 36px !important;
+        height: 36px !important;
+    }
+}
+/* =========================================
+   CAROUSEL CARD GLOW FIX - For all screen sizes
+   ========================================= */
+
+/* Fix for laptop/desktop screens (min-width: 1025px) */
+@media (min-width: 1025px) {
+    .carousel-viewport {
+        overflow: visible !important; /* Allow glow to show */
+        padding: 20px 0 !important; /* Add padding so glow isn't cut */
+        height: 450px !important; /* Adjust height if needed */
+    }
+    
+    .carousel-track {
+        gap: 30px !important;
+        padding: 0 20px !important; /* Add padding inside track */
+    }
+    
+    .card {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1),
+                    0 0 0 1px var(--border),
+                    0 0 20px 5px rgba(var(--card-accent-rgb, 56, 189, 248), 0.3) !important;
+        border: 1px solid rgba(var(--card-accent-rgb, 56, 189, 248), 0.3) !important;
+        transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease !important;
+    }
+    
+    .card:hover {
+        transform: translateY(-15px) scale(1.03) !important;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(var(--card-accent-rgb, 56, 189, 248), 0.6),
+                    0 0 35px 10px rgba(var(--card-accent-rgb, 56, 189, 248), 0.4) !important;
+        border-color: rgba(var(--card-accent-rgb, 56, 189, 248), 0.6) !important;
+    }
+}
+
+/* Fix for medium screens (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .carousel-inner-container {
+        padding: 50px 30px !important; /* More padding on sides */
+    }
+    
+    .carousel-viewport {
+        overflow: visible !important;
+        padding: 15px 0 !important;
+        height: 420px !important;
+    }
+    
+    .carousel-track {
+        gap: 25px !important;
+        padding: 0 15px !important;
+    }
+    
+    .card {
+        width: 220px !important;
+        height: 320px !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1),
+                    0 0 0 1px var(--border),
+                    0 0 15px 4px rgba(var(--card-accent-rgb, 56, 189, 248), 0.25) !important;
+    }
+    
+    .card:hover {
+        transform: translateY(-12px) scale(1.02) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(var(--card-accent-rgb, 56, 189, 248), 0.5),
+                    0 0 25px 8px rgba(var(--card-accent-rgb, 56, 189, 248), 0.35) !important;
+    }
+}
+
+/* Fix for smaller screens (max-width: 767px) */
+@media (max-width: 767px) {
+    .carousel-inner-container {
+        padding: 40px 20px !important;
+    }
+    
+    .carousel-viewport {
+        overflow: visible !important;
+        padding: 10px 0 !important;
+        height: 380px !important;
+    }
+    
+    .carousel-track {
+        gap: 20px !important;
+        padding: 0 10px !important;
+    }
+    
+    .card {
+        width: 200px !important;
+        height: 300px !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1),
+                    0 0 0 1px var(--border),
+                    0 0 12px 3px rgba(var(--card-accent-rgb, 56, 189, 248), 0.2) !important;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px) scale(1.01) !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(var(--card-accent-rgb, 56, 189, 248), 0.4),
+                    0 0 20px 6px rgba(var(--card-accent-rgb, 56, 189, 248), 0.3) !important;
+    }
+}
+
+/* Add CSS variables for accent colors if not defined */
+:root {
+    --card-accent-38bdf8: 56, 189, 248; /* #38bdf8 */
+    --card-accent-00a3ff: 0, 163, 255;  /* #00a3ff */
+    --card-accent-7c3aed: 124, 58, 237; /* #7c3aed */
+    --card-accent-f472b6: 244, 114, 182; /* #f472b6 */
+    --card-accent-10b981: 16, 185, 129; /* #10b981 */
+}
+
+/* Ensure cards use proper accent colors */
+.card[style*="--card-accent: #38bdf8"] {
+    --card-accent-rgb: var(--card-accent-38bdf8);
+}
+
+.card[style*="--card-accent: #00a3ff"] {
+    --card-accent-rgb: var(--card-accent-00a3ff);
+}
+
+.card[style*="--card-accent: #7c3aed"] {
+    --card-accent-rgb: var(--card-accent-7c3aed);
+}
+
+.card[style*="--card-accent: #f472b6"] {
+    --card-accent-rgb: var(--card-accent-f472b6);
+}
+
+.card[style*="--card-accent: #10b981"] {
+    --card-accent-rgb: var(--card-accent-10b981);
+}
+
+/* Improve card image display */
+.card-image-wrapper {
+    border-radius: 24px 24px 0 0 !important;
+    overflow: hidden !important;
+    height: 180px !important;
+}
+
+.card-image-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.5s ease !important;
+}
+
+.card:hover .card-image-wrapper img {
+    transform: scale(1.08) !important;
+}
+
+/* Adjust carousel navigation position */
+.carousel-navigation {
+    margin-top: 20px !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Fix for very large screens (1440px+) */
+@media (min-width: 1440px) {
+    .carousel-viewport {
+        height: 480px !important;
+    }
+    
+    .card {
+        width: 280px !important;
+        height: 380px !important;
+    }
+    
+    .card-image-wrapper {
+        height: 220px !important;
+    }
+}
