@@ -3835,4 +3835,53 @@ section:nth-child(even) .section-container {
             left: 5%;
         }
     }
+}/* =========================================
+   MINIMAL HAMBURGER FIX
+   ========================================= */
+
+/* Fix for big devices - Show menu normally */
+@media (min-width: 1025px) {
+    .nav-links {
+        display: flex !important;
+        position: static !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+    }
+    
+    .nav-links li {
+        opacity: 1 !important;
+        transform: none !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .nav-item {
+        display: inline-flex !important;
+        padding: 10px 18px !important;
+    }
+    
+    .hamburger {
+        display: none !important;
+    }
+}
+
+/* Smoother slide animation for mobile menu */
+@media (max-width: 1024px) {
+    .nav-links {
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(100%);
+    }
+    
+    .nav-links.active {
+        transform: translateX(0);
+    }
 }
