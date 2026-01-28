@@ -10,14 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if device is mobile
     const isMobile = () => window.innerWidth <= 768;
     
-    // Prevent horizontal scroll on mobile
+    // Prevent horizontal scroll on mobile - FIXED VERSION
     const preventHorizontalScroll = () => {
         if (isMobile()) {
-            document.body.style.overflowX = 'hidden';
-            document.documentElement.style.overflowX = 'hidden';
+            // Apply only to body with less aggressive approach
+            document.body.style.width = '100%';
+            document.body.style.position = 'relative';
+            document.body.style.overflowX = 'clip'; // 'clip' is better than 'hidden' for mobile
+            
+            // Also apply to specific containers that might overflow
+            const carouselViewport = document.querySelector('.carousel-viewport');
+            if (carouselViewport) {
+                carouselViewport.style.overflowX = 'hidden';
+            }
         } else {
             document.body.style.overflowX = '';
-            document.documentElement.style.overflowX = '';
+            document.body.style.width = '';
+            document.body.style.position = '';
         }
     };
     
@@ -52,6 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
         floatingCards.forEach(card => {
             card.style.transform = 'scale(0.9)';
         });
+        
+        // Ensure hero visual doesn't cause overflow
+        const heroVisual = document.querySelector('.hero-visual');
+        if (heroVisual) {
+            heroVisual.style.maxWidth = '100%';
+            heroVisual.style.overflow = 'hidden';
+        }
+        
+        // Ensure navbar doesn't cause overflow
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.width = '100%';
+            navbar.style.left = '0';
+            navbar.style.right = '0';
+        }
     };
     
     // =========================================
@@ -185,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // =========================================
-    // 5. CAROUSEL SYSTEM
+    // 5. CAROUSEL SYSTEM - FIXED FOR MOBILE
     // =========================================
     
     const carouselCards = Array.from(document.querySelectorAll('.card'));
@@ -224,22 +248,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // Calculate responsive carousel dimensions
+    // Calculate responsive carousel dimensions - FIXED VERSION
     const getCarouselDimensions = () => {
         const isMobile = window.innerWidth < 768;
         const isSmallMobile = window.innerWidth < 480;
         
+        // Reduced radius values to prevent cards from flying off-screen
+        // and overlapping vertically
         return {
-            radiusX: isSmallMobile ? window.innerWidth * 0.35 : (isMobile ? window.innerWidth * 0.42 : 550),
-            radiusY: isSmallMobile ? 30 : (isMobile ? 50 : 100)
+            radiusX: isSmallMobile ? window.innerWidth * 0.25 : (isMobile ? window.innerWidth * 0.35 : 550),
+            radiusY: isSmallMobile ? 15 : (isMobile ? 30 : 100)
         };
     };
     
-    // Update carousel positions and styling
+    // Apply responsive card sizing for mobile
+    const applyMobileCardSizing = () => {
+        if (!isMobile()) return;
+        
+        carouselCards.forEach(card => {
+            // Apply mobile-specific styles
+            if (window.innerWidth < 768) {
+                card.style.width = '80vw';
+                card.style.maxWidth = '300px';
+                card.style.height = 'auto';
+                card.style.minHeight = '380px';
+            } else {
+                card.style.width = '';
+                card.style.maxWidth = '';
+                card.style.height = '';
+                card.style.minHeight = '';
+            }
+        });
+    };
+    
+    // Update carousel positions and styling - IMPROVED FOR MOBILE
     const updateCarousel = () => {
         if (carouselCards.length === 0) return;
         
         const { radiusX, radiusY } = getCarouselDimensions();
+        
+        // Apply mobile card sizing
+        applyMobileCardSizing();
         
         carouselCards.forEach((card, i) => {
             let offset = i - carouselIndex;
@@ -265,12 +314,22 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = `translate(calc(-50% + ${x}px), ${y + 50}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
             card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
             
-            // Handle visibility on small screens
-            if (window.innerWidth < 480 && Math.abs(offset) > 1) {
+            // Handle visibility on small screens - IMPROVED
+            // Use > 0.5 instead of > 1 to ensure only center card is fully visible
+            const smallScreen = window.innerWidth < 480;
+            const mediumScreen = window.innerWidth < 768 && window.innerWidth >= 480;
+            
+            if (smallScreen && Math.abs(offset) > 0.5) {
+                // On very small screens, only show center card clearly
                 card.style.opacity = '0';
                 card.style.pointerEvents = 'none';
+            } else if (mediumScreen && Math.abs(offset) > 1) {
+                // On medium mobile screens, show nearby cards with reduced opacity
+                card.style.opacity = '0.4';
+                card.style.pointerEvents = 'auto';
             } else {
-                card.style.opacity = window.innerWidth < 768 && Math.abs(offset) > 1 ? '0.4' : '1';
+                // On desktop or for center card
+                card.style.opacity = '1';
                 card.style.pointerEvents = 'auto';
             }
             
@@ -414,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMobileClass();
     
     // Initialize carousel
+    applyMobileCardSizing();
     updateCarousel();
     startAutoPlay();
     revealOnScroll();
@@ -431,12 +491,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateMobileClass();
         
         // Update carousel
+        applyMobileCardSizing();
         updateCarousel();
         createIndicators();
         
         // Re-run scroll animations
         revealOnScroll();
     });
+    
+    // Initialize video playback control
+    setTimeout(initializeVideoPlaybackControl, 500);
 });
 
 // =========================================
@@ -522,80 +586,9 @@ if (closeGalleryBtn) {
         if (gallery) gallery.classList.remove('modal-active');
     });
 }
-// =========================================
-// 11. VIDEO AUTO-MUTE/UNMUTE ON SCROLL
-// =========================================
-
-// Function to check if element is in viewport
-function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// Function to handle video visibility
-function handleVideoVisibility() {
-    const videos = document.querySelectorAll('video');
-    
-    videos.forEach(video => {
-        // Check if video is in viewport
-        if (isElementInViewport(video)) {
-            // If video is muted and user previously unmuted it, unmute it
-            if (video.hasAttribute('data-user-unmuted') && video.muted) {
-                video.muted = false;
-            }
-        } else {
-            // If video is out of viewport, mute it
-            if (!video.muted) {
-                video.muted = true;
-            }
-        }
-    });
-}
-
-// Function to initialize video mute tracking
-function initializeVideoMuteTracking() {
-    const videos = document.querySelectorAll('video');
-    
-    videos.forEach(video => {
-        // Add user interaction listener
-        video.addEventListener('volumechange', function() {
-            if (!this.muted) {
-                // User manually unmuted the video
-                this.setAttribute('data-user-unmuted', 'true');
-            }
-        });
-        
-        // Add click listener for mute/unmute buttons if they exist
-        const muteButton = video.parentElement.querySelector('.mute-button, [data-mute-video]');
-        if (muteButton) {
-            muteButton.addEventListener('click', function() {
-                video.muted = !video.muted;
-                if (!video.muted) {
-                    video.setAttribute('data-user-unmuted', 'true');
-                } else {
-                    video.removeAttribute('data-user-unmuted');
-                }
-            });
-        }
-    });
-    
-    // Initial check
-    handleVideoVisibility();
-    
-    // Listen for scroll events
-    window.addEventListener('scroll', handleVideoVisibility);
-    
-    // Also check when resizing
-    window.addEventListener('resize', handleVideoVisibility);
-}
 
 // =========================================
-// VIDEO AUTO-PAUSE/RESUME ON SCROLL
+// 11. VIDEO AUTO-PAUSE/RESUME ON SCROLL
 // =========================================
 
 function isElementInViewport(el) {
@@ -742,9 +735,3 @@ function initializeVideoPlaybackControl() {
         });
     });
 }
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Small delay to ensure videos are loaded
-    setTimeout(initializeVideoPlaybackControl, 500);
-});

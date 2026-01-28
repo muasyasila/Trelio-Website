@@ -3684,3 +3684,17 @@ section:nth-child(even) .section-container {
                 inset 0 0 10px rgba(59, 130, 246, 0.4);
     transition: all 0.5s ease-in-out;
 }
+@media (max-width: 768px) {
+    .carousel-section .card {
+        width: 80vw !important; /* Forces card to be 80% of screen width */
+        max-width: 300px;
+        height: auto;
+        min-height: 380px;
+    }
+    
+    .carousel-viewport {
+        perspective: 1000px; /* Gives the 3D effect more depth on mobile */
+        overflow: hidden;
+        height: 500px; /* Ensure container is tall enough for the tilt */
+    }
+}
