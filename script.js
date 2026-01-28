@@ -1,132 +1,113 @@
 // =========================================
-// COMPLETE & ORGANIZED SCRIPT.JS
+// UTILITY FUNCTIONS
 // =========================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    // =========================================
-    // 1. UTILITY FUNCTIONS
-    // =========================================
+// Check if device is mobile
+const isMobile = () => window.innerWidth <= 768;
+
+// Prevent horizontal scroll on mobile
+const preventHorizontalScroll = () => {
+    if (isMobile()) {
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    } else {
+        document.body.style.overflowX = '';
+        document.documentElement.style.overflowX = '';
+    }
+};
+
+// Add/remove mobile class for CSS targeting
+const updateMobileClass = () => {
+    if (isMobile()) {
+        document.body.classList.add('is-mobile');
+    } else {
+        document.body.classList.remove('is-mobile');
+    }
+};
+
+// Adjust phone UI for mobile devices
+const adjustPhoneUIForMobile = () => {
+    if (!isMobile()) return;
     
-    // Check if device is mobile
-    const isMobile = () => window.innerWidth <= 768;
-    
-    // Prevent horizontal scroll on mobile - FIXED VERSION
-    const preventHorizontalScroll = () => {
-        if (isMobile()) {
-            // Apply only to body with less aggressive approach
-            document.body.style.width = '100%';
-            document.body.style.position = 'relative';
-            document.body.style.overflowX = 'clip'; // 'clip' is better than 'hidden' for mobile
-            
-            // Also apply to specific containers that might overflow
-            const carouselViewport = document.querySelector('.carousel-viewport');
-            if (carouselViewport) {
-                carouselViewport.style.overflowX = 'hidden';
-            }
-        } else {
-            document.body.style.overflowX = '';
-            document.body.style.width = '';
-            document.body.style.position = '';
+    // Fix mood tracker text overflow
+    const moodTracker = document.querySelector('.app-ui-mood-tracker');
+    if (moodTracker) {
+        const moodText = moodTracker.querySelector('div:last-child');
+        if (moodText) {
+            moodText.style.fontSize = '0.75rem';
+            moodText.style.padding = '0 5px';
+            moodText.style.textAlign = 'center';
+            moodText.style.overflow = 'visible';
+            moodText.style.whiteSpace = 'nowrap';
         }
-    };
+    }
     
-    // Add/remove mobile class for CSS targeting
-    const updateMobileClass = () => {
-        if (isMobile()) {
-            document.body.classList.add('is-mobile');
-        } else {
-            document.body.classList.remove('is-mobile');
-        }
-    };
-    
-    // Adjust phone UI for mobile devices
-    const adjustPhoneUIForMobile = () => {
-        if (!isMobile()) return;
-        
-        // Fix mood tracker text overflow
-        const moodTracker = document.querySelector('.app-ui-mood-tracker');
-        if (moodTracker) {
-            const moodText = moodTracker.querySelector('div:last-child');
-            if (moodText) {
-                moodText.style.fontSize = '0.75rem';
-                moodText.style.padding = '0 5px';
-                moodText.style.textAlign = 'center';
-                moodText.style.overflow = 'visible';
-                moodText.style.whiteSpace = 'nowrap';
-            }
-        }
-        
-        // Scale down floating cards on mobile
-        const floatingCards = document.querySelectorAll('.floating-card');
-        floatingCards.forEach(card => {
-            card.style.transform = 'scale(0.9)';
-        });
-        
-        // Ensure hero visual doesn't cause overflow
-        const heroVisual = document.querySelector('.hero-visual');
-        if (heroVisual) {
-            heroVisual.style.maxWidth = '100%';
-            heroVisual.style.overflow = 'hidden';
-        }
-        
-        // Ensure navbar doesn't cause overflow
-        const navbar = document.querySelector('.navbar');
-        if (navbar) {
-            navbar.style.width = '100%';
-            navbar.style.left = '0';
-            navbar.style.right = '0';
-        }
-    };
-    
-    // =========================================
-    // 2. THEME TOGGLE LOGIC
-    // =========================================
-    
-    const themeSwitch = document.getElementById('theme-switch');
-    
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    
-    const setTheme = (theme) => {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        updateThemeToggleLabel();
-    };
-    
-    const updateThemeToggleLabel = () => {
-        if (!themeSwitch) return;
-        const current = document.documentElement.getAttribute('data-theme') || 'light';
-        themeSwitch.setAttribute('aria-label', `Switch to ${current === 'dark' ? 'light' : 'dark'} mode`);
-    };
-    
-    // Initialize theme
+    // Scale down floating cards on mobile
+    const floatingCards = document.querySelectorAll('.floating-card');
+    floatingCards.forEach(card => {
+        card.style.transform = 'scale(0.9)';
+    });
+};
+
+// Check if element is in viewport
+const isElementInViewport = (el) => {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
+// =========================================
+// THEME MANAGEMENT
+// =========================================
+
+const themeSwitch = document.getElementById('theme-switch');
+const savedTheme = localStorage.getItem('theme') || 'dark';
+
+const setTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeToggleLabel();
+};
+
+const updateThemeToggleLabel = () => {
+    if (!themeSwitch) return;
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    themeSwitch.setAttribute('aria-label', `Switch to ${current === 'dark' ? 'light' : 'dark'} mode`);
+};
+
+// Initialize theme on page load
+const initializeTheme = () => {
     setTheme(savedTheme);
     updateThemeToggleLabel();
     
-    // Theme switch event listener
     if (themeSwitch) {
         themeSwitch.addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme');
             setTheme(current === 'dark' ? 'light' : 'dark');
         });
     }
-    
-    // =========================================
-    // 3. MODAL MANAGEMENT SYSTEM
-    // =========================================
-    
-    // Signup Modal
-    const signupModal = document.getElementById('signup-modal');
-    const openSignupBtns = document.querySelectorAll('.open-modal');
-    const closeSignupBtn = document.querySelector('.close-modal');
-    
-    const toggleSignupModal = (show) => {
-        if (signupModal) {
-            signupModal.classList.toggle('modal-active', show);
-            document.body.style.overflow = show ? 'hidden' : 'auto';
-        }
-    };
-    
-    // Signup modal event listeners
+};
+// =========================================
+// MODAL MANAGEMENT
+// =========================================
+
+// Signup Modal Functions
+const signupModal = document.getElementById('signup-modal');
+const openSignupBtns = document.querySelectorAll('.open-modal');
+const closeSignupBtn = document.querySelector('.close-modal');
+
+const toggleSignupModal = (show) => {
+    if (signupModal) {
+        signupModal.classList.toggle('modal-active', show);
+        document.body.style.overflow = show ? 'hidden' : 'auto';
+    }
+};
+
+const initializeSignupModal = () => {
     openSignupBtns.forEach(btn => btn.addEventListener('click', (e) => {
         e.preventDefault();
         toggleSignupModal(true);
@@ -139,55 +120,134 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('click', (e) => {
         if (e.target === signupModal) toggleSignupModal(false);
     });
+};
+
+// Card Modal Functions
+const cardModal = document.getElementById('cardModal');
+const closeCardBtn = document.querySelector('.close-btn');
+
+const overlayHandler = (e) => {
+    if (e.target === cardModal) closeCardModal();
+};
+
+const escHandler = (e) => {
+    if (e.key === 'Escape') closeCardModal();
+};
+
+const openCardModal = () => {
+    if (!cardModal) return;
+    cardModal.classList.add('show');
+    document.body.classList.add('modal-open');
+    cardModal.setAttribute('aria-hidden', 'false');
+    cardModal.addEventListener('click', overlayHandler);
+    document.addEventListener('keydown', escHandler);
     
-    // Card Modal Management
-    const cardModal = document.getElementById('cardModal');
-    const closeCardBtn = document.querySelector('.close-btn');
-    
-    // Card modal open/close handlers
-    function overlayHandler(e) {
-        if (e.target === cardModal) closeCardModal();
-    }
-    
-    function escHandler(e) {
-        if (e.key === 'Escape') closeCardModal();
-    }
-    
-    function openCardModal() {
-        if (!cardModal) return;
-        cardModal.classList.add('show');
-        document.body.classList.add('modal-open');
-        cardModal.setAttribute('aria-hidden', 'false');
-        cardModal.addEventListener('click', overlayHandler);
-        document.addEventListener('keydown', escHandler);
-        stopAutoPlay();
-        
-        // Accessibility: focus first interactive element
-        const firstFocusable = cardModal.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
-        if (firstFocusable) firstFocusable.focus();
-    }
-    
-    function closeCardModal() {
-        if (!cardModal) return;
-        cardModal.classList.remove('show');
-        document.body.classList.remove('modal-open');
-        cardModal.setAttribute('aria-hidden', 'true');
-        cardModal.removeEventListener('click', overlayHandler);
-        document.removeEventListener('keydown', escHandler);
-        startAutoPlay();
-    }
-    
-    // Card modal close button
+    // Accessibility: focus first interactive element
+    const firstFocusable = cardModal.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
+};
+
+const closeCardModal = () => {
+    if (!cardModal) return;
+    cardModal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    cardModal.setAttribute('aria-hidden', 'true');
+    cardModal.removeEventListener('click', overlayHandler);
+    document.removeEventListener('keydown', escHandler);
+};
+
+const initializeCardModal = () => {
     if (closeCardBtn) {
-        closeCardBtn.addEventListener('click', () => {
-            closeCardModal();
+        closeCardBtn.addEventListener('click', closeCardModal);
+    }
+};
+
+// Mood Gallery Functions
+const moodData = {
+    Happy: [
+        { title: "Keep the Momentum", type: "Article", icon: "✍️" },
+        { title: "High Energy Beats", type: "Playlist", icon: "🎵" },
+        { title: "Gratitude Journaling", type: "Exercise", icon: "📓" }
+    ],
+    Anxious: [
+        { title: "4-7-8 Breathing", type: "Exercise", icon: "🌬️" },
+        { title: "Grounding Techniques", type: "Guide", icon: "🧘" },
+        { title: "Lo-fi for Calm", type: "Audio", icon: "🎧" }
+    ],
+    Tired: [
+        { title: "Power Nap Guide", type: "Tips", icon: "💤" },
+        { title: "Digital Detox", type: "Article", icon: "📱" },
+        { title: "Soft Instrumental", type: "Audio", icon: "🎹" }
+    ],
+    Angry: [
+        { title: "Box Breathing", type: "Exercise", icon: "📦" },
+        { title: "Physical Release", type: "Tips", icon: "🏃" },
+        { title: "Calm the Storm", type: "Playlist", icon: "⛈️" }
+    ],
+    Sad: [
+        { title: "Self-Compassion", type: "Guide", icon: "❤️" },
+        { title: "Comfort Audio", type: "Audio", icon: "📻" },
+        { title: "Small Wins List", type: "Exercise", icon: "✅" }
+    ],
+    Peaceful: [
+        { title: "Mindfulness Walk", type: "Guide", icon: "🍃" },
+        { title: "Deep Zen", type: "Audio", icon: "🏮" },
+        { title: "Maintain Peace", type: "Article", icon: "🌊" }
+    ]
+};
+
+const initializeMoodGallery = () => {
+    document.querySelectorAll('.orbiting-mood').forEach(item => {
+        item.addEventListener('click', () => {
+            const gallery = document.getElementById('mood-gallery');
+            const galleryContent = document.getElementById('gallery-content');
+            const galleryTitle = document.getElementById('gallery-title');
+            
+            if (!gallery) return;
+            
+            const mood = item.getAttribute('data-mood');
+            const resources = moodData[mood] || moodData['Anxious'];
+            
+            if (galleryTitle) galleryTitle.innerText = `Focus: ${mood}`;
+            
+            if (!galleryContent) return;
+            
+            // Clear and populate gallery
+            galleryContent.innerHTML = '';
+            resources.forEach(res => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+                
+                card.innerHTML = `
+                    <div style="font-size: 2rem;">${res.icon}</div>
+                    <h4 style="margin: 10px 0;">${res.title}</h4>
+                    <span class="badge" style="font-size: 0.6rem;">${res.type}</span>
+                `;
+                
+                galleryContent.appendChild(card);
+            });
+            
+            // Show gallery
+            gallery.classList.add('modal-active');
+        });
+    });
+    
+    // Close mood gallery
+    const closeGalleryBtn = document.querySelector('.close-gallery');
+    if (closeGalleryBtn) {
+        closeGalleryBtn.addEventListener('click', () => {
+            const gallery = document.getElementById('mood-gallery');
+            if (gallery) gallery.classList.remove('modal-active');
         });
     }
-    
-    // =========================================
-    // 4. MOBILE NAVIGATION
-    // =========================================
-    
+};
+// =========================================
+// NAVIGATION
+// =========================================
+
+const initializeMobileNavigation = () => {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
@@ -207,154 +267,121 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
         });
     });
+};
+// =========================================
+// CAROUSEL SYSTEM
+// =========================================
+
+let carouselIndex = 2;
+let autoPlayInterval;
+
+const carouselCards = Array.from(document.querySelectorAll('.carousel-card, .card'));
+const carouselNextBtn = document.getElementById('nextBtn');
+const carouselPrevBtn = document.getElementById('prevBtn');
+const indicatorContainer = document.getElementById('indicators');
+
+// Create indicator dots
+const createIndicators = () => {
+    if (!indicatorContainer || carouselCards.length === 0) return;
+    indicatorContainer.innerHTML = '';
     
-    // =========================================
-    // 5. CAROUSEL SYSTEM - FIXED FOR MOBILE
-    // =========================================
-    
-    const carouselCards = Array.from(document.querySelectorAll('.card'));
-    const carouselNextBtn = document.getElementById('nextBtn');
-    const carouselPrevBtn = document.getElementById('prevBtn');
-    const indicatorContainer = document.getElementById('indicators');
-    
-    let carouselIndex = 2;
-    let autoPlayInterval;
-    
-    // Create indicator dots
-    const createIndicators = () => {
-        if (!indicatorContainer) return;
-        indicatorContainer.innerHTML = '';
-        
-        carouselCards.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.className = `dot ${i === carouselIndex ? 'active' : ''}`;
-            dot.addEventListener('click', () => {
-                stopAutoPlay();
-                carouselIndex = i;
-                updateCarousel();
-                startAutoPlay();
-            });
-            indicatorContainer.appendChild(dot);
-        });
-    };
-    
-    createIndicators();
-    
-    // Update active indicator
-    const updateIndicators = () => {
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === carouselIndex);
-        });
-    };
-    
-    // Calculate responsive carousel dimensions - FIXED VERSION
-    const getCarouselDimensions = () => {
-        const isMobile = window.innerWidth < 768;
-        const isSmallMobile = window.innerWidth < 480;
-        
-        // Reduced radius values to prevent cards from flying off-screen
-        // and overlapping vertically
-        return {
-            radiusX: isSmallMobile ? window.innerWidth * 0.25 : (isMobile ? window.innerWidth * 0.35 : 550),
-            radiusY: isSmallMobile ? 15 : (isMobile ? 30 : 100)
-        };
-    };
-    
-    // Apply responsive card sizing for mobile
-    const applyMobileCardSizing = () => {
-        if (!isMobile()) return;
-        
-        carouselCards.forEach(card => {
-            // Apply mobile-specific styles
-            if (window.innerWidth < 768) {
-                card.style.width = '80vw';
-                card.style.maxWidth = '300px';
-                card.style.height = 'auto';
-                card.style.minHeight = '380px';
-            } else {
-                card.style.width = '';
-                card.style.maxWidth = '';
-                card.style.height = '';
-                card.style.minHeight = '';
-            }
-        });
-    };
-    
-    // Update carousel positions and styling - IMPROVED FOR MOBILE
-    const updateCarousel = () => {
-        if (carouselCards.length === 0) return;
-        
-        const { radiusX, radiusY } = getCarouselDimensions();
-        
-        // Apply mobile card sizing
-        applyMobileCardSizing();
-        
-        carouselCards.forEach((card, i) => {
-            let offset = i - carouselIndex;
-            
-            // Handle circular wrapping
-            if (offset > carouselCards.length / 2) offset -= carouselCards.length;
-            if (offset < -carouselCards.length / 2) offset += carouselCards.length;
-            
-            const angle = (offset * 0.4) + 4.712;
-            const x = Math.cos(angle) * radiusX;
-            const y = Math.sin(angle) * radiusY;
-            const isCenter = i === carouselIndex;
-            const tilt = offset * -12;
-            
-            // Apply styles
-            card.style.position = 'absolute';
-            card.style.left = '50%';
-            card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-            
-            const baseScale = window.innerWidth < 768 ? 0.65 : 0.75;
-            const centerScale = window.innerWidth < 768 ? 1.0 : 1.15;
-            
-            card.style.transform = `translate(calc(-50% + ${x}px), ${y + 50}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
-            card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
-            
-            // Handle visibility on small screens - IMPROVED
-            // Use > 0.5 instead of > 1 to ensure only center card is fully visible
-            const smallScreen = window.innerWidth < 480;
-            const mediumScreen = window.innerWidth < 768 && window.innerWidth >= 480;
-            
-            if (smallScreen && Math.abs(offset) > 0.5) {
-                // On very small screens, only show center card clearly
-                card.style.opacity = '0';
-                card.style.pointerEvents = 'none';
-            } else if (mediumScreen && Math.abs(offset) > 1) {
-                // On medium mobile screens, show nearby cards with reduced opacity
-                card.style.opacity = '0.4';
-                card.style.pointerEvents = 'auto';
-            } else {
-                // On desktop or for center card
-                card.style.opacity = '1';
-                card.style.pointerEvents = 'auto';
-            }
-            
-            card.classList.toggle('active', isCenter);
-        });
-        
-        updateIndicators();
-    };
-    
-    // Auto-play functionality
-    const startAutoPlay = () => {
-        stopAutoPlay();
-        if (carouselCards.length === 0) return;
-        
-        autoPlayInterval = setInterval(() => {
-            carouselIndex = (carouselIndex + 1) % carouselCards.length;
+    carouselCards.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = `dot ${i === carouselIndex ? 'active' : ''}`;
+        dot.addEventListener('click', () => {
+            stopAutoPlay();
+            carouselIndex = i;
             updateCarousel();
-        }, 3500);
-    };
+            startAutoPlay();
+        });
+        indicatorContainer.appendChild(dot);
+    });
+};
+
+// Update active indicator
+const updateIndicators = () => {
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === carouselIndex);
+    });
+};
+
+// Calculate responsive carousel dimensions
+const getCarouselDimensions = () => {
+    const isMobile = window.innerWidth < 768;
+    const isSmallMobile = window.innerWidth < 480;
     
-    const stopAutoPlay = () => {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
+    return {
+        radiusX: isSmallMobile ? window.innerWidth * 0.35 : (isMobile ? window.innerWidth * 0.42 : 550),
+        radiusY: isSmallMobile ? 30 : (isMobile ? 50 : 100)
     };
+};
+
+// Update carousel positions and styling
+const updateCarousel = () => {
+    if (carouselCards.length === 0) return;
     
-    // Carousel navigation
+    const { radiusX, radiusY } = getCarouselDimensions();
+    
+    carouselCards.forEach((card, i) => {
+        let offset = i - carouselIndex;
+        
+        // Handle circular wrapping
+        if (offset > carouselCards.length / 2) offset -= carouselCards.length;
+        if (offset < -carouselCards.length / 2) offset += carouselCards.length;
+        
+        const angle = (offset * 0.4) + 4.712;
+        const x = Math.cos(angle) * radiusX;
+        const y = Math.sin(angle) * radiusY;
+        const isCenter = i === carouselIndex;
+        const tilt = offset * -12;
+        
+        // Apply styles
+        card.style.position = 'absolute';
+        card.style.left = '50%';
+        card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+        
+        const baseScale = window.innerWidth < 768 ? 0.65 : 0.75;
+        const centerScale = window.innerWidth < 768 ? 1.0 : 1.15;
+        
+        card.style.transform = `translate(calc(-50% + ${x}px), ${y + 50}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+        card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
+        
+        // Handle visibility on small screens
+        if (window.innerWidth < 480 && Math.abs(offset) > 1) {
+            card.style.opacity = '0';
+            card.style.pointerEvents = 'none';
+        } else {
+            card.style.opacity = window.innerWidth < 768 && Math.abs(offset) > 1 ? '0.4' : '1';
+            card.style.pointerEvents = 'auto';
+        }
+        
+        card.classList.toggle('active', isCenter);
+    });
+    
+    updateIndicators();
+};
+
+// Auto-play functionality
+const startAutoPlay = () => {
+    stopAutoPlay();
+    if (carouselCards.length === 0) return;
+    
+    autoPlayInterval = setInterval(() => {
+        carouselIndex = (carouselIndex + 1) % carouselCards.length;
+        updateCarousel();
+    }, 3500);
+};
+
+const stopAutoPlay = () => {
+    if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+    }
+};
+
+// Carousel navigation
+const initializeCarouselNavigation = () => {
     if (carouselNextBtn) {
         carouselNextBtn.addEventListener('click', () => {
             if (carouselCards.length === 0) return;
@@ -374,8 +401,10 @@ document.addEventListener('DOMContentLoaded', () => {
             startAutoPlay();
         });
     }
-    
-    // Card click behavior
+};
+
+// Card click behavior
+const initializeCardClickHandlers = () => {
     carouselCards.forEach(card => {
         card.addEventListener('click', () => {
             if (card.classList.contains('active')) {
@@ -425,33 +454,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    
-    // =========================================
-    // 6. SHARE BUTTON FUNCTIONALITY
-    // =========================================
-    
+};
+
+const initializeCarousel = () => {
+    createIndicators();
+    updateCarousel();
+    startAutoPlay();
+    initializeCarouselNavigation();
+    initializeCardClickHandlers();
+};
+// =========================================
+// SHARE FUNCTIONALITY
+// =========================================
+
+const initializeShareButton = () => {
     const shareBtn = document.querySelector('.share-btn');
-    if (shareBtn) {
-        shareBtn.addEventListener('click', () => {
-            if (!navigator.clipboard) return;
-            
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const shareText = shareBtn.querySelector('span');
-                if (shareText) {
-                    const original = shareText.innerText;
-                    shareText.innerText = "Link Copied!";
-                    setTimeout(() => {
-                        shareText.innerText = original;
-                    }, 2000);
-                }
-            });
+    if (!shareBtn || !navigator.clipboard) return;
+    
+    shareBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            const shareText = shareBtn.querySelector('span');
+            if (shareText) {
+                const original = shareText.innerText;
+                shareText.innerText = "Link Copied!";
+                setTimeout(() => {
+                    shareText.innerText = original;
+                }, 2000);
+            }
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
         });
-    }
-    
-    // =========================================
-    // 7. SCROLL ANIMATIONS
-    // =========================================
-    
+    });
+};
+// =========================================
+// SCROLL ANIMATIONS
+// =========================================
+
+const initializeScrollAnimations = () => {
     const revealOnScroll = () => {
         const elements = document.querySelectorAll('.card, .step-item');
         elements.forEach(el => {
@@ -463,169 +502,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // =========================================
-    // 8. MOBILE OPTIMIZATION INITIALIZATION
-    // =========================================
-    
-    // Run mobile adjustments
-    adjustPhoneUIForMobile();
-    preventHorizontalScroll();
-    updateMobileClass();
-    
-    // Initialize carousel
-    applyMobileCardSizing();
-    updateCarousel();
-    startAutoPlay();
+    // Initial reveal
     revealOnScroll();
     
-    // =========================================
-    // 9. EVENT LISTENERS FOR RESIZE/SCROLL
-    // =========================================
-    
+    // Add scroll listener
     window.addEventListener('scroll', revealOnScroll);
     
-    window.addEventListener('resize', () => {
-        // Update mobile adjustments
-        adjustPhoneUIForMobile();
-        preventHorizontalScroll();
-        updateMobileClass();
-        
-        // Update carousel
-        applyMobileCardSizing();
-        updateCarousel();
-        createIndicators();
-        
-        // Re-run scroll animations
-        revealOnScroll();
-    });
-    
-    // Initialize video playback control
-    setTimeout(initializeVideoPlaybackControl, 500);
-});
-
-// =========================================
-// 10. MOOD GALLERY LOGIC (Outside DOMContentLoaded)
-// =========================================
-
-const moodData = {
-    Happy: [
-        { title: "Keep the Momentum", type: "Article", icon: "✍️" },
-        { title: "High Energy Beats", type: "Playlist", icon: "🎵" },
-        { title: "Gratitude Journaling", type: "Exercise", icon: "📓" }
-    ],
-    Anxious: [
-        { title: "4-7-8 Breathing", type: "Exercise", icon: "🌬️" },
-        { title: "Grounding Techniques", type: "Guide", icon: "🧘" },
-        { title: "Lo-fi for Calm", type: "Audio", icon: "🎧" }
-    ],
-    Tired: [
-        { title: "Power Nap Guide", type: "Tips", icon: "💤" },
-        { title: "Digital Detox", type: "Article", icon: "📱" },
-        { title: "Soft Instrumental", type: "Audio", icon: "🎹" }
-    ],
-    Angry: [
-        { title: "Box Breathing", type: "Exercise", icon: "📦" },
-        { title: "Physical Release", type: "Tips", icon: "🏃" },
-        { title: "Calm the Storm", type: "Playlist", icon: "⛈️" }
-    ],
-    Sad: [
-        { title: "Self-Compassion", type: "Guide", icon: "❤️" },
-        { title: "Comfort Audio", type: "Audio", icon: "📻" },
-        { title: "Small Wins List", type: "Exercise", icon: "✅" }
-    ],
-    Peaceful: [
-        { title: "Mindfulness Walk", type: "Guide", icon: "🍃" },
-        { title: "Deep Zen", type: "Audio", icon: "🏮" },
-        { title: "Maintain Peace", type: "Article", icon: "🌊" }
-    ]
+    return revealOnScroll;
 };
+// =========================================
+// VIDEO CONTROLS
+// =========================================
 
-// Mood gallery functionality
-document.querySelectorAll('.orbiting-mood').forEach(item => {
-    item.addEventListener('click', () => {
-        const gallery = document.getElementById('mood-gallery');
-        const galleryContent = document.getElementById('gallery-content');
-        const galleryTitle = document.getElementById('gallery-title');
-        
-        if (!gallery) return;
-        
-        const mood = item.getAttribute('data-mood');
-        const resources = moodData[mood] || moodData['Anxious'];
-        
-        if (galleryTitle) galleryTitle.innerText = `Focus: ${mood}`;
-        
-        if (!galleryContent) return;
-        
-        // Clear and populate gallery
-        galleryContent.innerHTML = '';
-        resources.forEach(res => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.opacity = '1';
-            card.style.transform = 'none';
+const initializeVideoControls = () => {
+    const videos = document.querySelectorAll('video');
+    
+    // Function to handle video playback based on visibility
+    const handleVideoPlayback = () => {
+        videos.forEach(video => {
+            const isInViewport = isElementInViewport(video);
+            const shouldPlay = video.hasAttribute('data-user-unmuted') || isInViewport;
             
-            card.innerHTML = `
-                <div style="font-size: 2rem;">${res.icon}</div>
-                <h4 style="margin: 10px 0;">${res.title}</h4>
-                <span class="badge" style="font-size: 0.6rem;">${res.type}</span>
-            `;
-            
-            galleryContent.appendChild(card);
+            if (isInViewport && shouldPlay) {
+                // Video is in viewport and should play
+                if (video.paused) {
+                    video.play().catch(e => console.log("Video play failed:", e));
+                }
+            } else {
+                // Video is out of viewport - pause it
+                if (!video.paused) {
+                    video.pause();
+                }
+            }
         });
-        
-        // Show gallery
-        gallery.classList.add('modal-active');
-    });
-});
-
-// Close mood gallery
-const closeGalleryBtn = document.querySelector('.close-gallery');
-if (closeGalleryBtn) {
-    closeGalleryBtn.addEventListener('click', () => {
-        const gallery = document.getElementById('mood-gallery');
-        if (gallery) gallery.classList.remove('modal-active');
-    });
-}
-
-// =========================================
-// 11. VIDEO AUTO-PAUSE/RESUME ON SCROLL
-// =========================================
-
-function isElementInViewport(el) {
-    if (!el) return false;
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-function handleVideoPlayback() {
-    const videos = document.querySelectorAll('video');
+    };
     
-    videos.forEach(video => {
-        const isInViewport = isElementInViewport(video);
-        const shouldPlay = video.hasAttribute('data-user-unmuted') || isInViewport;
-        
-        if (isInViewport && shouldPlay) {
-            // Video is in viewport and should play
-            if (video.paused) {
-                video.play().catch(e => console.log("Video play failed:", e));
-            }
-        } else {
-            // Video is out of viewport - pause it
-            if (!video.paused) {
-                video.pause();
-            }
-        }
-    });
-}
-
-function initializeVideoPlaybackControl() {
-    const videos = document.querySelectorAll('video');
-    
+    // Initialize each video
     videos.forEach(video => {
         // Start videos muted (browser requirement for autoplay)
         video.muted = true;
@@ -734,4 +646,55 @@ function initializeVideoPlaybackControl() {
             }
         });
     });
-}
+};
+// =========================================
+// MAIN INITIALIZATION
+// =========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize utility functions
+    adjustPhoneUIForMobile();
+    preventHorizontalScroll();
+    updateMobileClass();
+    
+    // Initialize theme
+    initializeTheme();
+    
+    // Initialize modals
+    initializeSignupModal();
+    initializeCardModal();
+    initializeMoodGallery();
+    
+    // Initialize navigation
+    initializeMobileNavigation();
+    
+    // Initialize carousel (with delay for DOM readiness)
+    setTimeout(initializeCarousel, 100);
+    
+    // Initialize share button
+    initializeShareButton();
+    
+    // Initialize scroll animations
+    const revealOnScroll = initializeScrollAnimations();
+    
+    // Initialize video controls (with slight delay)
+    setTimeout(initializeVideoControls, 500);
+    
+    // =========================================
+    // EVENT LISTENERS FOR RESIZE/SCROLL
+    // =========================================
+    
+    window.addEventListener('resize', () => {
+        // Update mobile adjustments
+        adjustPhoneUIForMobile();
+        preventHorizontalScroll();
+        updateMobileClass();
+        
+        // Update carousel
+        updateCarousel();
+        createIndicators();
+        
+        // Re-run scroll animations
+        revealOnScroll();
+    });
+});

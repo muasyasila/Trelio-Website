@@ -32,7 +32,6 @@
     --hero-gradient: radial-gradient(circle at top right, #1e293b, #0f172a);
     --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
-
 /* =========================================
    2. CORE RESET & BASE STYLES
    ========================================= */
@@ -49,6 +48,10 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4 { 
@@ -73,6 +76,12 @@ h2 {
     font-weight: 800; 
 }
 
+/* Prevent zoom on input focus for iOS */
+@media (max-width: 768px) {
+    input, select, textarea {
+        font-size: 16px;
+    }
+}
 /* =========================================
    3. LAYOUT & CONTAINERS
    ========================================= */
@@ -93,12 +102,6 @@ h2 {
     border: 1px solid #ffffff;
 }
 
-[data-theme="dark"] .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
 .section { 
     padding: 100px 8%; 
     position: relative; 
@@ -111,6 +114,14 @@ h2 {
     align-items: center; 
 }
 
+/* Additional section styling */
+section:nth-child(even) .section-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+[data-theme="dark"] section:nth-child(even) .section-container {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
 /* =========================================
    4. NAVIGATION
    ========================================= */
@@ -195,9 +206,161 @@ h2 {
     transition: 0.3s;
 }
 
+/* Modern hamburger animation */
+.hamburger span {
+    width: 25px;
+    height: 2.5px;
+    background: var(--text-main);
+    margin: 4px 0;
+    transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    transform-origin: center;
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(135deg);
+    background: var(--primary-blue);
+    width: 25px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0) translateX(20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-135deg);
+    background: var(--primary-blue);
+    width: 25px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.hamburger:hover span {
+    background: var(--primary-blue);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.hamburger.active:hover span {
+    background: var(--primary-blue);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+/* Mobile menu styles - moved from later sections */
+@media (max-width: 1024px) {
+    .hamburger {
+        display: flex !important;
+        position: relative;
+        z-index: 1001;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 90px;
+        right: -100%;
+        width: 280px;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 2rem;
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        z-index: 999;
+        display: flex !important;
+        gap: 8px;
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
+                    opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+                    visibility 0s linear 0.5s;
+        transform: translateX(100%) scale(0.95);
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .nav-links.active {
+        right: 4%;
+        transform: translateX(0) scale(1);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
+                    opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+                    visibility 0s linear 0s;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 16px 24px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: block;
+        transition: all 0.3s ease;
+        margin-bottom: 4px;
+        background: transparent;
+        border: 1px solid transparent;
+        color: var(--text-main);
+        text-decoration: none;
+    }
+    
+    .nav-item:hover {
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--primary-blue);
+        border-color: rgba(56, 189, 248, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+    }
+}
+
+@media (min-width: 1025px) {
+    .nav-links {
+        display: flex !important;
+        position: static !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+        transition: none !important;
+    }
+    
+    .nav-links li {
+        opacity: 1 !important;
+        transform: none !important;
+        margin-bottom: 0 !important;
+        transition: none !important;
+    }
+    
+    .nav-item {
+        display: inline-flex !important;
+        padding: 10px 18px !important;
+    }
+    
+    .hamburger {
+        display: none !important;
+    }
+}
+
+/* Accessibility improvements */
+.hamburger:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+.nav-item:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
 /* =========================================
    5. BUTTONS & BADGES
    ========================================= */
+/* Primary Blue Button */
 .btn-blue {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -221,6 +384,7 @@ h2 {
     box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
 }
 
+/* Outline Button Variants */
 .btn-outline {
     display: flex;
     align-items: center;
@@ -288,6 +452,43 @@ h2 {
     transform: translateY(-2px);
 }
 
+/* Primary Button (used in modal) */
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #00a3ff, #0066ff);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 163, 255, 0.4);
+}
+
+.download-app-btn {
+    background: linear-gradient(90deg, #0088ff, #00c2ff);
+    padding: 14px 28px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.download-app-btn:active {
+    transform: scale(0.96);
+}
+
+/* Badge Styles */
 .badge { 
     display: inline-block; 
     background: var(--bg-alt); 
@@ -323,252 +524,80 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   6. HERO SECTION
-   ========================================= */
-.hero {
-    margin-bottom: -60px;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 160px 5% 80px;
-    background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
-}
-
-.hero-container {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 40px;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.hero-content { 
-    text-align: left; 
-}
-
-.hero-title {
-    font-size: 4rem;
-    line-height: 1.1;
-    font-weight: 800;
-    margin-bottom: 24px;
-    letter-spacing: -1px;
-}
-
-.hero-subtitle {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    margin-bottom: 40px;
-    line-height: 1.6;
-    max-width: 540px;
-}
-
-.hero-btns {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.hero-btns-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.store-badge img {
-    height: 48px;
-    width: auto;
-    border-radius: 8px;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.store-badge:hover img {
-    transform: translateY(-3px) scale(1.02);
-}
-
-.hero-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-}
-
-.phone-wrapper {
-    width: 280px;
-    height: 580px;
-    background: #0f172a;
-    border: 12px solid #1e293b;
-    border-radius: 40px;
-    position: relative;
-    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
-}
-
-.floating-card {
-    position: absolute;
-    padding: 15px 20px;
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    animation: float 4s ease-in-out infinite;
-}
-
-.glass-card { top: 100px; right: -60px; }
-.glass-card-alt { bottom: 100px; left: -80px; animation-delay: 2s; }
-
-.gradient-text {
-    background: linear-gradient(135deg, #0ea5e9, #6366f1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero-trust-section {
+/* Carousel trigger button */
+.carousel-trigger-btn {
     margin-top: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.hero-stats {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.stat-pill {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-number {
-    font-size: 1.2rem;
-    font-weight: 800;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
     color: var(--text-main);
-    line-height: 1;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.stat-label {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 500;
-    margin-top: 4px;
-}
-
-.stat-divider {
-    width: 1px;
-    height: 30px;
-    background: var(--border);
-}
-
-.app-badge img {
-    height: 52px;
-    width: auto;
-    transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.app-badge:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1);
-}
-
-/* Social Proof */
-.hero-social-proof {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.avatar-group {
-    display: flex;
-    margin-left: 10px;
-}
-
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid var(--bg-body);
-    margin-left: -12px;
-    object-fit: cover;
-}
-
-.avatar-more {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+.carousel-trigger-btn:hover {
+    transform: translateY(-3px);
     background: var(--primary-blue);
     color: white;
+    box-shadow: 0 10px 20px var(--focus-ring);
+}
+
+/* Control Buttons (carousel) */
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--primary-blue);
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    font-weight: bold;
-    border: 3px solid var(--bg-body);
-    margin-left: -12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.stars {
-    font-size: 0.9rem;
-    margin-bottom: 2px;
-}
-
-.proof-text span {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-/* Phone UI Content */
-.phone-screen-content {
-    padding: 40px 20px;
+.control-btn:hover {
+    background: var(--primary-blue);
     color: white;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    overflow: hidden;
+    transform: scale(1.1);
 }
 
-.app-ui-header {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.app-ui-mood-tracker {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.mood-wave {
-    height: 60px;
-    background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="black" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,186.7C960,192,1056,160,1152,138.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-    margin-bottom: 10px;
-}
-
-.task-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+/* Share button (modal) */
+.share-btn {
+    background: transparent;
+    border: none;
     display: flex;
+    align-items: center;
     gap: 10px;
+    color: white;
+    cursor: pointer;
 }
 
+.share-icon-circle {
+    width: 40px;
+    height: 40px;
+    background: #0088ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 768px) {
+    .nav-item, .btn-blue, .btn-outline, .btn-outline-small, .control-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
 /* =========================================
-   7. CARDS
+   6. CARDS
    ========================================= */
+/* Basic Card */
 .card {
     background: var(--card-bg);
     padding: 40px;
@@ -576,6 +605,12 @@ h2 {
     border-radius: 24px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card.glass-card {
@@ -589,115 +624,8 @@ h2 {
     overflow: hidden;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* =========================================
-   CAROUSEL CARDS - FIXED POSITIONING
-   ========================================= */
 
-/* Carousel Track Container - ADD THIS */
-.carousel-track {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d;
-}
-
-/* Carousel Card Specific - FIXED */
-.carousel-card {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 200px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 15px;
-    cursor: pointer;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                opacity 0.5s ease, 
-                z-index 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-
-/* Active state for center card */
-.carousel-card.active {
-    border: 2px solid var(--primary-blue) !important;
-    box-shadow: 0 0 25px rgba(0, 163, 255, 0.4) !important;
-    z-index: 10;
-    transform: translate(-50%, -50%) scale(1.05);
-}
-
-/* Left card position */
-.carousel-card.prev {
-    transform: translate(-180%, -50%) scale(0.85);
-    opacity: 0.7;
-    z-index: 5;
-}
-
-/* Right card position */
-.carousel-card.next {
-    transform: translate(80%, -50%) scale(0.85);
-    opacity: 0.7;
-    z-index: 5;
-}
-
-/* Far left/right positions */
-.carousel-card.far-left {
-    transform: translate(-280%, -50%) scale(0.7);
-    opacity: 0.4;
-    z-index: 2;
-}
-
-.carousel-card.far-right {
-    transform: translate(180%, -50%) scale(0.7);
-    opacity: 0.4;
-    z-index: 2;
-}
-
-/* Hidden cards */
-.carousel-card.hidden {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.carousel-card .description {
-    font-size: 13px;
-    color: var(--text-muted);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.4s ease;
-}
-
-.carousel-card.active .description {
-    opacity: 1;
-    max-height: 60px;
-    margin-top: 8px;
-}
-
-.carousel-card-img {
-    width: 100%;
-    height: 130px;
-    border-radius: 18px;
-    overflow: hidden;
-    margin-bottom: 12px;
-}
-
-.carousel-card-img img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-}
-
+/* Card Image Wrapper */
 .card-img {
     width: 100%;
     height: 130px;
@@ -754,8 +682,368 @@ h2 {
     color: var(--text-muted);
 }
 
+/* Carousel Cards */
+.carousel-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.5s ease, 
+                z-index 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.carousel-card-img {
+    width: 100%;
+    height: 130px;
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.carousel-card-img img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* Carousel Card States */
+.carousel-card.active {
+    border: 2px solid var(--primary-blue) !important;
+    box-shadow: 0 0 25px rgba(0, 163, 255, 0.4) !important;
+    z-index: 10;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.carousel-card.prev {
+    transform: translate(-180%, -50%) scale(0.85);
+    opacity: 0.7;
+    z-index: 5;
+}
+
+.carousel-card.next {
+    transform: translate(80%, -50%) scale(0.85);
+    opacity: 0.7;
+    z-index: 5;
+}
+
+.carousel-card.far-left {
+    transform: translate(-280%, -50%) scale(0.7);
+    opacity: 0.4;
+    z-index: 2;
+}
+
+.carousel-card.far-right {
+    transform: translate(180%, -50%) scale(0.7);
+    opacity: 0.4;
+    z-index: 2;
+}
+
+.carousel-card.hidden {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.carousel-card .description {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.carousel-card.active .description {
+    opacity: 1;
+    max-height: 60px;
+    margin-top: 8px;
+}
+
+/* Carousel Track Container */
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+/* Section 5: Carousel Glow Effect */
+.card.active {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 
+                inset 0 0 10px rgba(59, 130, 246, 0.4);
+    transition: all 0.5s ease-in-out;
+}
 /* =========================================
-   8. PILLARS SECTION - IMPROVED LAYOUT
+   7. HERO SECTION
+   ========================================= */
+.hero {
+    margin-bottom: -60px;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 160px 5% 80px;
+    background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+}
+
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-content { 
+    text-align: left; 
+}
+
+.hero-title {
+    font-size: 4rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 540px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.hero-btns-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Store Badges */
+.store-badge img {
+    height: 48px;
+    width: auto;
+    border-radius: 8px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.store-badge:hover img {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.app-badge img {
+    height: 52px;
+    width: auto;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.app-badge:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* Hero Visual - Phone */
+.hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.phone-wrapper {
+    width: 280px;
+    height: 580px;
+    background: #0f172a;
+    border: 12px solid #1e293b;
+    border-radius: 40px;
+    position: relative;
+    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+}
+
+.phone-screen-content {
+    padding: 40px 20px;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
+}
+
+.app-ui-header {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.app-ui-mood-tracker {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.mood-wave {
+    height: 60px;
+    background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="black" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,186.7C960,192,1056,160,1152,138.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+    margin-bottom: 10px;
+}
+
+.task-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 10px;
+}
+
+/* Floating Cards */
+.floating-card {
+    position: absolute;
+    padding: 15px 20px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: float 4s ease-in-out infinite;
+}
+
+.glass-card { top: 100px; right: -60px; }
+.glass-card-alt { bottom: 100px; left: -80px; animation-delay: 2s; }
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Hero Trust Section */
+.hero-trust-section {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-pill {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--border);
+}
+
+/* Social Proof */
+.hero-social-proof {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-group {
+    display: flex;
+    margin-left: 10px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--bg-body);
+    margin-left: -12px;
+    object-fit: cover;
+}
+
+.avatar-more {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 3px solid var(--bg-body);
+    margin-left: -12px;
+}
+
+.stars {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.proof-text span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Prevent text selection on interactive elements */
+.floating-card, .task-item, .nav-item, .btn-blue, .btn-outline {
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* =========================================
+   8. PILLARS SECTION
    ========================================= */
 .pillars-section {
     padding: 120px 5%;
@@ -868,6 +1156,7 @@ h2 {
     font-size: 1.1rem;
 }
 
+/* Section Header (used in multiple sections) */
 .section-header {
     text-align: center;
     max-width: 700px;
@@ -889,6 +1178,30 @@ h2 {
     margin-right: auto;
 }
 
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Wide screen adjustments for pillars */
+@media (min-width: 1200px) {
+    .pillars-grid {
+        grid-template-columns: repeat(3, minmax(340px, 1fr));
+        gap: 36px;
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .pillars-grid {
+        max-width: 1400px;
+        grid-template-columns: repeat(3, minmax(360px, 1fr));
+    }
+    
+    .pillars-section .section-container {
+        max-width: 1600px;
+    }
+}
 /* =========================================
    9. CAROUSEL - IMPROVED FOR MEDIUM DEVICES
    ========================================= */
@@ -993,51 +1306,33 @@ h2 {
     margin-top: 30px;
 }
 
-.section-title {
-    text-align: center;
-    margin-bottom: 40px;
+/* Carousel Responsive Fixes */
+@media (max-width: 1024px) {
+    .carousel-viewport {
+        height: 400px;
+    }
 }
 
-.control-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--card-bg);
-    color: var(--primary-blue);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+@media (max-width: 768px) {
+    .carousel-viewport {
+        height: 350px;
+    }
+    
+    .carousel-inner-container {
+        padding: 40px 15px;
+    }
 }
 
-.control-btn:hover {
-    background: var(--primary-blue);
-    color: white;
-    transform: scale(1.1);
+@media (max-width: 480px) {
+    .carousel-viewport {
+        height: 320px;
+    }
+    
+    .carousel-inner-container {
+        padding: 30px 10px;
+        border-radius: 24px;
+    }
 }
-
-.carousel-trigger-btn {
-    margin-top: 40px;
-    padding: 15px 40px;
-    border-radius: 50px;
-    border: 1px solid var(--border);
-    background: var(--card-bg);
-    color: var(--text-main);
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.carousel-trigger-btn:hover {
-    transform: translateY(-3px);
-    background: var(--primary-blue);
-    color: white;
-    box-shadow: 0 10px 20px var(--focus-ring);
-}
-
 /* =========================================
    10. SPOTLIGHT & FEATURES
    ========================================= */
@@ -1103,7 +1398,6 @@ h2 {
 .bar:hover { 
     opacity: 1; 
 }
-
 /* =========================================
    11. CONNECTION & ORBITAL - WITH TOP SPACE
    ========================================= */
@@ -1169,6 +1463,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Match Pulse Animation */
 .match-pulse {
     position: relative;
     display: flex;
@@ -1211,6 +1506,7 @@ h2 {
     animation: match-glow 2.5s infinite;
 }
 
+/* Orbital System */
 .orbital-container {
     position: relative;
     width: 400px;
@@ -1350,7 +1646,6 @@ h2 {
     bottom: 10%; 
     right: 20%; 
 }
-
 /* =========================================
    12. VIDEO SPOTLIGHT
    ========================================= */
@@ -1436,7 +1731,6 @@ h2 {
     margin-top: 32px;
     display: flex;
 }
-
 /* =========================================
    13. MODAL SYSTEM
    ========================================= */
@@ -1560,61 +1854,6 @@ h2 {
     box-shadow: 0 0 25px #00a3ff;
 }
 
-.primary-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, #00a3ff, #0066ff);
-    color: white;
-    padding: 15px 30px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.primary-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 163, 255, 0.4);
-}
-
-.download-app-btn {
-    background: linear-gradient(90deg, #0088ff, #00c2ff);
-    padding: 14px 28px;
-    border-radius: 30px;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.download-app-btn:active {
-    transform: scale(0.96);
-}
-
-.share-btn {
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    cursor: pointer;
-}
-
-.share-icon-circle {
-    width: 40px;
-    height: 40px;
-    background: #0088ff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .module-integration h4 {
     margin: 20px 0 10px;
     font-size: 1.1rem;
@@ -1643,6 +1882,10 @@ h2 {
     font-weight: bold;
 }
 
+/* Ensure body lock when modal open */
+body.modal-open { 
+    overflow: hidden !important; 
+}
 /* =========================================
    14. THEME TOGGLE
    ========================================= */
@@ -1717,7 +1960,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     opacity: 0;
     transform: scale(0.9) rotate(-8deg);
 }
-
 /* =========================================
    15. FINAL CTA
    ========================================= */
@@ -1766,7 +2008,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     opacity: 0.1;
     pointer-events: none;
 }
-
 /* =========================================
    16. HARBOR NET SECTION
    ========================================= */
@@ -1902,7 +2143,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 .float-x { 
     animation: floatX 7s ease-in-out infinite; 
 }
-
 /* =========================================
    17. ANIMATIONS
    ========================================= */
@@ -2003,12 +2243,75 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         transform: rotate(-360deg); 
     }
 }
-
 /* =========================================
    18. MOBILE RESPONSIVENESS FIXES
    ========================================= */
 
-@media (max-width: 1100px) {
+/* ========== TABLET (1024px and below) ========== */
+@media (max-width: 1024px) {
+    /* Hero fixes */
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .hero-subtitle { 
+        margin: 0 auto 40px; 
+    }
+    
+    .hero-btns-group { 
+        justify-content: center; 
+        flex-direction: row;
+    }
+    
+    .hero-visual { 
+        margin-top: 50px; 
+    }
+    
+    .hero-title { 
+        font-size: 3rem; 
+    }
+    
+    .hero-social-proof { 
+        justify-content: center; 
+    }
+
+    /* Spotlight grid */
+    .spotlight-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .check-item { 
+        text-align: left; 
+    }
+
+    /* Video spotlight */
+    .video-spotlight { 
+        height: auto; 
+        padding: 100px 20px; 
+    }
+    
+    .bento-wrapper { 
+        grid-template-columns: 1fr; 
+        text-align: center; 
+    }
+    
+    .bento-text { 
+        align-items: center; 
+    }
+
+    /* Harbor net */
+    .harbor-net-container {
+        gap: 40px;
+    }
+    
+    .harbor-net-canvas {
+        max-width: 350px;
+    }
+
+    /* Bento wrapper specific */
     .bento-wrapper {
         grid-template-columns: 1fr; 
         gap: 60px;
@@ -2039,102 +2342,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
 }
 
-@media (min-width: 1101px) {
-    .bento-text {
-        align-items: flex-start;
-    }
-    
-    .bento-actions {
-        justify-content: flex-start;
-    }
-}
-
-@media (max-width: 1024px) {
-    .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    
-    .hero-subtitle { 
-        margin: 0 auto 40px; 
-    }
-    
-    .hero-btns-group { 
-        justify-content: center; 
-        flex-direction: row;
-    }
-    
-    .hero-visual { 
-        margin-top: 50px; 
-    }
-    
-    .hero-title { 
-        font-size: 3rem; 
-    }
-    
-    .hero-social-proof { 
-        justify-content: center; 
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 90px;
-        right: -100%;
-        width: 280px;
-        height: auto;
-        background: var(--card-bg);
-        flex-direction: column;
-        padding: 2rem;
-        border-radius: 24px;
-        border: 1px solid var(--border);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-    }
-
-    .nav-links.active {
-        right: 4%;
-    }
-
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        padding: 15px;
-    }
-
-    .spotlight-grid {
-        grid-template-columns: 1fr;
-        gap: 50px;
-        text-align: center;
-    }
-
-    .check-item { 
-        text-align: left; 
-    }
-
-    .video-spotlight { 
-        height: auto; 
-        padding: 100px 20px; 
-    }
-    
-    .bento-wrapper { 
-        grid-template-columns: 1fr; 
-        text-align: center; 
-    }
-    
-    .bento-text { 
-        align-items: center; 
-    }
-
-    .harbor-net-container {
-        gap: 40px;
-    }
-    
-    .harbor-net-canvas {
-        max-width: 350px;
-    }
-}
-
+/* ========== 992px BREAKPOINT ========== */
 @media (max-width: 992px) {
     .connection-grid {
         grid-template-columns: 1fr;
@@ -2168,12 +2376,9 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .orbiting-mood { 
         transform: rotate(calc(var(--i) * (360deg / 6))) translateY(-150px) rotate(calc(var(--i) * (-360deg / 6))); 
     }
-    
-
-    
-
 }
 
+/* ========== 850px BREAKPOINT ========== */
 @media (max-width: 850px) {
     .details-modal { 
         align-items: center !important; 
@@ -2249,6 +2454,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
 }
 
+/* ========== TABLET (768px and below) ========== */
 @media (max-width: 768px) {
     .grid-2 { 
         grid-template-columns: 1fr; 
@@ -2261,23 +2467,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .hero { 
         padding: 120px 5% 60px 5%; 
-    }
-
-    .hamburger { 
-        display: flex; 
-        z-index: 1001;
-    }
-
-    .hamburger.active span:nth-child(1) {
-        transform: translateY(9px) rotate(45deg);
-    }
-    
-    .hamburger.active span:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .hamburger.active span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
     }
 
     .section { 
@@ -2300,7 +2489,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .carousel-viewport {
         height: 350px;
     }
-
 
     .mood-orbit-container { 
         width: 280px; 
@@ -2345,7 +2533,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         max-width: 450px;
     }
     
-    /* Fix store badges to stay in one line */
+    /* Store badges on mobile */
     .hero-btns-group {
         flex-direction: row;
         flex-wrap: wrap;
@@ -2357,7 +2545,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         height: 42px;
     }
     
-    /* Improve pillars layout on tablet */
+    /* Pillars layout */
     .pillars-grid {
         grid-template-columns: 1fr;
         gap: 25px;
@@ -2367,12 +2555,110 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         padding: 35px 25px;
         min-height: 350px;
     }
+
+    /* Center store badges & social proof */
+    .hero-content {
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    .hero-subtitle {
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 95% !important;
+    }
+    
+    .hero-btns-group {
+        justify-content: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 320px !important;
+    }
+    
+    .store-badge {
+        flex: 1 !important;
+        text-align: center !important;
+    }
+    
+    .store-badge img {
+        height: 48px !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+    
+    .hero-social-proof {
+        justify-content: center !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 15px !important;
+        margin-top: 25px !important;
+    }
+    
+    .avatar-group {
+        justify-content: center !important;
+        margin-left: 0 !important;
+    }
+    
+    .proof-text {
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    /* Carousel spacing */
+    .carousel-section .section-title {
+        margin-bottom: 15px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+
+    /* Hero subtitle alignment fix */
+    .hero-content {
+        text-align: left !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .hero-subtitle {
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 35px !important;
+        max-width: 90% !important;
+        padding: 0 !important;
+        line-height: 1.7 !important;
+    }
+    
+    .hero-btns-group {
+        justify-content: flex-start !important;
+        margin-bottom: 30px !important;
+        width: 100% !important;
+    }
+    
+    .hero-social-proof {
+        justify-content: flex-start !important;
+        text-align: left !important;
+        width: 100% !important;
+        margin-top: 25px !important;
+    }
 }
 
-/* =========================================
-   19. SMALL DEVICES FIXES (480px and below)
-   ========================================= */
-
+/* ========== SMALL PHONES (480px and below) ========== */
 @media (max-width: 480px) {
     /* Hero section fixes */
     .hero {
@@ -2391,7 +2677,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         padding: 0 10px;
     }
     
-    /* Store badges - ensure they stay in one line */
+    /* Store badges */
     .hero-btns {
         flex-direction: column;
         align-items: center;
@@ -2423,7 +2709,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         height: 45px;
     }
     
-    /* Fix phone UI for small screens */
+    /* Phone UI */
     .phone-wrapper {
         width: 240px;
         height: 500px;
@@ -2456,7 +2742,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         margin-bottom: 8px;
     }
     
-    /* Ensure mood text doesn't overflow */
+    /* Mood text */
     .app-ui-mood-tracker > div:last-child {
         font-size: 0.75rem !important;
         padding: 0 5px !important;
@@ -2467,7 +2753,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         margin-top: 5px;
     }
     
-    /* Fix floating cards */
+    /* Floating cards */
     .floating-card {
         padding: 10px 15px;
         font-size: 0.8rem;
@@ -2486,7 +2772,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         transform: scale(0.8);
     }
     
-    /* Navigation fixes */
+    /* Navigation */
     .navbar {
         width: 95%;
         top: 10px;
@@ -2499,7 +2785,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         left: 5%;
     }
     
-    /* Stats adjustments */
+    /* Stats */
     .hero-stats {
         flex-wrap: wrap;
         justify-content: center;
@@ -2510,7 +2796,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         display: none;
     }
     
-    /* Avatar group fix */
+    /* Avatar group */
     .avatar-group {
         justify-content: center;
         margin-left: 0;
@@ -2522,30 +2808,17 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         border-width: 2px;
     }
     
-    /* Section container fixes */
-    .section-container {
-        padding: 30px 20px;
-        margin: 15px 10px;
-        border-radius: 20px;
-    }
-    
-    /* Card adjustments */
+    /* Cards */
     .card {
         padding: 25px 20px;
     }
     
-    /* Carousel fixes for small screens */
+    /* Carousel */
     .carousel-viewport {
         height: 300px;
-    
     }
     
-    .carousel-inner-container {
-        padding: 30px 15px;
-        border-radius: 20px;
-    }
-    
-    /* Pillars improvements */
+    /* Pillars */
     .pillars-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -2564,7 +2837,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 0.95rem;
     }
     
-    /* Connection section spacing */
+    /* Connection section */
     .connection-section {
         padding: 80px 5% 60px;
         margin-top: 20px;
@@ -2581,7 +2854,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         max-height: 40vh;
     }
     
-    /* Harbor net section */
+    /* Harbor net */
     .harbor-net-section {
         padding: 60px 5%;
         min-height: auto;
@@ -2618,7 +2891,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         border-radius: 12px !important;
     }
     
-    /* Typography fixes */
+    /* Typography */
     h2 {
         font-size: 1.8rem;
     }
@@ -2627,14 +2900,18 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 2rem;
     }
     
-    /* Ensure no horizontal scroll */
-    body {
-        overflow-x: hidden;
-        max-width: 100%;
+    /* Carousel spacing */
+    .carousel-section .section-title {
+        margin-bottom: 15px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 25px !important;
+        padding-bottom: 25px !important;
     }
 }
 
-/* Extra small devices (phones under 360px) */
+/* ========== EXTRA SMALL PHONES (360px and below) ========== */
 @media (max-width: 360px) {
     .phone-wrapper {
         width: 220px;
@@ -2662,29 +2939,42 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         height: 38px;
     }
     
-    /* Fix for the mood text */
+    /* Mood text */
     .app-ui-mood-tracker > div:last-child {
         font-size: 0.7rem !important;
         padding: 0 2px !important;
         letter-spacing: -0.5px;
     }
+
+    /* Navigation */
+    .navbar {
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .nav-links {
+        width: 90%;
+        padding: 1.5rem;
+    }
+    
+    .nav-links.active {
+        right: 5%;
+        left: 5%;
+    }
 }
 
-/* Fix for medium screens (laptop half-screen) */
+/* ========== MEDIUM SCREENS (769px - 1024px) ========== */
 @media (min-width: 769px) and (max-width: 1024px) {
-    /* Keep carousel within container */
+    /* Carousel */
     .carousel-inner-container {
         width: 95%;
         overflow: hidden;
     }
     
-  
-    /* Adjust carousel radius for medium screens */
     .carousel-section {
         padding: 60px 0;
     }
     
-    /* Improve pillars layout */
+    /* Pillars layout */
     .pillars-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 25px;
@@ -2694,13 +2984,87 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         padding: 35px 25px;
     }
     
-    /* Connection section spacing */
+    /* Connection section */
     .connection-section {
         padding: 100px 5% 80px;
     }
+
+    /* Center store badges */
+    .hero-content > .hero-btns-group {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        justify-content: center !important;
+        max-width: 350px !important;
+    }
+    
+    /* Carousel spacing */
+    .carousel-section .section-title {
+        margin-bottom: 25px !important;
+    }
 }
 
-/* Landscape mode on mobile */
+/* ========== LARGE SCREENS (1025px and above) ========== */
+@media (min-width: 1025px) {
+    /* Store badges */
+    .hero-btns-group {
+        max-width: 360px !important;
+        gap: 20px !important;
+    }
+    
+    .store-badge img {
+        height: 54px !important;
+        min-width: 140px !important;
+        max-width: 160px !important;
+    }
+    
+    /* Carousel spacing */
+    .carousel-section .section-title {
+        margin-bottom: 30px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+
+    /* Bento text alignment */
+    .bento-text {
+        align-items: flex-start;
+    }
+    
+    .bento-actions {
+        justify-content: flex-start;
+    }
+
+    /* Carousel glow padding */
+    .carousel-viewport {
+        padding: 15px 20px !important;
+        margin-top: 15px !important;
+    }
+}
+
+/* ========== TABLET HERO SUBTITLE FIXES ========== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero-subtitle {
+        max-width: 85% !important;
+    }
+    
+    .hero-content {
+        padding-left: 5% !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 819px) {
+    .hero-subtitle {
+        max-width: 95% !important;
+    }
+    
+    .hero-content {
+        padding-left: 3% !important;
+    }
+}
+
+/* ========== LANDSCAPE MODE ========== */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero {
         min-height: 100vh;
@@ -2726,7 +3090,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         margin-bottom: 20px;
     }
     
-    /* Adjust floating cards for landscape */
+    /* Floating cards */
     .floating-card {
         transform: scale(0.8);
     }
@@ -2740,46 +3104,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         bottom: 60px;
         left: -40px;
     }
-}
 
-/* Prevent text selection on interactive elements */
-.floating-card, .task-item, .nav-item, .btn-blue, .btn-outline {
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-/* Improve touch targets for mobile */
-@media (max-width: 768px) {
-    .nav-item, .btn-blue, .btn-outline, .btn-outline-small, .control-btn, .nav-arrow {
-        min-height: 44px;
-        min-width: 44px;
+    /* Navigation menu */
+    .nav-links {
+        top: 70px;
+        max-height: 70vh;
+        overflow-y: auto;
     }
-    
-    .dot {
-        width: 12px;
-        height: 12px;
-    }
-    
-    .dot.active {
-        width: 36px;
-    }
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Prevent zoom on input focus for iOS */
-@media (max-width: 768px) {
-    input, select, textarea {
-        font-size: 16px;
-    }
-}
-
-/* Ensure body lock when modal open */
-body.modal-open { 
-    overflow: hidden !important; 
 }
 
 /* Ensure all text is readable on mobile */
@@ -2788,357 +3119,7 @@ body.modal-open {
     transform-origin: top center;
 }
 
-/* Additional specific fixes */
-section:nth-child(even) .section-container {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-}
-
-[data-theme="dark"] section:nth-child(even) .section-container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-}
-
-/* Wide screen adjustments for pillars */
-@media (min-width: 1200px) {
-    .pillars-grid {
-        grid-template-columns: repeat(3, minmax(340px, 1fr));
-        gap: 36px;
-        max-width: 1400px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .pillars-grid {
-        max-width: 1400px;
-        grid-template-columns: repeat(3, minmax(360px, 1fr));
-    }
-    
-    .pillars-section .section-container {
-        max-width: 1600px;
-    }
-}
-
-/* =========================================
-   HERO SUBTITLE ALIGNMENT FIX
-   ========================================= */
-
-/* Medium devices (tablets, 768px to 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-    /* Keep hero container as single column */
-    .hero-container {
-        grid-template-columns: 1fr !important;
-        gap: 40px !important;
-    }
-    
-    /* Hero content - align text left */
-    .hero-content {
-        text-align: left !important;
-        display: block !important; /* Remove flex centering */
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    
-    /* Hero subtitle - left aligned, better width */
-    .hero-subtitle {
-        text-align: left !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        margin-bottom: 35px !important;
-        max-width: 90% !important; /* Wider but not full width */
-        padding: 0 !important;
-        line-height: 1.7 !important;
-    }
-    
-    /* Center ONLY the store badges and social proof */
-    .hero-btns-group {
-        justify-content: flex-start !important; /* Start from left */
-        margin-bottom: 30px !important;
-        width: 100% !important;
-    }
-    
-    .hero-social-proof {
-        justify-content: flex-start !important; /* Start from left */
-        text-align: left !important;
-        width: 100% !important;
-        margin-top: 25px !important;
-    }
-    
-    /* Center the avatar group and proof text together */
-    .hero-social-proof {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important; /* Align items to left */
-    }
-    
-    /* Actually, let's center the whole social proof section */
-    .hero-content > .hero-social-proof {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        align-items: center !important;
-        text-align: center !important;
-    }
-    
-    /* Specifically center the store badges */
-    .hero-content > .hero-btns-group {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        justify-content: center !important;
-        text-align: center !important;
-    }
-}
-
-/* Adjust for larger tablets */
-@media (min-width: 820px) and (max-width: 1024px) {
-    .hero-subtitle {
-        max-width: 85% !important;
-    }
-    
-    /* Add some left padding to prevent text touching edge */
-    .hero-content {
-        padding-left: 5% !important;
-    }
-}
-
-/* Small tablets adjustment */
-@media (min-width: 768px) and (max-width: 819px) {
-    .hero-subtitle {
-        max-width: 95% !important;
-    }
-    
-    .hero-content {
-        padding-left: 3% !important;
-    }
-}
-/* =========================================
-   MOBILE FIX - Center store badges & social proof
-   ========================================= */
-
-/* For all phones (max-width: 768px) */
-@media (max-width: 768px) {
-    /* Center everything in hero section */
-    .hero-content {
-        text-align: center !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-    }
-    
-    /* Center hero subtitle */
-    .hero-subtitle {
-        text-align: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        max-width: 95% !important;
-    }
-    
-    /* Center store badges container */
-    .hero-btns-group {
-        justify-content: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        gap: 12px !important;
-        width: 100% !important;
-        max-width: 320px !important;
-    }
-    
-    /* Ensure store badge images are properly sized */
-    .store-badge {
-        flex: 1 !important;
-        text-align: center !important;
-    }
-    
-    .store-badge img {
-        height: 48px !important;
-        width: auto !important;
-        max-width: 100% !important;
-    }
-    
-    /* Center social proof section */
-    .hero-social-proof {
-        justify-content: center !important;
-        text-align: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        width: 100% !important;
-        flex-direction: row !important; /* Keep avatars and rating in one line */
-        align-items: center !important;
-        gap: 15px !important;
-        margin-top: 25px !important;
-    }
-    
-    /* Center avatar group */
-    .avatar-group {
-        justify-content: center !important;
-        margin-left: 0 !important;
-    }
-    
-    /* Center proof text */
-    .proof-text {
-        align-items: center !important;
-        text-align: center !important;
-    }
-}
-
-/* Extra small phones (max-width: 480px) */
-@media (max-width: 480px) {
-    .hero-btns-group {
-        flex-direction: column !important; /* Stack badges vertically if needed */
-        gap: 10px !important;
-        max-width: 250px !important;
-    }
-    
-    .store-badge img {
-        height: 44px !important;
-    }
-    
-    /* Stack social proof on very small screens */
-    .hero-social-proof {
-        flex-direction: column !important;
-        gap: 12px !important;
-    }
-    
-    .avatar-group {
-        justify-content: center !important;
-    }
-}
-
-/* Small phones (max-width: 360px) */
-@media (max-width: 360px) {
-    .hero-btns-group {
-        max-width: 220px !important;
-    }
-    
-    .store-badge img {
-        height: 40px !important;
-    }
-    
-    /* Adjust avatar sizes */
-    .user-avatar, .avatar-more {
-        width: 36px !important;
-        height: 36px !important;
-    }
-}
-
-
-/* =========================================
-   Mobile-specific adjustments
-   ========================================= */
-
-@media (max-width: 768px) {
-    /* Carousel spacing on mobile */
-    .carousel-section .section-title {
-        margin-bottom: 15px !important;
-    }
-    
-    .carousel-inner-container {
-        padding-top: 30px !important;
-        padding-bottom: 30px !important;
-    }
-    
-    /* Store badges on mobile - ensure one line */
-    .hero-btns-group {
-        max-width: 300px !important;
-        gap: 12px !important;
-    }
-    
-    .store-badge img {
-        height: 46px !important;
-        min-width: 120px !important;
-        max-width: 140px !important;
-    }
-}
-
-/* =========================================
-   Small phone adjustments
-   ========================================= */
-
-@media (max-width: 480px) {
-    /* Still keep badges in one line on small phones */
-    .hero-btns-group {
-        max-width: 280px !important;
-        gap: 10px !important;
-    }
-    
-    .store-badge img {
-        height: 42px !important;
-        min-width: 110px !important;
-        max-width: 130px !important;
-    }
-    
-    /* If absolutely must wrap, do it gracefully */
-    @media (max-width: 360px) {
-        .hero-btns-group {
-            max-width: 250px !important;
-        }
-        
-        .store-badge img {
-            height: 40px !important;
-            min-width: 100px !important;
-            max-width: 120px !important;
-        }
-    }
-}
-
-/* =========================================
-   Medium/laptop screen adjustments
-   ========================================= */
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    /* Center store badges on medium screens */
-    .hero-content > .hero-btns-group {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        justify-content: center !important;
-        max-width: 350px !important;
-    }
-    
-    /* Carousel adjustments */
-    .carousel-section .section-title {
-        margin-bottom: 25px !important;
-    }
-}
-
-/* =========================================
-   Large screen adjustments
-   ========================================= */
-
-@media (min-width: 1025px) {
-    /* Store badges on desktop */
-    .hero-btns-group {
-        max-width: 360px !important;
-        gap: 20px !important;
-    }
-    
-    .store-badge img {
-        height: 54px !important;
-        min-width: 140px !important;
-        max-width: 160px !important;
-    }
-    
-    /* Carousel spacing */
-    .carousel-section .section-title {
-        margin-bottom: 30px !important;
-    }
-    
-    .carousel-inner-container {
-        padding-top: 50px !important;
-        padding-bottom: 50px !important;
-    }
-}
-
-/* =========================================
-   Ensure glow isn't cut - update previous fix
-   ========================================= */
-
-@media (min-width: 1025px) {
-    .carousel-viewport {
-        padding: 15px 20px !important; /* Add horizontal padding for glow */
-        margin-top: 15px !important;
-    }
-}
-
+/* Additional medium screen adjustments */
 @media (min-width: 768px) and (max-width: 1024px) {
     .carousel-viewport {
         padding: 10px 15px !important;
@@ -3150,551 +3131,5 @@ section:nth-child(even) .section-container {
     .carousel-viewport {
         padding: 8px 10px !important;
         margin-top: 8px !important;
-    }
-}
-@media (max-width: 767px) {
-    .carousel-section .section-title {
-        margin-bottom: 15px !important;
-    }
-    
-    .carousel-inner-container {
-        padding-top: 30px !important;
-        padding-bottom: 30px !important;
-    }
-}@media (max-width: 480px) {
-    .carousel-section .section-title {
-        margin-bottom: 15px !important; /* Reduced for phones */
-    }
-    
-    .carousel-inner-container {
-        padding-top: 25px !important; /* Reduced for phones */
-        padding-bottom: 25px !important;
-    }
-}
-/* =========================================
-   HAMBURGER FIX - ADD AT END OF CSS FILE
-   ========================================= */
-
-/* Tablet screens (768px - 1024px) - Show hamburger, hide nav-links */
-@media (max-width: 1024px) {
-    .hamburger {
-        display: flex !important; /* Force show hamburger */
-    }
-    
-    .nav-links {
-        position: fixed;
-        top: 90px;
-        right: -100%;
-        width: 280px;
-        height: auto;
-        background: var(--card-bg);
-        flex-direction: column;
-        padding: 2rem;
-        border-radius: 24px;
-        border: 1px solid var(--border);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-        display: flex !important; /* Ensure it's flex when active */
-    }
-
-    .nav-links.active {
-        right: 4%;
-    }
-
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        padding: 15px;
-    }
-}
-
-/* Fix for medium screens where navbar might break */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .navbar {
-        width: 96%;
-        padding: 0.6rem 1.2rem;
-    }
-    
-    .nav-item {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-    }
-    
-    .navbar .btn-blue {
-        padding: 10px 20px;
-        font-size: 0.85rem;
-    }
-}
-
-/* Ensure hamburger is visible on all mobile sizes */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex !important;
-    }
-    
-    .navbar {
-        width: 95%;
-        top: 10px;
-        padding: 0.5rem 1rem;
-    }
-    
-    .nav-links.active {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-    }
-    
-    /* Make sure nav-right items are properly spaced */
-    .nav-right {
-        gap: 15px;
-    }
-}
-
-/* Small phones - adjust navbar padding */
-@media (max-width: 480px) {
-    .navbar {
-        padding: 0.4rem 0.8rem;
-        top: 8px;
-    }
-    
-    .nav-links {
-        top: 80px;
-        width: 85%;
-        right: -100%;
-    }
-    
-    .nav-links.active {
-        right: 7.5%;
-        left: 7.5%;
-    }
-    
-    /* Ensure Get Started button fits */
-    .navbar .btn-blue {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Extra small phones */
-@media (max-width: 360px) {
-    .navbar {
-        padding: 0.3rem 0.6rem;
-    }
-    
-    .nav-links {
-        width: 90%;
-        padding: 1.5rem;
-    }
-    
-    .nav-links.active {
-        right: 5%;
-        left: 5%;
-    }
-}
-
-/* Fix for landscape mode on mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .nav-links {
-        top: 70px;
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-}
-
-/* Ensure navbar doesn't overlap with hero on mobile */
-@media (max-width: 1024px) {
-    .hero {
-        padding-top: 140px !important;
-    }
-}
-
-/* Accessibility improvements */
-.hamburger:focus {
-    outline: 2px solid var(--primary-blue);
-    outline-offset: 2px;
-}
-
-.nav-item:focus {
-    outline: 2px solid var(--primary-blue);
-    outline-offset: 2px;
-}
-
-
-/* =========================================
-   MODERN HAMBURGER TO X ANIMATION WITH BETTER SPACING
-   ========================================= */
-
-/* Smooth hamburger animation */
-.hamburger span {
-    width: 25px;
-    height: 2.5px;
-    background: var(--text-main);
-    margin: 4px 0;
-    transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-    transform-origin: center;
-    border-radius: 2px;
-}
-
-/* Enhanced X transformation with smooth rotation */
-.hamburger.active span:nth-child(1) {
-    transform: translateY(9px) rotate(135deg);
-    background: var(--primary-blue);
-    width: 25px;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0) translateX(20px);
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-135deg);
-    background: var(--primary-blue);
-    width: 25px;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-}
-
-/* Add a subtle glow effect on hover */
-.hamburger:hover span {
-    background: var(--primary-blue);
-    box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
-}
-
-.hamburger.active:hover span {
-    background: var(--primary-blue);
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-}
-
-/* Modern menu slide-in animation */
-.nav-links {
-    transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-    transform: translateX(100%);
-    opacity: 0;
-    visibility: hidden;
-}
-
-.nav-links.active {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Show hamburger on medium devices */
-@media (max-width: 1024px) {
-    .hamburger {
-        display: flex !important;
-        position: relative;
-        z-index: 1001;
-    }
-    
-    /* Improved menu container */
-    .nav-links {
-        position: fixed;
-        top: 90px;
-        right: -100%;
-        width: 280px;
-        height: auto;
-        background: var(--card-bg);
-        flex-direction: column;
-        padding: 2rem;
-        border-radius: 24px;
-        border: 1px solid var(--border);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-        z-index: 999;
-        display: flex !important;
-        gap: 8px; /* Add spacing between menu items */
-    }
-
-    .nav-links.active {
-        right: 4%;
-    }
-    
-    /* Improved menu items with better spacing */
-    .nav-links li {
-        width: 100%;
-        margin-bottom: 12px; /* Increased spacing between items */
-        opacity: 0;
-        transform: translateX(20px);
-    }
-
-    
-    .nav-links.active li {
-        opacity: 1;
-
-    }
-    /* Replace lines 2375-2382 with: */
-.nav-links .nav-item {
-    opacity: 0;
-    transform: translateX(20px);
-    transition: all 0.4s ease;
-}
-
-.nav-links.active .nav-item {
-    opacity: 1;
-    transform: translateX(0);
-}
-    
-    /* Improved nav item styling with better spacing */
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        padding: 16px 24px; /* More padding for better touch targets */
-        border-radius: 14px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        display: block; /* Changed to block for better spacing */
-        transition: all 0.3s ease;
-        margin-bottom: 4px; /* Space between items */
-        background: transparent;
-        border: 1px solid transparent;
-        color: var(--text-main);
-        text-decoration: none;
-    }
-    
-    /* Hover effect with proper spacing */
-    .nav-item:hover {
-        background: rgba(56, 189, 248, 0.1);
-        color: var(--primary-blue);
-        border-color: rgba(56, 189, 248, 0.2);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
-        margin: 4px 0; /* Maintain spacing on hover */
-    }
-    
-    /* Active/clicked state */
-    .nav-item:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 6px rgba(56, 189, 248, 0.1);
-    }
-    
-    /* Get Started button styling */
-    .nav-links .btn-blue {
-        margin-top: 16px; /* Space above button */
-        margin-bottom: 8px; /* Space below button */
-        padding: 14px 28px;
-        border-radius: 16px;
-        font-size: 0.95rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--primary-blue), #0066ff);
-        border: none;
-        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
-        transition: all 0.3s ease;
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-    
-    .nav-links .btn-blue:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
-    }
-    
-    /* Stagger animation for menu items */
-    .nav-links li:nth-child(1) { --i: 1; }
-    .nav-links li:nth-child(2) { --i: 2; }
-    .nav-links li:nth-child(3) { --i: 3; }
-    .nav-links li:nth-child(4) { --i: 4; }
-    .nav-links li:nth-child(5) { --i: 5; }
-    
-    /* Small screens adjustment */
-    @media (max-width: 768px) {
-        .nav-links {
-            top: 80px;
-            width: 260px;
-            padding: 1.5rem;
-        }
-        
-        .nav-links.active {
-            right: 5%;
-        }
-        
-        .nav-item {
-            padding: 14px 20px;
-            margin-bottom: 6px;
-        }
-        
-        .nav-links .btn-blue {
-            padding: 12px 24px;
-            font-size: 0.9rem;
-        }
-    }
-    
-    /* Very small screens */
-    @media (max-width: 480px) {
-        .nav-links {
-            width: 90%;
-            right: -100%;
-            left: auto;
-            margin: 0 5%;
-        }
-        
-        .nav-links.active {
-            right: 5%;
-            left: 5%;
-        }
-    }
-}/* =========================================
-   MINIMAL HAMBURGER FIX
-   ========================================= */
-
-/* Fix for big devices - Show menu normally */
-@media (min-width: 1025px) {
-    .nav-links {
-        display: flex !important;
-        position: static !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        width: auto !important;
-        height: auto !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-        flex-direction: row !important;
-        gap: 0.5rem !important;
-    }
-    
-    .nav-links li {
-        opacity: 1 !important;
-        transform: none !important;
-        margin-bottom: 0 !important;
-    }
-    
-    .nav-item {
-        display: inline-flex !important;
-        padding: 10px 18px !important;
-    }
-    
-    .hamburger {
-        display: none !important;
-    }
-}
-
-/* Smoother slide animation for mobile menu */
-@media (max-width: 1024px) {
-    .nav-links {
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        transform: translateX(100%);
-    }
-    
-    .nav-links.active {
-        transform: translateX(0);
-    }
-}
-/* =========================================
-   PERFECT SMOOTH SLIDE ANIMATION
-   ========================================= */
-
-/* Fix for big devices - Show menu normally */
-@media (min-width: 1025px) {
-    .nav-links {
-        display: flex !important;
-        position: static !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        width: auto !important;
-        height: auto !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-        flex-direction: row !important;
-        gap: 0.5rem !important;
-        transition: none !important; /* No transition on desktop */
-    }
-    
-    .nav-links li {
-        opacity: 1 !important;
-        transform: none !important;
-        margin-bottom: 0 !important;
-        transition: none !important;
-    }
-    
-    .nav-item {
-        display: inline-flex !important;
-        padding: 10px 18px !important;
-    }
-    
-    .hamburger {
-        display: none !important;
-    }
-}
-
-/* Ultra-smooth slide animation for mobile menu */
-@media (max-width: 1024px) {
-    .nav-links {
-        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
-                    opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-                    visibility 0s linear 0.5s;
-        transform: translateX(100%) scale(0.95);
-        opacity: 0;
-        visibility: hidden;
-    }
-    
-    .nav-links.active {
-        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
-                    opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-                    visibility 0s linear 0s;
-        transform: translateX(0) scale(1);
-        opacity: 1;
-        visibility: visible;
-    }
-}
-/* =========================================
-   CAROUSEL RESPONSIVE FIXES (NON-CONFLICTING)
-   ========================================= */
-
-/* Keep original carousel styles but add responsive height adjustments */
-@media (max-width: 1024px) {
-    .carousel-viewport {
-        height: 400px; /* Adjusted for tablets */
-    }
-}
-
-@media (max-width: 768px) {
-    .carousel-viewport {
-        height: 350px; /* Adjusted for mobile */
-    }
-    
-    .carousel-inner-container {
-        padding: 40px 15px; /* Slightly reduced padding */
-    }
-}
-
-@media (max-width: 480px) {
-    .carousel-viewport {
-        height: 320px; /* Adjusted for small phones */
-    }
-    
-    .carousel-inner-container {
-        padding: 30px 10px;
-        border-radius: 24px;
-    }
-}
-/* Section 5: Carousel Glow Effect */
-.card.active {
-    border: 2px solid #3b82f6; /* Adjust color to match your blue */
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 
-                inset 0 0 10px rgba(59, 130, 246, 0.4);
-    transition: all 0.5s ease-in-out;
-}
-@media (max-width: 768px) {
-    .carousel-section .card {
-        width: 80vw !important; /* Forces card to be 80% of screen width */
-        max-width: 300px;
-        height: auto;
-        min-height: 380px;
-    }
-    
-    .carousel-viewport {
-        perspective: 1000px; /* Gives the 3D effect more depth on mobile */
-        overflow: hidden;
-        height: 500px; /* Ensure container is tall enough for the tilt */
     }
 }
