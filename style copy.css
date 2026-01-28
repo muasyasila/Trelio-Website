@@ -2850,31 +2850,38 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* Pillars */
-    .pillars-section {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
-
-    /* 2. Force the container to take up more space */
     .pillars-section .section-container {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 5px !important;
+        padding-left: 20px !important;  /* Restores the original side gaps */
+        padding-right: 20px !important;
     }
 
-    /* 3. Make the cards wider and less cramped */
+    /* 2. Adjust only the grid and cards */
     .pillars-grid {
         display: flex !important;
         flex-direction: column !important;
         gap: 20px !important;
         width: 100% !important;
+        padding: 0 !important; /* Grid follows the container padding above */
     }
 
     .pillar-card {
-        padding: 30px 20px !important; /* Less side padding inside the card */
+        /* This padding is INSIDE the card - gives the text breathing room */
+        padding: 30px 25px !important; 
+        
+        /* Ensures the card doesn't hit the very edge of the screen */
         width: 100% !important;
-        min-height: auto !important;   /* Let the card height adjust to the text */
         box-sizing: border-box !important;
+        
+        /* If the card still looks too 'skinny', we can adjust the margin */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Keep the text alignment professional */
+    .pillar-card h3, 
+    .pillar-card p {
+        text-align: left !important;
     }
 
     /* 4. Align text for a cleaner mobile look */
