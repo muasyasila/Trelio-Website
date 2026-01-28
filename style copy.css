@@ -3339,7 +3339,7 @@ section:nth-child(even) .section-container {
 @media (max-width: 768px) {
     /* Carousel spacing on mobile */
     .carousel-section .section-title {
-        margin-bottom: 15px !important;
+        margin-bottom: 1px !important;
     }
     
     .carousel-inner-container {
