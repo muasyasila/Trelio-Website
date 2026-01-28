@@ -2769,3 +2769,231 @@ section:nth-child(even) .section-container {
         max-width: 1600px;
     }
 }
+/* =========================================
+   UPDATED STYLES ONLY - based on user requests
+   ========================================= */
+
+/* 1. FIX: Reduce space between "Explore Trelio Features" and carousel cards */
+.carousel-section .section-title {
+    margin-bottom: 30px !important; /* Reduced from 40px */
+}
+
+/* 2. FIX: Ensure carousel cards are seen in full and not cut */
+.carousel-viewport {
+    height: 420px !important; /* Slightly reduced to ensure full visibility */
+    padding: 10px 0 !important;
+}
+
+.card {
+    width: 240px !important; /* Adjusted width */
+    height: 320px !important; /* Adjusted height */
+}
+
+/* 3. FIX: Reduce space in hero section text */
+.hero-subtitle {
+    margin-bottom: 30px !important; /* Reduced from 40px */
+    line-height: 1.7 !important;
+}
+
+/* 4. FIX: Center hero social proof section */
+.hero-social-proof {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* Changed from center to flex-start */
+    gap: 20px !important;
+    margin-top: 25px !important;
+    width: 100% !important;
+}
+
+/* 5. FIX: Reduce padding in pillar cards for wider text */
+.pillar-card {
+    padding: 30px 25px !important; /* Reduced from 45px 35px */
+    min-height: 350px !important; /* Slightly reduced */
+}
+
+.pillar-card p {
+    line-height: 1.6 !important;
+    font-size: 1rem !important; /* Slightly smaller for better fit */
+}
+
+/* 6. FIX: Make pillar cards wider text area */
+.pillars-grid {
+    gap: 25px !important; /* Reduced gap for more space */
+    max-width: 1400px !important; /* Wider container */
+}
+
+.pillar-card {
+    min-width: 0 !important; /* Allow cards to use available width */
+    flex: 1 !important;
+}
+
+/* 7. FIX: Adjust carousel container for better card display */
+.carousel-inner-container {
+    padding: 50px 0px !important; /* Reduced padding */
+}
+
+/* 8. FIX: Improve card text readability in carousel */
+.card-content {
+    padding: 20px 15px !important; /* Reduced padding */
+}
+
+.card-content .title {
+    font-size: 1.2rem !important; /* Slightly smaller for better fit */
+    margin-bottom: 8px !important;
+}
+
+.card-content .description {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+}
+
+/* 9. FIX: Store badges positioning in hero */
+.hero-btns-group {
+    margin-bottom: 25px !important;
+}
+
+/* 10. FIX: Ensure user avatars and stars are properly centered */
+.avatar-group {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.proof-text {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+}
+
+/* 11. FIX: Adjust carousel track spacing */
+.carousel-track {
+    gap: 20px !important; /* Reduced gap between cards */
+}
+
+/* 12. FIX: Responsive adjustments for better card display */
+@media (max-width: 1024px) {
+    .card {
+        width: 220px !important;
+        height: 300px !important;
+    }
+    
+    .carousel-viewport {
+        height: 380px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .pillar-card {
+        padding: 25px 20px !important;
+        min-height: 320px !important;
+    }
+    
+    .hero-social-proof {
+        justify-content: center !important;
+        text-align: center !important;
+    }
+    
+    .proof-text {
+        align-items: center !important;
+    }
+    
+    .card {
+        width: 200px !important;
+        height: 280px !important;
+    }
+    
+    .carousel-viewport {
+        height: 350px !important;
+    }
+}
+/* =========================================
+   HERO SUBTITLE ALIGNMENT FIX
+   ========================================= */
+
+/* Medium devices (tablets, 768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Keep hero container as single column */
+    .hero-container {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+    }
+    
+    /* Hero content - align text left */
+    .hero-content {
+        text-align: left !important;
+        display: block !important; /* Remove flex centering */
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Hero subtitle - left aligned, better width */
+    .hero-subtitle {
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 35px !important;
+        max-width: 90% !important; /* Wider but not full width */
+        padding: 0 !important;
+        line-height: 1.7 !important;
+    }
+    
+    /* Center ONLY the store badges and social proof */
+    .hero-btns-group {
+        justify-content: flex-start !important; /* Start from left */
+        margin-bottom: 30px !important;
+        width: 100% !important;
+    }
+    
+    .hero-social-proof {
+        justify-content: flex-start !important; /* Start from left */
+        text-align: left !important;
+        width: 100% !important;
+        margin-top: 25px !important;
+    }
+    
+    /* Center the avatar group and proof text together */
+    .hero-social-proof {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important; /* Align items to left */
+    }
+    
+    /* Actually, let's center the whole social proof section */
+    .hero-content > .hero-social-proof {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    /* Specifically center the store badges */
+    .hero-content > .hero-btns-group {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+}
+
+/* Adjust for larger tablets */
+@media (min-width: 820px) and (max-width: 1024px) {
+    .hero-subtitle {
+        max-width: 85% !important;
+    }
+    
+    /* Add some left padding to prevent text touching edge */
+    .hero-content {
+        padding-left: 5% !important;
+    }
+}
+
+/* Small tablets adjustment */
+@media (min-width: 768px) and (max-width: 819px) {
+    .hero-subtitle {
+        max-width: 95% !important;
+    }
+    
+    .hero-content {
+        padding-left: 3% !important;
+    }
+}
