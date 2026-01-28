@@ -3339,7 +3339,7 @@ section:nth-child(even) .section-container {
 @media (max-width: 768px) {
     /* Carousel spacing on mobile */
     .carousel-section .section-title {
-        margin-bottom: 1px !important;
+        margin-bottom: 15px !important;
     }
     
     .carousel-inner-container {
@@ -3460,5 +3460,15 @@ section:nth-child(even) .section-container {
     .carousel-viewport {
         padding: 8px 10px !important;
         margin-top: 8px !important;
+    }
+}
+@media (max-width: 767px) {
+    .carousel-section .section-title {
+        margin-bottom: 15px !important;
+    }
+    
+    .carousel-inner-container {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
     }
 }
