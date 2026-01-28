@@ -1394,6 +1394,10 @@ section:nth-child(even) .section-container {
     height: 150px;
     margin-top: 20px;
 }
+.stars {
+        justify-content: center !important;
+        margin-bottom: 4px !important;
+    }
 
 .bar {
     flex: 1;
@@ -2702,6 +2706,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         width: 100%;
         max-width: 320px;
     }
+    .hero-social-proof {
+        display: flex !important;
+        flex-direction: column !important; /* Stack rating under avatars if narrow */
+        align-items: center !important;    /* This centers them horizontally */
+        justify-content: center !important;
+        text-align: center !important;
+        width: 100% !important;
+        gap: 12px !important;              /* Space between avatars and text */
+        margin: 20px auto 0 !important;    /* Centers the block itself */
+    }
     
     .store-badge {
         flex: 1;
@@ -2713,7 +2727,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         width: auto;
         max-width: 100%;
     }
-    
+    .proof-text {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;    /* Centers the stars and '4.9/5' text */
+        justify-content: center !important;
+        text-align: center !important;
+    }
     .app-badge img {
         height: 45px;
     }
@@ -2807,8 +2827,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     /* Avatar group */
     .avatar-group {
-        justify-content: center;
-        margin-left: 0;
+        display: flex !important;
+        justify-content: center !important;
+        margin-left: 0 !important;         /* Remove any left-side padding/margins */
+        margin-right: 0 !important;
     }
     
     .user-avatar, .avatar-more {
@@ -2867,11 +2889,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .harbor-net-section {
         padding: 60px 5%;
         min-height: auto;
+        margin-top: 60px !important;
     }
     
     .harbor-flow-container {
         padding: 30px 20px;
         border-radius: 20px;
+        margin-top: 0 !important;
     }
     
     /* Final CTA */
@@ -2915,8 +2939,8 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .carousel-inner-container {
-        padding-top: 25px !important;
-        padding-bottom: 25px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
     }
 }
 
@@ -3033,8 +3057,8 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
     
     .carousel-inner-container {
-        padding-top: 50px !important;
-        padding-bottom: 50px !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
     }
 
     /* Bento text alignment */
