@@ -1097,32 +1097,37 @@ h2 {
     z-index: 10;
 }
 
-/* Update the container to ensure the title is part of the layout */
 .carousel-inner-container {
-    width: 92%;
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 40px 20px 60px 20px; /* Reduced top padding, kept bottom padding */
-    background: var(--card-bg);
-    border-radius: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    position: relative;
+    width: 95%; /* Give it more horizontal room */
+    max-width: 1400px;
+    padding: 30px 20px; /* Reduced top padding */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the Title and the Viewport */
+    align-items: center;
 }
 
-/* Update the viewport to remove the overlap */
-.carousel-viewport {
-    height: 420px; /* Increased slightly for better laptop clearance */
+/* Force the title to stay on one line */
+.carousel-section h2 {
+    white-space: nowrap; 
     width: 100%;
-    position: relative;
+    text-align: center;
+    margin-bottom: 30px; 
+    font-size: 2.2rem; /* Adjusted size for laptop sleekness */
+}
+
+.carousel-viewport {
+    height: 350px; /* Reduced height to keep cards from feeling 'huge' */
+    margin-top: 0; /* Remove negative margins */
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px;
-    margin-top: 20px; /* FIXED: Changed from -10px to +20px to push cards AWAY from title */
+}
+
+.carousel-card {
+    width: 190px; /* Slightly narrower cards for a sleeker look */
+    /* Ensure the base transform doesn't fight the JS */
+    top: 50%;
+    transform: translate(-50%, -50%); 
 }
 
 /* Ensure your title (assuming it's an h2 or has a class) has consistent spacing */
