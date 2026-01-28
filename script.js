@@ -522,3 +522,80 @@ if (closeGalleryBtn) {
         if (gallery) gallery.classList.remove('modal-active');
     });
 }
+// =========================================
+// 11. VIDEO AUTO-MUTE/UNMUTE ON SCROLL
+// =========================================
+
+// Function to check if element is in viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Function to handle video visibility
+function handleVideoVisibility() {
+    const videos = document.querySelectorAll('video');
+    
+    videos.forEach(video => {
+        // Check if video is in viewport
+        if (isElementInViewport(video)) {
+            // If video is muted and user previously unmuted it, unmute it
+            if (video.hasAttribute('data-user-unmuted') && video.muted) {
+                video.muted = false;
+            }
+        } else {
+            // If video is out of viewport, mute it
+            if (!video.muted) {
+                video.muted = true;
+            }
+        }
+    });
+}
+
+// Function to initialize video mute tracking
+function initializeVideoMuteTracking() {
+    const videos = document.querySelectorAll('video');
+    
+    videos.forEach(video => {
+        // Add user interaction listener
+        video.addEventListener('volumechange', function() {
+            if (!this.muted) {
+                // User manually unmuted the video
+                this.setAttribute('data-user-unmuted', 'true');
+            }
+        });
+        
+        // Add click listener for mute/unmute buttons if they exist
+        const muteButton = video.parentElement.querySelector('.mute-button, [data-mute-video]');
+        if (muteButton) {
+            muteButton.addEventListener('click', function() {
+                video.muted = !video.muted;
+                if (!video.muted) {
+                    video.setAttribute('data-user-unmuted', 'true');
+                } else {
+                    video.removeAttribute('data-user-unmuted');
+                }
+            });
+        }
+    });
+    
+    // Initial check
+    handleVideoVisibility();
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', handleVideoVisibility);
+    
+    // Also check when resizing
+    window.addEventListener('resize', handleVideoVisibility);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure videos are loaded
+    setTimeout(initializeVideoMuteTracking, 1000);
+});

@@ -3481,3 +3481,356 @@ section:nth-child(even) .section-container {
         padding-bottom: 25px !important;
     }
 }
+/* =========================================
+   HAMBURGER FIX - ADD AT END OF CSS FILE
+   ========================================= */
+
+/* Tablet screens (768px - 1024px) - Show hamburger, hide nav-links */
+@media (max-width: 1024px) {
+    .hamburger {
+        display: flex !important; /* Force show hamburger */
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 90px;
+        right: -100%;
+        width: 280px;
+        height: auto;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 2rem;
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+        display: flex !important; /* Ensure it's flex when active */
+    }
+
+    .nav-links.active {
+        right: 4%;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+    }
+}
+
+/* Fix for medium screens where navbar might break */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .navbar {
+        width: 96%;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .nav-item {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .navbar .btn-blue {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Ensure hamburger is visible on all mobile sizes */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex !important;
+    }
+    
+    .navbar {
+        width: 95%;
+        top: 10px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .nav-links.active {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+    }
+    
+    /* Make sure nav-right items are properly spaced */
+    .nav-right {
+        gap: 15px;
+    }
+}
+
+/* Small phones - adjust navbar padding */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.4rem 0.8rem;
+        top: 8px;
+    }
+    
+    .nav-links {
+        top: 80px;
+        width: 85%;
+        right: -100%;
+    }
+    
+    .nav-links.active {
+        right: 7.5%;
+        left: 7.5%;
+    }
+    
+    /* Ensure Get Started button fits */
+    .navbar .btn-blue {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+    .navbar {
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .nav-links {
+        width: 90%;
+        padding: 1.5rem;
+    }
+    
+    .nav-links.active {
+        right: 5%;
+        left: 5%;
+    }
+}
+
+/* Fix for landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .nav-links {
+        top: 70px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
+/* Ensure navbar doesn't overlap with hero on mobile */
+@media (max-width: 1024px) {
+    .hero {
+        padding-top: 140px !important;
+    }
+}
+
+/* Accessibility improvements */
+.hamburger:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+.nav-item:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+/* =========================================
+   MODERN HAMBURGER TO X ANIMATION WITH BETTER SPACING
+   ========================================= */
+
+/* Smooth hamburger animation */
+.hamburger span {
+    width: 25px;
+    height: 2.5px;
+    background: var(--text-main);
+    margin: 4px 0;
+    transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    transform-origin: center;
+    border-radius: 2px;
+}
+
+/* Enhanced X transformation with smooth rotation */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(135deg);
+    background: var(--primary-blue);
+    width: 25px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0) translateX(20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-135deg);
+    background: var(--primary-blue);
+    width: 25px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Add a subtle glow effect on hover */
+.hamburger:hover span {
+    background: var(--primary-blue);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.hamburger.active:hover span {
+    background: var(--primary-blue);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+/* Modern menu slide-in animation */
+.nav-links {
+    transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.nav-links.active {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Show hamburger on medium devices */
+@media (max-width: 1024px) {
+    .hamburger {
+        display: flex !important;
+        position: relative;
+        z-index: 1001;
+    }
+    
+    /* Improved menu container */
+    .nav-links {
+        position: fixed;
+        top: 90px;
+        right: -100%;
+        width: 280px;
+        height: auto;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 2rem;
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        z-index: 999;
+        display: flex !important;
+        gap: 8px; /* Add spacing between menu items */
+    }
+
+    .nav-links.active {
+        right: 4%;
+    }
+    
+    /* Improved menu items with better spacing */
+    .nav-links li {
+        width: 100%;
+        margin-bottom: 12px; /* Increased spacing between items */
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.4s ease;
+        transition-delay: calc(var(--i, 0) * 0.1s);
+    }
+    
+    .nav-links.active li {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    /* Improved nav item styling with better spacing */
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 16px 24px; /* More padding for better touch targets */
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: block; /* Changed to block for better spacing */
+        transition: all 0.3s ease;
+        margin-bottom: 4px; /* Space between items */
+        background: transparent;
+        border: 1px solid transparent;
+        color: var(--text-main);
+        text-decoration: none;
+    }
+    
+    /* Hover effect with proper spacing */
+    .nav-item:hover {
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--primary-blue);
+        border-color: rgba(56, 189, 248, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+        margin: 4px 0; /* Maintain spacing on hover */
+    }
+    
+    /* Active/clicked state */
+    .nav-item:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(56, 189, 248, 0.1);
+    }
+    
+    /* Get Started button styling */
+    .nav-links .btn-blue {
+        margin-top: 16px; /* Space above button */
+        margin-bottom: 8px; /* Space below button */
+        padding: 14px 28px;
+        border-radius: 16px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary-blue), #0066ff);
+        border: none;
+        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+        transition: all 0.3s ease;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-links .btn-blue:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
+    }
+    
+    /* Stagger animation for menu items */
+    .nav-links li:nth-child(1) { --i: 1; }
+    .nav-links li:nth-child(2) { --i: 2; }
+    .nav-links li:nth-child(3) { --i: 3; }
+    .nav-links li:nth-child(4) { --i: 4; }
+    .nav-links li:nth-child(5) { --i: 5; }
+    
+    /* Small screens adjustment */
+    @media (max-width: 768px) {
+        .nav-links {
+            top: 80px;
+            width: 260px;
+            padding: 1.5rem;
+        }
+        
+        .nav-links.active {
+            right: 5%;
+        }
+        
+        .nav-item {
+            padding: 14px 20px;
+            margin-bottom: 6px;
+        }
+        
+        .nav-links .btn-blue {
+            padding: 12px 24px;
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* Very small screens */
+    @media (max-width: 480px) {
+        .nav-links {
+            width: 90%;
+            right: -100%;
+            left: auto;
+            margin: 0 5%;
+        }
+        
+        .nav-links.active {
+            right: 5%;
+            left: 5%;
+        }
+    }
+}
