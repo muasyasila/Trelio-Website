@@ -1099,15 +1099,14 @@ h2 {
 
 /* Update the container to ensure the title is part of the layout */
 .carousel-inner-container {
-    width: 80%; /* REDUCED: This creates the space on the left and right */
-    max-width: 1100px; /* Tighter max-width for a more focused look */
+    width: 100%;           /* Let it span the full width */
+    max-width: 1200px;     /* Keep the content from getting too wide */
     margin: 0 auto;
-    padding: 40px 60px; /* Generous padding inside the box */
-    background: var(--card-bg);
-    border-radius: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    position: relative;
+    padding: 20px;         /* Simple padding for breathing room */
+    background: transparent; /* REMOVED the dark background */
+    border-radius: 0;      /* REMOVED the rounded corners */
+    box-shadow: none;      /* REMOVED the shadow */
+    overflow: visible;     /* Let the card glow effects spill out naturally */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1120,23 +1119,21 @@ h2 {
 }
 /* Update the viewport to remove the overlap */
 .carousel-viewport {
-    height: 320px; 
+    height: 350px; 
     width: 100%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     perspective: 1000px;
-    margin-top: 10px;
 }
 
 /* Ensure your title (assuming it's an h2 or has a class) has consistent spacing */
 .carousel-section h2 {
-    margin-bottom: 20px;
-    font-size: 2.2rem;
-    text-align: center;
-   
-    width: 100%;
+    white-space: nowrap; 
+    font-size: 2.5rem;
+    margin-bottom: 40px; /* More space since there is no box boundary */
+    color: #ffffff;      /* Or your primary text color */
 }
 
 .carousel-navigation {
@@ -2725,39 +2722,3 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 
-/* This targets Laptops and Desktops */
-@media (min-width: 1025px) {
-    .carousel-inner-container {
-        width: 80% !important; /* Forces the box to shrink horizontally */
-        max-width: 1100px;
-        padding: 40px 60px !important; /* Adds that nice internal breathing room */
-        margin: 0 auto;
-    }
-
-    .carousel-section h2 {
-        /* Keeps "Explore Trelio Features" on one line */
-        font-size: 2.2rem !important;
-    }
-
-    .carousel-viewport {
-        height: 320px !important; /* Keeps the container height tight for smaller cards */
-    }
-
-    .carousel-card {
-        width: 170px !important; /* Makes cards smaller only on laptop */
-    }
-
-    .carousel-card-img {
-        height: 100px !important; /* Keeps images proportional to smaller cards */
-    }
-}
-
-/* Your existing mobile fixes remain untouched below */
-@media (max-width: 768px) {
-    .carousel-inner-container {
-        width: 92%; /* Stays wide on mobile as you had it */
-    }
-    .carousel-viewport {
-        height: 400px !important;
-    }
-}
