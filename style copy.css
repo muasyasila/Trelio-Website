@@ -1190,7 +1190,12 @@ section:nth-child(even) .section-container {
         gap: 36px;
         max-width: 1400px;
     }
+    .carousel-viewport {
+        height: 420px !important;
+        margin-top: -50px !important;
+    }
 }
+
 
 @media (min-width: 1400px) {
     .pillars-grid {
@@ -1316,7 +1321,8 @@ section:nth-child(even) .section-container {
 
 @media (max-width: 768px) {
     .carousel-viewport {
-        height: 350px;
+        height: 400px !important; /* Forces navigation dots to move up */
+        margin-top: -30px !important; /* Pulls cards closer to the title */
     }
     
     .carousel-inner-container {

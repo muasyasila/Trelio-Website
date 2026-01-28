@@ -310,13 +310,11 @@ const updateIndicators = () => {
 const getCarouselDimensions = () => {
     const width = window.innerWidth;
     const isMobile = width < 768;
-    const isSmallMobile = width < 480;
     
     return {
-        // Increase the X radius on mobile so cards spread out more horizontally
-        radiusX: isSmallMobile ? width * 0.45 : (isMobile ? width * 0.5 : 500),
-        // Reduce the Y radius significantly on mobile to keep cards flatter
-        radiusY: isSmallMobile ? 15 : (isMobile ? 25 : 60) 
+        radiusX: isMobile ? width * 0.45 : 500, // Horizontal spread
+        // REDUCE this number to stop the cards from dipping so low on desktop
+        radiusY: isMobile ? 20 : 35  // Default was likely 100, which is too much
     };
 };
 
@@ -344,7 +342,7 @@ const updateCarousel = () => {
         // 1. CHOOSE YOUR LIFT: 
         // Negative numbers move the cards UP. 
         // We use -40 for desktop and -20 for mobile to keep it tight.
-        const verticalLift = isMobile ? -40 : -30; 
+        const verticalLift = isMobile ? -20 : -15; 
         
         const tilt = isMobile ? offset * -5 : offset * -12; 
         const baseScale = isSmallMobile ? 0.6 : (isMobile ? 0.7 : 0.8);
@@ -356,7 +354,7 @@ const updateCarousel = () => {
         
         // 2. APPLY TRANSFORM:
         // We add verticalLift to 'y' to pull the cards toward the title.
-        card.style.transform = `translate(calc(-50% + ${x}px), ${y + verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+       card.style.transform = `translate(calc(-50% + ${x}px), ${y + verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
