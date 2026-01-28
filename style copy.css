@@ -2720,3 +2720,44 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .glass-card { top: 60px; right: -30px; }
     .glass-card-alt { bottom: 60px; left: -40px; }
 }
+
+
+
+
+
+/* This targets Laptops and Desktops */
+@media (min-width: 1025px) {
+    .carousel-inner-container {
+        width: 80% !important; /* Forces the box to shrink horizontally */
+        max-width: 1100px;
+        padding: 40px 60px !important; /* Adds that nice internal breathing room */
+        margin: 0 auto;
+    }
+
+    .carousel-section h2 {
+        white-space: nowrap !important; /* Keeps "Explore Trelio Features" on one line */
+        font-size: 2.2rem !important;
+    }
+
+    .carousel-viewport {
+        height: 320px !important; /* Keeps the container height tight for smaller cards */
+    }
+
+    .carousel-card {
+        width: 170px !important; /* Makes cards smaller only on laptop */
+    }
+
+    .carousel-card-img {
+        height: 100px !important; /* Keeps images proportional to smaller cards */
+    }
+}
+
+/* Your existing mobile fixes remain untouched below */
+@media (max-width: 768px) {
+    .carousel-inner-container {
+        width: 92%; /* Stays wide on mobile as you had it */
+    }
+    .carousel-viewport {
+        height: 400px !important;
+    }
+}
