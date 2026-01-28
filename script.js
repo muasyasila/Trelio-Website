@@ -335,21 +335,27 @@ const updateCarousel = () => {
         const angle = (offset * 0.4) + 4.712;
         const x = Math.cos(angle) * radiusX;
         
-        const isCenter = i === carouselIndex;
+// ... inside the carouselCards.forEach loop ...
 
-        // FIXED: Set to 0 to keep cards centered in your new CSS container
-        const verticalLift = 0; 
-        
-        const tilt = isMobileDevice ? offset * -5 : offset * -12; 
-        const baseScale = isSmallMobile ? 0.6 : (isMobileDevice ? 0.7 : 0.8);
-        const centerScale = isSmallMobile ? 0.95 : (isMobileDevice ? 1.0 : 1.15);
-        
-        card.style.position = 'absolute';
-        card.style.left = '50%';
-        card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-        
-        // FIXED: Removed +y calculation to keep the row flat
-        card.style.transform = `translate(calc(-50% + ${x}px), ${verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+const isCenter = i === carouselIndex;
+
+// Change this to 20 or 30 to physically push the cards down 
+// if they are still touching the title.
+const verticalLift = 30; 
+
+const tilt = isMobileDevice ? offset * -5 : offset * -10; // Slightly reduced tilt for laptop
+const baseScale = isSmallMobile ? 0.6 : (isMobileDevice ? 0.7 : 0.85);
+const centerScale = isSmallMobile ? 0.95 : (isMobileDevice ? 1.0 : 1.1); // Slightly smaller to fit height
+
+card.style.position = 'absolute';
+card.style.left = '50%';
+// Add this line to ensure it starts from the middle vertically
+card.style.top = '50%'; 
+
+card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+
+// Apply the transform - notice the use of verticalLift to move cards down
+card.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${verticalLift}px)) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
