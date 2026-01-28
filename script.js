@@ -309,10 +309,10 @@ const updateIndicators = () => {
 // Fixed Laptop/Mobile Dimensions
 const getCarouselDimensions = () => {
     const width = window.innerWidth;
-    const isMobile = width < 768;
+    const isMobileDevice = width < 768; // Changed variable name to avoid conflict with utility function
     
     return {
-        radiusX: isMobile ? width * 0.45 : 420, // Tightened spread for laptop
+        radiusX: isMobileDevice ? width * 0.45 : 420, // Tightened spread for laptop
         radiusY: 10                             // FIXED: Set to 10 for both to stop the dip
     };
 };
@@ -323,7 +323,7 @@ const updateCarousel = () => {
     
     const { radiusX, radiusY } = getCarouselDimensions();
     const width = window.innerWidth;
-    const isMobile = width < 768;
+    const isMobileDevice = width < 768; // Changed variable name
     const isSmallMobile = width < 480;
     
     carouselCards.forEach((card, i) => {
@@ -340,9 +340,9 @@ const updateCarousel = () => {
         // FIXED: Set to 0 to keep cards centered in your new CSS container
         const verticalLift = 0; 
         
-        const tilt = isMobile ? offset * -5 : offset * -12; 
-        const baseScale = isSmallMobile ? 0.6 : (isMobile ? 0.7 : 0.8);
-        const centerScale = isSmallMobile ? 0.95 : (isMobile ? 1.0 : 1.15);
+        const tilt = isMobileDevice ? offset * -5 : offset * -12; 
+        const baseScale = isSmallMobile ? 0.6 : (isMobileDevice ? 0.7 : 0.8);
+        const centerScale = isSmallMobile ? 0.95 : (isMobileDevice ? 1.0 : 1.15);
         
         card.style.position = 'absolute';
         card.style.left = '50%';
@@ -357,7 +357,7 @@ const updateCarousel = () => {
             card.style.opacity = '0';
             card.style.pointerEvents = 'none';
         } else {
-            card.style.opacity = !isCenter && isMobile ? '0.5' : '1';
+            card.style.opacity = !isCenter && isMobileDevice ? '0.5' : '1';
             card.style.pointerEvents = 'auto';
         }
         
@@ -633,8 +633,8 @@ const initializeVideoControls = () => {
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             // Page is hidden - pause all videos
-            document.querySelectorAll('video').forEach(video => {
-                if (!video.paused) video.pause();
+            document.querySelectorAll('video').forEach(v => {
+                if (!v.paused) v.pause();
             });
         } else {
             // Page is visible again - check which videos should play
@@ -644,10 +644,10 @@ const initializeVideoControls = () => {
     
     // Also handle when user interacts with page (for autoplay policies)
     document.addEventListener('click', () => {
-        document.querySelectorAll('video[data-needs-interaction]').forEach(video => {
-            if (isElementInViewport(video)) {
-                video.removeAttribute('data-needs-interaction');
-                video.play().catch(e => console.log("Video play failed on page interaction:", e));
+        document.querySelectorAll('video[data-needs-interaction]').forEach(v => {
+            if (isElementInViewport(v)) {
+                v.removeAttribute('data-needs-interaction');
+                v.play().catch(e => console.log("Video play failed on page interaction:", e));
             }
         });
     });
@@ -689,7 +689,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // EVENT LISTENERS FOR RESIZE/SCROLL
     // =========================================
     
-    window.addEventListener('resize', () => {
+    // Store resize handler to avoid duplicate listeners
+    const handleResize = () => {
         // Update mobile adjustments
         adjustPhoneUIForMobile();
         preventHorizontalScroll();
@@ -700,6 +701,11 @@ document.addEventListener('DOMContentLoaded', () => {
         createIndicators();
         
         // Re-run scroll animations
-        revealOnScroll();
-    });
+        if (typeof revealOnScroll === 'function') {
+            revealOnScroll();
+        }
+    };
+    
+    // Add resize event listener (only once)
+    window.addEventListener('resize', handleResize);
 });
