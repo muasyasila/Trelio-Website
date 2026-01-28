@@ -344,9 +344,8 @@ const isCenter = i === carouselIndex;
 const verticalLift = 30; 
 
 const tilt = isMobileDevice ? offset * -5 : offset * -10; // Slightly reduced tilt for laptop
-const baseScale = isSmallMobile ? 0.6 : (isMobileDevice ? 0.7 : 0.85);
-const centerScale = isSmallMobile ? 0.95 : (isMobileDevice ? 1.0 : 1.05);
-
+const baseScale = isMobileDevice ? 0.7 : 0.85; 
+const centerScale = isMobileDevice ? 1.0 : 1.05;
 card.style.position = 'absolute';
 card.style.left = '50%';
 // Add this line to ensure it starts from the middle vertically

@@ -1099,10 +1099,10 @@ h2 {
 
 /* Update the container to ensure the title is part of the layout */
 .carousel-inner-container {
-    width: 95%; /* Increased from 92% to give title more room */
-    max-width: 1300px;
+    width: 80%; /* REDUCED: This creates the space on the left and right */
+    max-width: 1100px; /* Tighter max-width for a more focused look */
     margin: 0 auto;
-    padding: 30px 40px 50px 40px; /* Increased side padding (40px) to box it in nicely */
+    padding: 40px 60px; /* Generous padding inside the box */
     background: var(--card-bg);
     border-radius: 40px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -1120,21 +1120,23 @@ h2 {
 }
 /* Update the viewport to remove the overlap */
 .carousel-viewport {
-    height: 340px; /* Reduced height because we are shrinking the cards */
+    height: 320px; 
     width: 100%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     perspective: 1000px;
-    margin-top: 10px; /* Smaller gap so it sits closer but not touching */
+    margin-top: 10px;
 }
 
 /* Ensure your title (assuming it's an h2 or has a class) has consistent spacing */
 .carousel-section h2 {
-    margin-bottom: 10px;
-    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-size: 2.2rem;
     text-align: center;
+    white-space: nowrap; /* Forces "Explore Trelio Features" onto one line */
+    width: 100%;
 }
 
 .carousel-navigation {
@@ -1222,24 +1224,18 @@ h2 {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 180px; /* Reduced from 200px */
+    width: 170px; /* Small and sleek */
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 12px; /* Tighter padding */
-    cursor: pointer;
-    box-shadow: var(--card-shadow);
+    border-radius: 24px;
+    padding: 12px;
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
 }
 
 .carousel-card-img {
     width: 100%;
-    height: 110px; /* Reduced from 130px to keep the card compact */
-    border-radius: 18px;
-    overflow: hidden;
+    height: 100px; /* Compact image height */
+    border-radius: 16px;
     margin-bottom: 10px;
 }
 
