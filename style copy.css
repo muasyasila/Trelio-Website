@@ -2735,7 +2735,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
 
     .carousel-section h2 {
-        white-space: nowrap !important; /* Keeps "Explore Trelio Features" on one line */
+        /* Keeps "Explore Trelio Features" on one line */
         font-size: 2.2rem !important;
     }
 
