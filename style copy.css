@@ -2473,17 +2473,11 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         gap: 40px; 
     }
 
-    h1 { 
-        font-size: 2.4rem; 
-    }
+    h1 { font-size: 2.4rem; }
     
-    .hero { 
-        padding: 120px 5% 60px 5%; 
-    }
+    .hero { padding: 120px 5% 60px 5%; }
 
-    .section { 
-        padding: 60px 5%; 
-    }
+    .section { padding: 60px 5%; }
     
     .section-container {
         margin: 20px 15px;
@@ -2491,17 +2485,28 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         border-radius: 24px;
     }
 
+    /* Carousel Spacing Fix */
     .carousel-inner-container {
-        width: 95%;
-        padding: 40px 10px;
+        width: 100%;
+        padding: 10px 0 20px 0 !important;
         margin: 0 auto;
-        overflow: hidden;
+        overflow: visible;
     }
 
     .carousel-viewport {
-        height: 350px;
+        height: 320px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0 !important;
     }
 
+    .carousel-section .section-title {
+        margin-bottom: 10px !important;
+        padding-bottom: 0;
+    }
+
+    /* Mood Orbit - Kept exactly as your original */
     .mood-orbit-container { 
         width: 280px; 
         height: 280px; 
@@ -2518,6 +2523,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         height: 100px;
     }
 
+    /* Harbor Net Grid */
     .harbor-net-container { 
         grid-template-columns: 1fr; 
         text-align: center; 
@@ -2544,31 +2550,8 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .bento-description {
         max-width: 450px;
     }
-    
-    /* Store badges on mobile */
-    .hero-btns-group {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-    
-    .store-badge img {
-        height: 42px;
-    }
-    
-    /* Pillars layout */
-    .pillars-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-    
-    .pillar-card {
-        padding: 35px 25px;
-        min-height: 350px;
-    }
 
-    /* Center store badges & social proof */
+    /* Hero Content & Social Proof */
     .hero-content {
         text-align: center !important;
         display: flex !important;
@@ -2579,15 +2562,15 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .hero-subtitle {
         text-align: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin: 0 auto 35px auto !important;
         max-width: 95% !important;
+        padding: 0 !important;
+        line-height: 1.7 !important;
     }
     
     .hero-btns-group {
         justify-content: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin: 0 auto 30px auto !important;
         display: flex !important;
         flex-wrap: nowrap !important;
         gap: 12px !important;
@@ -2595,10 +2578,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         max-width: 320px !important;
     }
     
-    .store-badge {
-        flex: 1 !important;
-        text-align: center !important;
-    }
+    .store-badge { flex: 1 !important; text-align: center !important; }
     
     .store-badge img {
         height: 48px !important;
@@ -2609,136 +2589,68 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .hero-social-proof {
         justify-content: center !important;
         text-align: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin: 25px auto 0 auto !important;
         width: 100% !important;
         flex-direction: row !important;
         align-items: center !important;
         gap: 15px !important;
-        margin-top: 25px !important;
     }
     
-    .avatar-group {
-        justify-content: center !important;
-        margin-left: 0 !important;
-    }
-    
-    .proof-text {
-        align-items: center !important;
-        text-align: center !important;
-    }
+    .avatar-group { justify-content: center !important; margin-left: 0 !important; }
+    .proof-text { align-items: center !important; text-align: center !important; }
 
-    /* Carousel spacing */
-    .carousel-section .section-title {
-        margin-bottom: 10px !important;
-        padding-bottom: 0;
+    /* Pillars layout */
+    .pillars-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
     }
     
-    .carousel-inner-container {
-        padding-top: 30px !important;
-        padding-bottom: 30px !important;
-    }
-
-    /* Hero subtitle alignment fix */
-    .hero-content {
-        text-align: left !important;
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    
-    .hero-subtitle {
-        text-align: left !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        margin-bottom: 35px !important;
-        max-width: 90% !important;
-        padding: 0 !important;
-        line-height: 1.7 !important;
-    }
-    
-    .hero-btns-group {
-        justify-content: flex-start !important;
-        margin-bottom: 30px !important;
-        width: 100% !important;
-    }
-    
-    .hero-social-proof {
-        justify-content: flex-start !important;
-        text-align: left !important;
-        width: 100% !important;
-        margin-top: 25px !important;
+    .pillar-card {
+        padding: 35px 25px;
+        min-height: 350px;
     }
 }
 
 /* ========== SMALL PHONES (480px and below) ========== */
 @media (max-width: 480px) {
-    /* Hero section fixes */
-    .hero {
-        padding: 100px 5% 40px;
-    }
+    .hero { padding: 100px 5% 40px; }
     
     .hero-title {
         font-size: 2rem;
         line-height: 1.1;
         margin-bottom: 15px;
     }
-    
-    .hero-subtitle {
-        font-size: 1rem;
-        margin-bottom: 30px;
-        padding: 0 10px;
-    }
-    
-    /* Store badges */
-    .hero-btns {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        gap: 15px;
-    }
-    
-    .hero-btns-group {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-        max-width: 320px;
-    }
-    .hero-social-proof {
-        display: flex !important;
-        flex-direction: column !important; /* Stack rating under avatars if narrow */
-        align-items: center !important;    /* This centers them horizontally */
-        justify-content: center !important;
-        text-align: center !important;
+
+    /* Pillars - Balanced Spacing */
+    .pillars-section .section-container {
         width: 100% !important;
-        gap: 12px !important;              /* Space between avatars and text */
-        margin: 20px auto 0 !important;    /* Centers the block itself */
+        padding-left: 20px !important; 
+        padding-right: 20px !important;
+    }
+
+    .pillar-card {
+        padding: 30px 25px !important; 
+        width: 100% !important;
+        min-height: auto !important; 
+        box-sizing: border-box !important;
+    }
+
+    .pillar-card h3, .pillar-card p, .pillar-list {
+        text-align: left !important;
+    }
+
+    /* Harbor Net - Lowered to fix overlap */
+    .harbor-net-section {
+        margin-top: 60px !important;
+        padding: 60px 5%;
     }
     
-    .store-badge {
-        flex: 1;
-        text-align: center;
+    .harbor-flow-container {
+        padding: 30px 15px !important;
+        margin-top: 0 !important;
     }
-    
-    .store-badge img {
-        height: 40px;
-        width: auto;
-        max-width: 100%;
-    }
-    .proof-text {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;    /* Centers the stars and '4.9/5' text */
-        justify-content: center !important;
-        text-align: center !important;
-    }
-    .app-badge img {
-        height: 45px;
-    }
-    
-    /* Phone UI */
+
+    /* Phone UI & Floating Cards */
     .phone-wrapper {
         width: 240px;
         height: 500px;
@@ -2746,32 +2658,12 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         border-radius: 30px;
     }
     
-    .phone-screen-content {
-        padding: 25px 15px;
-        font-size: 0.9rem;
-    }
+    .phone-screen-content { padding: 25px 15px; font-size: 0.9rem; }
+    .app-ui-header { font-size: 1rem; margin-bottom: 20px; }
+    .app-ui-mood-tracker { padding: 15px; margin-bottom: 15px; }
+    .mood-wave { height: 40px; }
+    .task-item { padding: 8px 10px; font-size: 0.8rem; margin-bottom: 8px; }
     
-    .app-ui-header {
-        font-size: 1rem;
-        margin-bottom: 20px;
-    }
-    
-    .app-ui-mood-tracker {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    .mood-wave {
-        height: 40px;
-    }
-    
-    .task-item {
-        padding: 8px 10px;
-        font-size: 0.8rem;
-        margin-bottom: 8px;
-    }
-    
-    /* Mood text */
     .app-ui-mood-tracker > div:last-child {
         font-size: 0.75rem !important;
         padding: 0 5px !important;
@@ -2779,418 +2671,55 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         white-space: normal !important;
         word-break: break-word;
         line-height: 1.3;
-        margin-top: 5px;
     }
     
-    /* Floating cards */
-    .floating-card {
-        padding: 10px 15px;
-        font-size: 0.8rem;
-        max-width: 150px;
-    }
+    .floating-card { padding: 10px 15px; font-size: 0.8rem; max-width: 150px; }
+    .glass-card { top: 60px; right: -30px; transform: scale(0.8); }
+    .glass-card-alt { bottom: 60px; left: -40px; transform: scale(0.8); }
     
-    .glass-card {
-        top: 60px;
-        right: -30px;
-        transform: scale(0.8);
-    }
+    /* Nav & Stats */
+    .navbar { width: 95%; top: 10px; padding: 0.5rem 1rem; }
+    .hero-stats { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .stat-divider { display: none; }
     
-    .glass-card-alt {
-        bottom: 60px;
-        left: -40px;
-        transform: scale(0.8);
-    }
-    
-    /* Navigation */
-    .navbar {
-        width: 95%;
-        top: 10px;
-        padding: 0.5rem 1rem;
-    }
-    
-    .nav-links.active {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-    }
-    
-    /* Stats */
-    .hero-stats {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-    
-    .stat-divider {
-        display: none;
-    }
-    
-    /* Avatar group */
-    .avatar-group {
-        display: flex !important;
-        justify-content: center !important;
-        margin-left: 0 !important;         /* Remove any left-side padding/margins */
-        margin-right: 0 !important;
-    }
-    
-    .user-avatar, .avatar-more {
-        width: 32px;
-        height: 32px;
-        border-width: 2px;
-    }
-    
-    /* Cards */
-    .card {
-        padding: 25px 20px;
-    }
-    
-    /* Carousel */
-    .carousel-viewport {
-        height: 300px;
-    }
-    
-    /* Pillars */
-    .pillars-section .section-container {
-        width: 100% !important;
-        padding-left: 20px !important;  /* Restores the original side gaps */
-        padding-right: 20px !important;
-    }
+    /* Store Badges */
+    .store-badge img { height: 40px !important; width: auto; }
+    .hero-social-proof { flex-direction: column !important; align-items: center !important; }
 
-    /* 2. Adjust only the grid and cards */
-    .pillars-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 20px !important;
-        width: 100% !important;
-        padding: 0 !important; /* Grid follows the container padding above */
-    }
-
-    .pillar-card {
-        /* This padding is INSIDE the card - gives the text breathing room */
-        padding: 30px 25px !important; 
-        
-        /* Ensures the card doesn't hit the very edge of the screen */
-        width: 100% !important;
-        box-sizing: border-box !important;
-        
-        /* If the card still looks too 'skinny', we can adjust the margin */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* Keep the text alignment professional */
-    .pillar-card h3, 
-    .pillar-card p {
-        text-align: left !important;
-    }
-
-    /* 4. Align text for a cleaner mobile look */
-    .pillar-card h3, 
-    .pillar-card p {
-        text-align: left !important;
-    }
-    
-    .pillar-list {
-        padding-left: 20px !important;
-        text-align: left !important;
-    }
-    
-    /* Connection section */
-    .connection-section {
-        padding: 80px 5% 60px;
-        margin-top: 20px;
-    }
-    
-    /* Video spotlight */
-    .video-spotlight {
-        height: auto;
-        min-height: 80vh;
-        padding: 60px 5%;
-    }
-    
-    .main-video {
-        max-height: 40vh;
-    }
-    
-    /* Harbor net */
-    .harbor-net-section {
-        padding: 60px 5%;
-        min-height: auto;
-        margin-top: 60px !important;
-    }
-    
-    .harbor-flow-container {
-        padding: 30px 20px;
-        border-radius: 20px;
-        margin-top: 0 !important;
-    }
+    /* Video Spotlight */
+    .video-spotlight { height: auto; min-height: 80vh; padding: 60px 5%; }
+    .main-video { max-height: 40vh; }
     
     /* Final CTA */
-    .final-cta {
-        padding: 60px 5% 80px;
-    }
-    
-    .cta-glass-card {
-        padding: 40px 20px;
-        border-radius: 24px;
-    }
-    
-    .cta-title {
-        font-size: 1.8rem;
-    }
-    
-    /* Modal fixes */
-    .details-modal.show {
-        padding: 10px !important;
-    }
-    
-    .details-content {
-        padding: 12px !important;
-        width: calc(100% - 20px) !important;
-        max-width: calc(100% - 20px) !important;
-        border-radius: 12px !important;
-    }
-    
-    /* Typography */
-    h2 {
-        font-size: 1.8rem;
-    }
-    
-    .section-header h2 {
-        font-size: 2rem;
-    }
-    
-    /* Carousel spacing */
-    .carousel-section .section-title {
-        margin-bottom: 15px !important;
-    }
-    
-    .carousel-inner-container {
-        padding-top: 5px !important;
-        padding-bottom: 5px !important;
-    }
-}
-
-/* ========== EXTRA SMALL PHONES (360px and below) ========== */
-@media (max-width: 360px) {
-    .phone-wrapper {
-        width: 220px;
-        height: 460px;
-    }
-    
-    .hero-title {
-        font-size: 1.8rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .hero-btns-group {
-        flex-direction: column;
-        max-width: 280px;
-    }
-    
-    .store-badge {
-        width: 100%;
-    }
-    
-    .store-badge img {
-        height: 38px;
-    }
-    
-    /* Mood text */
-    .app-ui-mood-tracker > div:last-child {
-        font-size: 0.7rem !important;
-        padding: 0 2px !important;
-        letter-spacing: -0.5px;
-    }
-
-    /* Navigation */
-    .navbar {
-        padding: 0.3rem 0.6rem;
-    }
-    
-    .nav-links {
-        width: 90%;
-        padding: 1.5rem;
-    }
-    
-    .nav-links.active {
-        right: 5%;
-        left: 5%;
-    }
-}
-
-/* ========== MEDIUM SCREENS (769px - 1024px) ========== */
-@media (min-width: 769px) and (max-width: 1024px) {
-    /* Carousel */
-    .carousel-inner-container {
-        width: 95%;
-        overflow: hidden;
-    }
-    
-    .carousel-section {
-        padding: 60px 0;
-    }
-    
-    /* Pillars layout */
-    .pillars-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-    
-    .pillar-card {
-        padding: 35px 25px;
-    }
-    
-    /* Connection section */
-    .connection-section {
-        padding: 100px 5% 80px;
-    }
-
-    /* Center store badges */
-    .hero-content > .hero-btns-group {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        justify-content: center !important;
-        max-width: 350px !important;
-    }
-    
-    /* Carousel spacing */
-    .carousel-section .section-title {
-        margin-bottom: 25px !important;
-    }
+    .cta-glass-card { padding: 40px 20px; border-radius: 24px; }
+    .cta-title { font-size: 1.8rem; }
 }
 
 /* ========== LARGE SCREENS (1025px and above) ========== */
 @media (min-width: 1025px) {
-    /* Store badges */
-    .hero-btns-group {
-        max-width: 360px !important;
-        gap: 20px !important;
-    }
+    .carousel-section { overflow: hidden; width: 100%; position: relative; }
     
-    .store-badge img {
-        height: 54px !important;
-        min-width: 140px !important;
-        max-width: 160px !important;
-    }
-    
-.carousel-section {
-    overflow: hidden; /* Keeps the cards from creating a horizontal scroll on the page */
-    width: 100%;
-    position: relative;
-}
-    
-    .carousel-inner-container {
-        padding-top: 20px !important;
-        padding-bottom: 20px !important;
-    }
-
-    /* Bento text alignment */
-    .bento-text {
-        align-items: flex-start;
-    }
-    
-    .bento-actions {
-        justify-content: flex-start;
-    }
-
-    /* Carousel glow padding */
     .carousel-viewport {
+        height: 380px !important;
         padding: 15px 20px !important;
         margin-top: 15px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-}
 
-/* ========== TABLET HERO SUBTITLE FIXES ========== */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .hero-subtitle {
-        max-width: 85% !important;
-    }
-    
-    .hero-content {
-        padding-left: 5% !important;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 819px) {
-    .hero-subtitle {
-        max-width: 95% !important;
-    }
-    
-    .hero-content {
-        padding-left: 3% !important;
-    }
+    .carousel-inner-container { padding-top: 20px !important; padding-bottom: 20px !important; }
+    .store-badge img { height: 54px !important; min-width: 140px !important; }
+    .bento-text { align-items: flex-start; }
+    .bento-actions { justify-content: flex-start; }
 }
 
 /* ========== LANDSCAPE MODE ========== */
 @media (max-height: 500px) and (orientation: landscape) {
-    .hero {
-        min-height: 100vh;
-        padding: 120px 5% 40px;
-    }
-    
-    .phone-wrapper {
-        width: 200px;
-        height: 400px;
-    }
-    
-    .hero-container {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    
-    .hero-title {
-        font-size: 1.8rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-    }
-    
-    /* Floating cards */
-    .floating-card {
-        transform: scale(0.8);
-    }
-    
-    .glass-card {
-        top: 60px;
-        right: -30px;
-    }
-    
-    .glass-card-alt {
-        bottom: 60px;
-        left: -40px;
-    }
-
-    /* Navigation menu */
-    .nav-links {
-        top: 70px;
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-}
-
-/* Ensure all text is readable on mobile */
-.is-mobile .phone-screen-content {
-    transform: scale(0.95);
-    transform-origin: top center;
-}
-
-/* Additional medium screen adjustments */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .carousel-viewport {
-        padding: 10px 15px !important;
-        margin-top: 10px !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .carousel-viewport {
-        padding: 8px 10px !important;
-        margin-top: 8px !important;
-    }
+    .hero { min-height: 100vh; padding: 120px 5% 40px; }
+    .phone-wrapper { width: 200px; height: 400px; }
+    .hero-container { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .hero-title { font-size: 1.8rem; }
+    .glass-card { top: 60px; right: -30px; }
+    .glass-card-alt { bottom: 60px; left: -40px; }
 }
