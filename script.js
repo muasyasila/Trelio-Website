@@ -269,7 +269,7 @@ const initializeMobileNavigation = () => {
     });
 };
 // =========================================
-// CAROUSEL SYSTEM
+// CAROUSEL SYSTEM (Fixed Laptop View)
 // =========================================
 
 let carouselIndex = 2;
@@ -306,15 +306,14 @@ const updateIndicators = () => {
     });
 };
 
-// Calculate responsive carousel dimensions
+// Fixed Laptop/Mobile Dimensions
 const getCarouselDimensions = () => {
     const width = window.innerWidth;
     const isMobile = width < 768;
     
     return {
-        radiusX: isMobile ? width * 0.42 : 450, // Horizontal spread
-        // REDUCE this number to stop the cards from dipping so low on desktop
-        radiusY: isMobile ? 10 : 15  // Default was likely 100, which is too much
+        radiusX: isMobile ? width * 0.45 : 420, // Tightened spread for laptop
+        radiusY: 10                             // FIXED: Set to 10 for both to stop the dip
     };
 };
 
@@ -335,14 +334,11 @@ const updateCarousel = () => {
         
         const angle = (offset * 0.4) + 4.712;
         const x = Math.cos(angle) * radiusX;
-        const y = Math.sin(angle) * radiusY;
         
         const isCenter = i === carouselIndex;
 
-        // 1. CHOOSE YOUR LIFT: 
-        // Negative numbers move the cards UP. 
-        // We use -40 for desktop and -20 for mobile to keep it tight.
-        const verticalLift = 0;
+        // FIXED: Set to 0 to keep cards centered in your new CSS container
+        const verticalLift = 0; 
         
         const tilt = isMobile ? offset * -5 : offset * -12; 
         const baseScale = isSmallMobile ? 0.6 : (isMobile ? 0.7 : 0.8);
@@ -352,9 +348,8 @@ const updateCarousel = () => {
         card.style.left = '50%';
         card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
         
-        // 2. APPLY TRANSFORM:
-        // We add verticalLift to 'y' to pull the cards toward the title.
-       card.style.transform = `translate(calc(-50% + ${x}px), ${verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+        // FIXED: Removed +y calculation to keep the row flat
+        card.style.transform = `translate(calc(-50% + ${x}px), ${verticalLift}px) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
@@ -371,6 +366,7 @@ const updateCarousel = () => {
     
     updateIndicators();
 };
+
 // Auto-play functionality
 const startAutoPlay = () => {
     stopAutoPlay();
