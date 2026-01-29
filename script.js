@@ -714,3 +714,89 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add resize event listener (only once)
     window.addEventListener('resize', handleResize);
 });
+
+// Add this to your existing script.js file
+
+// How It Works Section Interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Path selection functionality
+    const pathOptions = document.querySelectorAll('.path-option');
+    const pathDetails = {
+        'user-path': document.getElementById('user-path'),
+        'therapist-path': document.getElementById('therapist-path')
+    };
+
+    pathOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove active class from all options
+            pathOptions.forEach(opt => opt.classList.remove('active-path'));
+            
+            // Add active class to clicked option
+            this.classList.add('active-path');
+            
+            // Hide all path details
+            Object.values(pathDetails).forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Show selected path details
+            const path = this.classList.contains('path-user') ? 'user-path' : 'therapist-path';
+            pathDetails[path].classList.add('active');
+        });
+    });
+
+    // Animate step numbers on scroll
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const stepObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const stepNumber = entry.target.querySelector('.step-number');
+                stepNumber.style.animation = 'fadeIn 0.6s ease forwards';
+            }
+        });
+    }, observerOptions);
+
+    // Observe each process step
+    document.querySelectorAll('.process-step').forEach(step => {
+        stepObserver.observe(step);
+    });
+
+    // Connection lines animation
+    const connectionLines = document.querySelectorAll('.connection-line');
+    let lineIndex = 0;
+    
+    function animateConnectionLines() {
+        if (lineIndex < connectionLines.length) {
+            connectionLines[lineIndex].style.animation = 'lineGlow 2s ease forwards';
+            lineIndex++;
+            setTimeout(animateConnectionLines, 500);
+        } else {
+            setTimeout(() => {
+                lineIndex = 0;
+                connectionLines.forEach(line => {
+                    line.style.animation = '';
+                });
+                setTimeout(animateConnectionLines, 1000);
+            }, 2000);
+        }
+    }
+
+    // Start animation when section is in view
+    const worksSection = document.querySelector('.works-section');
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateConnectionLines();
+                sectionObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    if (worksSection) {
+        sectionObserver.observe(worksSection);
+    }
+});
