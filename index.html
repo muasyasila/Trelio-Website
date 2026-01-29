@@ -156,151 +156,142 @@
 
 
 
-<!-- =========================================
-     HOW TRELIO WORKS - INTERACTIVE PIPELINE
-========================================= -->
-<section id="how-it-works" class="section works-section">
-    <div class="section-container">
-        <div class="works-header">
-            <span class="badge-pill">Simple & Seamless</span>
-            <h2>Your Journey to <span class="gradient-text">Wellness</span></h2>
-            <p class="section-subtitle">Trelio guides you from your first step to meaningful connection in three intuitive phases.</p>
+<!-- Add this AFTER the harbor-net-section and BEFORE the pillars-section -->
+<section id="how-it-works" class="trelio-flow-section">
+    <div class="flow-container">
+        <!-- Section Header -->
+        <div class="flow-header">
+            <span class="badge-pill">The Trelio Ecosystem</span>
+            <h2 class="flow-title">How It <span class="gradient-text">Flows</span></h2>
+            <p class="flow-subtitle">Your personal mood cloud connects you to the perfect support</p>
         </div>
 
-        <!-- 3D Pipeline Container -->
-        <div class="pipeline-container">
-            <!-- Pipeline Track -->
-            <div class="pipeline-track">
-                <div class="pipeline-line"></div>
-                
-                <!-- Marble Animation -->
-                <div class="journey-marble" id="journeyMarble">
-                    <div class="marble-core"></div>
-                    <div class="marble-glow"></div>
+        <!-- Interactive Flow Diagram -->
+        <div class="flow-diagram">
+            <!-- Central Cloud -->
+            <div class="flow-central">
+                <div class="cloud-wrapper">
+                    <div class="mood-cloud" id="moodCloud">
+                        <!-- Cloud SVG with face -->
+                        <svg class="cloud-svg" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet">
+                            <!-- Cloud body -->
+                            <path class="cloud-body" d="M160,80 Q180,80 180,60 Q180,40 160,40 Q150,20 130,20 Q110,20 100,40 Q80,20 60,20 Q40,20 30,40 Q10,40 10,60 Q10,80 30,80 Q40,100 60,100 Q80,100 100,80 Q120,100 140,100 Q150,100 160,80 Z" 
+                                  fill="currentColor"/>
+                            <!-- Eyes -->
+                            <circle class="cloud-eye left-eye" cx="70" cy="60" r="6" fill="#0F1724"/>
+                            <circle class="cloud-eye right-eye" cx="130" cy="60" r="6" fill="#0F1724"/>
+                            <!-- Mouth - changes with mood -->
+                            <path class="cloud-mouth" d="M80,85 Q100,95 120,85" fill="none" stroke="#0F1724" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="cloud-label">Your Mood Cloud</div>
+                    <div class="mood-display" id="moodDisplay">😊 Happy</div>
                 </div>
             </div>
 
-            <!-- Pipeline Steps -->
-            <div class="pipeline-steps">
-                <!-- Step 1: Start -->
-                <div class="pipeline-step step-1" data-step="1">
-                    <div class="step-marker">
-                        <div class="marker-number">1</div>
-                        <div class="marker-glow"></div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-icon">📱</div>
-                        <div class="step-title">Download & Sign Up</div>
-                        <div class="step-description">
-                            <p>Get the app and create your secure profile in under 2 minutes. Your privacy is our priority from day one.</p>
-                            <div class="step-details">
-                                <div class="detail-item">
-                                    <div class="detail-icon">🔐</div>
-                                    <div class="detail-text">End-to-end encrypted</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-icon">⚡</div>
-                                    <div class="detail-text">2-minute setup</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-icon">🎯</div>
-                                    <div class="detail-text">Personalized onboarding</div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="step-cta">Download Now</button>
-                    </div>
+            <!-- Flow Nodes -->
+            <div class="flow-node node-1" data-node="1" data-mood="happy">
+                <div class="node-orb">
+                    <div class="node-icon">📲</div>
                 </div>
+                <div class="node-content">
+                    <h4>Download & Setup</h4>
+                    <p>Get started in minutes</p>
+                </div>
+            </div>
 
-                <!-- Step 2: Connect -->
-                <div class="pipeline-step step-2" data-step="2">
-                    <div class="step-marker">
-                        <div class="marker-number">2</div>
-                        <div class="marker-glow"></div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-icon">🧭</div>
-                        <div class="step-title">Choose Your Path</div>
-                        <div class="step-description">
-                            <p>Tell us what you're looking for. We'll match you with the perfect support system based on your needs.</p>
-                            
-                            <!-- Path Selection -->
-                            <div class="path-selector">
-                                <div class="path-option" data-path="ai">
-                                    <div class="path-icon">🤖</div>
-                                    <div class="path-name">AI Companion</div>
-                                    <div class="path-desc">24/7 instant support</div>
-                                </div>
-                                <div class="path-option" data-path="peer">
-                                    <div class="path-icon">👥</div>
-                                    <div class="path-name">Peer Connection</div>
-                                    <div class="path-desc">Support from students like you</div>
-                                </div>
-                                <div class="path-option" data-path="professional">
-                                    <div class="path-icon">🩺</div>
-                                    <div class="path-name">Professional Help</div>
-                                    <div class="path-desc">Licensed therapists</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flow-node node-2" data-node="2" data-mood="calm">
+                <div class="node-orb">
+                    <div class="node-icon">😊</div>
                 </div>
+                <div class="node-content">
+                    <h4>Mood Tracking</h4>
+                    <p>Daily emotional check-ins</p>
+                </div>
+            </div>
 
-                <!-- Step 3: Grow -->
-                <div class="pipeline-step step-3" data-step="3">
-                    <div class="step-marker">
-                        <div class="marker-number">3</div>
-                        <div class="marker-glow"></div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-icon">🌱</div>
-                        <div class="step-title">Grow & Thrive</div>
-                        <div class="step-description">
-                            <p>Begin your healing journey with ongoing support, progress tracking, and personalized resources.</p>
-                            
-                            <!-- Support Ecosystem -->
-                            <div class="ecosystem">
-                                <div class="ecosystem-item">
-                                    <div class="ecosystem-icon">📈</div>
-                                    <div class="ecosystem-text">Mood tracking & insights</div>
-                                </div>
-                                <div class="ecosystem-item">
-                                    <div class="ecosystem-icon">🧘</div>
-                                    <div class="ecosystem-text">Daily wellness exercises</div>
-                                </div>
-                                <div class="ecosystem-item">
-                                    <div class="ecosystem-icon">🤝</div>
-                                    <div class="ecosystem-text">Community support</div>
-                                </div>
-                                <div class="ecosystem-item">
-                                    <div class="ecosystem-icon">🎯</div>
-                                    <div class="ecosystem-text">Personal growth plans</div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="step-cta">Start Growing</button>
-                    </div>
+            <div class="flow-node node-3" data-node="3" data-mood="stressed">
+                <div class="node-orb">
+                    <div class="node-icon">📊</div>
                 </div>
+                <div class="node-content">
+                    <h4>Smart Dashboard</h4>
+                    <p>Progress & relief tools</p>
+                </div>
+            </div>
+
+            <div class="flow-node node-4" data-node="4" data-mood="connected">
+                <div class="node-orb">
+                    <div class="node-icon">🤝</div>
+                </div>
+                <div class="node-content">
+                    <h4>Peer Community</h4>
+                    <p>Safe student spaces</p>
+                </div>
+            </div>
+
+            <div class="flow-node node-5" data-node="5" data-mood="supported">
+                <div class="node-orb">
+                    <div class="node-icon">🩺</div>
+                </div>
+                <div class="node-content">
+                    <h4>Professional Support</h4>
+                    <p>Licensed therapists</p>
+                </div>
+            </div>
+
+            <div class="flow-node node-6" data-node="6" data-mood="peaceful">
+                <div class="node-orb">
+                    <div class="node-icon">🤖</div>
+                </div>
+                <div class="node-content">
+                    <h4>Trelio AI</h4>
+                    <p>24/7 companion</p>
+                </div>
+            </div>
+
+            <!-- Mood Indicator Lines (Optional visual) -->
+            <div class="mood-indicators">
+                <div class="indicator-line"></div>
             </div>
         </div>
 
-        <!-- Stats Bar -->
-        <div class="works-stats">
-            <div class="stat-item">
-                <div class="stat-number" data-target="98">0</div>
-                <div class="stat-label">User Satisfaction</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-target="24">0</div>
-                <div class="stat-label">/7 AI Support</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-target="10">0</div>
-                <div class="stat-label">Min Setup Time</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-target="95">0</div>
-                <div class="stat-label">Therapist Response Rate</div>
+        <!-- Feature Explanation -->
+        <div class="flow-explanation">
+            <div class="explanation-content">
+                <h3 class="explanation-title" id="explanationTitle">Your Mood Cloud Ecosystem</h3>
+                <p class="explanation-text" id="explanationText">
+                    Watch your cloud change color and expression as you explore Trelio's features. 
+                    Each color represents a different emotional state that triggers specific support.
+                </p>
+                <div class="mood-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #38bdf8;"></span>
+                        <span>Calm & Happy</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #f59e0b;"></span>
+                        <span>Stressed & Anxious</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #10b981;"></span>
+                        <span>Supported & Connected</span>
+                    </div>
+                </div>
+                <div class="explanation-actions">
+                    <button class="flow-btn flow-btn-primary" id="tryAppBtn">
+                        <span>Try Trelio</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <button class="flow-btn flow-btn-outline" id="watchDemoBtn">
+                        <span>Watch Mood Demo</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -715,114 +715,327 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', handleResize);
 });
 
-// Pipeline Interactions
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize steps
-    const steps = document.querySelectorAll('.pipeline-step');
-    const marble = document.getElementById('journeyMarble');
+
+
+
+// =========================================
+// TRELIO FLOW WITH MOOD CLOUD
+// =========================================
+
+class TrelioMoodFlow {
+    constructor() {
+        this.cloud = document.getElementById('moodCloud');
+        this.moodDisplay = document.getElementById('moodDisplay');
+        this.nodes = document.querySelectorAll('.flow-node');
+        this.titleEl = document.getElementById('explanationTitle');
+        this.textEl = document.getElementById('explanationText');
+        this.tryBtn = document.getElementById('tryAppBtn');
+        this.demoBtn = document.getElementById('watchDemoBtn');
+        
+        this.moodData = {
+            'happy': {
+                color: '#38bdf8',
+                name: '😊 Happy',
+                title: 'Ready to Connect',
+                text: 'When you feel happy, Trelio helps you build positive habits and connect with uplifting communities.'
+            },
+            'calm': {
+                color: '#0ea5e9',
+                name: '😌 Calm',
+                title: 'Maintain Your Peace',
+                text: 'Feeling calm? Trelio helps you preserve this state with mindfulness exercises and peaceful communities.'
+            },
+            'stressed': {
+                color: '#f59e0b',
+                name: '😰 Stressed',
+                title: 'Immediate Relief',
+                text: 'When stress hits, Trelio activates breathing exercises, stress journals, and calming music.'
+            },
+            'anxious': {
+                color: '#ef4444',
+                name: '😥 Anxious',
+                title: 'Anxiety Support',
+                text: 'Feeling anxious? Access immediate grounding techniques and connect with supportive peers.'
+            },
+            'peaceful': {
+                color: '#10b981',
+                name: '☮️ Peaceful',
+                title: 'Deep Relaxation',
+                text: 'In peaceful moments, Trelio offers meditation guides and gratitude journaling.'
+            },
+            'supported': {
+                color: '#8b5cf6',
+                name: '🤗 Supported',
+                title: 'Professional Care',
+                text: 'When you need extra support, Trelio connects you with licensed therapists.'
+            },
+            'connected': {
+                color: '#ec4899',
+                name: '💞 Connected',
+                title: 'Community Support',
+                text: 'Feeling connected? Join peer support circles and share experiences safely.'
+            }
+        };
+        
+        this.init();
+    }
     
-    // Step hover effects
-    steps.forEach((step, index) => {
-        const marker = step.querySelector('.step-marker');
-        const card = step.querySelector('.step-card');
-        
-        marker.addEventListener('mouseenter', () => {
-            // Move marble to this step
-            marble.style.left = `${(index * 33.33) + 16.66}%`;
-            
-            // Highlight this step
-            step.classList.add('active-step');
-        });
-        
-        marker.addEventListener('mouseleave', () => {
-            step.classList.remove('active-step');
-        });
-        
-        // Path selection
-        const pathOptions = step.querySelectorAll('.path-option');
-        if (pathOptions.length > 0) {
-            pathOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    pathOptions.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
+    init() {
+        this.setupEventListeners();
+        this.animateCloud();
+        this.autoRotateMoods();
+    }
+    
+    setupEventListeners() {
+        // Node hover interactions
+        this.nodes.forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                const mood = node.dataset.mood;
+                this.changeMood(mood);
+                this.highlightNode(node);
             });
+            
+            node.addEventListener('mouseleave', () => {
+                this.resetCloud();
+                this.resetHighlights();
+            });
+            
+            node.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.showFeatureDetails(node.dataset.node);
+            });
+        });
+        
+        // Cloud click interaction
+        this.cloud.addEventListener('click', () => {
+            this.randomMood();
+        });
+        
+        // Button interactions
+        this.tryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.triggerTryApp();
+        });
+        
+        this.demoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.triggerMoodDemo();
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'm' || e.key === 'M') {
+                this.randomMood();
+            }
+        });
+    }
+    
+    changeMood(moodType) {
+        if (!this.moodData[moodType]) return;
+        
+        // Remove all mood classes
+        Object.keys(this.moodData).forEach(mood => {
+            this.cloud.classList.remove(mood);
+        });
+        
+        // Add new mood class
+        this.cloud.classList.add(moodType);
+        
+        // Update mood display
+        const moodInfo = this.moodData[moodType];
+        this.moodDisplay.textContent = moodInfo.name;
+        this.moodDisplay.style.color = moodInfo.color;
+        this.moodDisplay.style.borderColor = moodInfo.color + '40';
+        this.moodDisplay.style.background = moodInfo.color + '15';
+        
+        // Update explanation section
+        this.updateExplanation(moodInfo);
+        
+        // Cloud animation
+        this.cloud.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            this.cloud.style.transform = 'scale(1)';
+        }, 300);
+    }
+    
+    updateExplanation(moodInfo) {
+        if (this.titleEl && this.textEl) {
+            this.titleEl.textContent = moodInfo.title;
+            this.textEl.textContent = moodInfo.text;
+            
+            // Update button texts based on mood
+            this.tryBtn.innerHTML = `<span>Try ${moodInfo.name.split(' ')[1]} Features</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>`;
+            
+            this.demoBtn.innerHTML = `<span>Watch ${moodInfo.name.split(' ')[1]} Demo</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>`;
         }
-    });
-    
-    // Animated number counters
-    const stats = document.querySelectorAll('.stat-number');
-    
-    function animateCounter(element, target) {
-        let current = 0;
-        const increment = target / 100;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            element.textContent = Math.floor(current);
-        }, 20);
     }
     
-    // Start counters when section is in view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                stats.forEach(stat => {
-                    const target = parseInt(stat.getAttribute('data-target'));
-                    animateCounter(stat, target);
-                });
-                observer.unobserve(entry.target);
-            }
+    highlightNode(node) {
+        // Reset all nodes first
+        this.nodes.forEach(n => {
+            n.style.zIndex = '10';
+            n.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)';
         });
-    }, { threshold: 0.5 });
-    
-    const worksSection = document.querySelector('.works-section');
-    if (worksSection) {
-        observer.observe(worksSection);
+        
+        // Highlight current node
+        node.style.zIndex = '15';
+        node.style.boxShadow = '0 20px 50px rgba(56, 189, 248, 0.25)';
     }
     
-    // Step CTA buttons
-    const ctaButtons = document.querySelectorAll('.step-cta');
-    ctaButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const step = this.closest('.pipeline-step');
-            const stepNumber = step.getAttribute('data-step');
+    resetHighlights() {
+        this.nodes.forEach(node => {
+            node.style.zIndex = '10';
+            node.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)';
+        });
+    }
+    
+    resetCloud() {
+        // Return to default state
+        Object.keys(this.moodData).forEach(mood => {
+            this.cloud.classList.remove(mood);
+        });
+        
+        this.moodDisplay.textContent = '😊 Happy';
+        this.moodDisplay.style.color = '';
+        this.moodDisplay.style.borderColor = '';
+        this.moodDisplay.style.background = '';
+        
+        // Reset explanation
+        if (this.titleEl && this.textEl) {
+            this.titleEl.textContent = 'Your Mood Cloud Ecosystem';
+            this.textEl.textContent = 'Watch your cloud change color and expression as you explore Trelio\'s features. Each color represents a different emotional state that triggers specific support.';
             
-            // Animate button press
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 200);
+            // Reset buttons
+            this.tryBtn.innerHTML = `<span>Try Trelio</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>`;
             
-            // Trigger different actions based on step
-            switch(stepNumber) {
-                case '1':
-                    // Download action
-                    window.open('#download', '_blank');
-                    break;
-                case '3':
-                    // Start journey action
-                    window.location.href = '#signup';
-                    break;
-            }
-        });
-    });
-    
-    // Auto-animate marble on scroll
-    const marbleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                marble.style.animationPlayState = 'running';
-            } else {
-                marble.style.animationPlayState = 'paused';
-            }
-        });
-    }, { threshold: 0.3 });
-    
-    if (marble) {
-        marbleObserver.observe(marble);
+            this.demoBtn.innerHTML = `<span>Watch Mood Demo</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>`;
+        }
     }
+    
+    randomMood() {
+        const moods = Object.keys(this.moodData);
+        const randomMood = moods[Math.floor(Math.random() * moods.length)];
+        this.changeMood(randomMood);
+    }
+    
+    animateCloud() {
+        // Pulsing animation
+        setInterval(() => {
+            if (this.cloud.classList.contains('happy') || 
+                this.cloud.classList.contains('calm') ||
+                this.cloud.classList.contains('peaceful')) {
+                this.cloud.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    this.cloud.style.transform = 'scale(1)';
+                }, 500);
+            }
+        }, 3000);
+    }
+    
+    autoRotateMoods() {
+        // Auto rotate through moods for demonstration
+        let currentIndex = 0;
+        const moods = Object.keys(this.moodData);
+        
+        setInterval(() => {
+            // Only rotate if user isn't interacting
+            if (!document.querySelector('.flow-node:hover') && 
+                !this.cloud.matches(':hover')) {
+                this.changeMood(moods[currentIndex]);
+                currentIndex = (currentIndex + 1) % moods.length;
+            }
+        }, 8000); // Change every 8 seconds
+    }
+    
+    showFeatureDetails(nodeId) {
+        const features = {
+            1: {
+                title: "Download & Setup",
+                description: "Get started in minutes with a secure, personalized profile. Set your preferences and goals from day one.",
+                action: "Download Now"
+            },
+            2: {
+                title: "Mood Tracking",
+                description: "Daily emotional check-ins that adapt to your patterns. Your cloud changes color based on how you feel.",
+                action: "Track Your Mood"
+            },
+            3: {
+                title: "Smart Dashboard",
+                description: "Monitor progress and access immediate relief tools. Breathing exercises are just one tap away.",
+                action: "Explore Dashboard"
+            },
+            4: {
+                title: "Peer Community",
+                description: "Connect with students who understand your journey. Join safe, moderated spaces for genuine connection.",
+                action: "Join Community"
+            },
+            5: {
+                title: "Professional Support",
+                description: "Get matched with licensed therapists specializing in student mental health. Schedule sessions easily.",
+                action: "Find Therapist"
+            },
+            6: {
+                title: "Trelio AI Companion",
+                description: "Available 24/7 to listen, ask thoughtful questions, and provide immediate empathetic support.",
+                action: "Chat with AI"
+            }
+        };
+        
+        const feature = features[nodeId];
+        if (feature) {
+            alert(`${feature.title}\n\n${feature.description}\n\n[${feature.action}]`);
+        }
+    }
+    
+    triggerTryApp() {
+        const downloadBtn = document.querySelector('.open-modal');
+        if (downloadBtn) {
+            downloadBtn.click();
+        } else {
+            alert("Opening Trelio download...");
+        }
+    }
+    
+    triggerMoodDemo() {
+        // Create a quick mood transition demo
+        const moods = Object.keys(this.moodData);
+        let demoIndex = 0;
+        
+        const demoInterval = setInterval(() => {
+            this.changeMood(moods[demoIndex]);
+            demoIndex++;
+            
+            if (demoIndex >= moods.length) {
+                clearInterval(demoInterval);
+                setTimeout(() => {
+                    this.resetCloud();
+                }, 2000);
+            }
+        }, 800); // Change mood every 800ms for demo
+        
+        // Stop demo after completion
+        setTimeout(() => {
+            clearInterval(demoInterval);
+        }, moods.length * 800 + 1000);
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Add a small delay to ensure SVG is rendered
+    setTimeout(() => {
+        new TrelioMoodFlow();
+    }, 500);
 });
