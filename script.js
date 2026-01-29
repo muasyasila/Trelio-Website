@@ -719,14 +719,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// TRELIO MOOD FLOW - IMPROVED VERSION
+// TRELIO MOOD FLOW - FINAL PERFECTED VERSION
 // =========================================
 
 class TrelioMoodFlow {
     constructor() {
         this.cloud = document.getElementById('moodCloud');
-        this.emotionLabel = document.getElementById('emotionLabel');
-        this.moodDisplay = document.getElementById('moodDisplay');
+        this.combinedLabel = document.getElementById('combinedLabel');
+        this.moodStatus = document.getElementById('moodStatus');
         this.nodes = document.querySelectorAll('.flow-node');
         this.titleEl = document.getElementById('explanationTitle');
         this.textEl = document.getElementById('explanationText');
@@ -737,7 +737,8 @@ class TrelioMoodFlow {
             'happy': {
                 color: '#38bdf8',
                 emoji: '😊',
-                name: 'Happy & Ready',
+                name: 'Happy',
+                status: 'Ready to connect',
                 title: 'Ready to Connect',
                 text: 'When you feel happy, Trelio helps you build positive habits and connect with uplifting communities.',
                 action: 'Explore Happy Features'
@@ -745,7 +746,8 @@ class TrelioMoodFlow {
             'calm': {
                 color: '#0ea5e9',
                 emoji: '😌',
-                name: 'Calm & Peaceful',
+                name: 'Calm',
+                status: 'Feeling peaceful',
                 title: 'Maintain Your Peace',
                 text: 'Feeling calm? Trelio helps you preserve this state with mindfulness exercises and peaceful communities.',
                 action: 'Try Calm Features'
@@ -753,7 +755,8 @@ class TrelioMoodFlow {
             'stressed': {
                 color: '#f59e0b',
                 emoji: '😰',
-                name: 'Stressed & Anxious',
+                name: 'Stressed',
+                status: 'Need relief',
                 title: 'Immediate Relief',
                 text: 'When stress hits, Trelio activates breathing exercises, stress journals, and calming music.',
                 action: 'Get Stress Relief'
@@ -761,7 +764,8 @@ class TrelioMoodFlow {
             'anxious': {
                 color: '#ef4444',
                 emoji: '😥',
-                name: 'Anxious & Worried',
+                name: 'Anxious',
+                status: 'Seeking support',
                 title: 'Anxiety Support',
                 text: 'Feeling anxious? Access immediate grounding techniques and connect with supportive peers.',
                 action: 'Find Anxiety Help'
@@ -769,7 +773,8 @@ class TrelioMoodFlow {
             'peaceful': {
                 color: '#10b981',
                 emoji: '☮️',
-                name: 'Peaceful & Balanced',
+                name: 'Peaceful',
+                status: 'Feeling balanced',
                 title: 'Deep Relaxation',
                 text: 'In peaceful moments, Trelio offers meditation guides and gratitude journaling.',
                 action: 'Explore Peace Tools'
@@ -777,7 +782,8 @@ class TrelioMoodFlow {
             'supported': {
                 color: '#8b5cf6',
                 emoji: '🤗',
-                name: 'Supported & Cared',
+                name: 'Supported',
+                status: 'Getting help',
                 title: 'Professional Care',
                 text: 'When you need extra support, Trelio connects you with licensed therapists.',
                 action: 'Get Professional Help'
@@ -785,7 +791,8 @@ class TrelioMoodFlow {
             'connected': {
                 color: '#ec4899',
                 emoji: '💞',
-                name: 'Connected & Social',
+                name: 'Connected',
+                status: 'With community',
                 title: 'Community Support',
                 text: 'Feeling connected? Join peer support circles and share experiences safely.',
                 action: 'Join Community'
@@ -793,14 +800,15 @@ class TrelioMoodFlow {
         };
         
         this.currentMood = 'happy';
+        this.isDemoRunning = false;
         this.init();
     }
     
     init() {
         this.setupEventListeners();
         this.animateCloud();
-        this.autoRotateMoods();
         this.setDefaultMood();
+        this.autoRotateMoods();
     }
     
     setupEventListeners() {
@@ -821,7 +829,7 @@ class TrelioMoodFlow {
                 this.showFeaturePopup(node.dataset.node);
             });
             
-            // Touch support for mobile
+            // Touch support
             node.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 const mood = node.dataset.mood;
@@ -830,12 +838,11 @@ class TrelioMoodFlow {
             });
         });
         
-        // Cloud click interaction
+        // Cloud interactions
         this.cloud.addEventListener('click', () => {
             this.randomMood();
         });
         
-        // Cloud touch for mobile
         this.cloud.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.randomMood();
@@ -852,7 +859,7 @@ class TrelioMoodFlow {
             this.triggerMoodDemo();
         });
         
-        // Keyboard navigation
+        // Keyboard
         document.addEventListener('keydown', (e) => {
             if (e.key === 'm' || e.key === 'M') {
                 this.randomMood();
@@ -861,11 +868,6 @@ class TrelioMoodFlow {
                 this.resetToDefault();
             }
         });
-        
-        // Window resize - adjust layout
-        window.addEventListener('resize', () => {
-            this.adjustNodePositions();
-        });
     }
     
     setDefaultMood() {
@@ -873,9 +875,10 @@ class TrelioMoodFlow {
     }
     
     changeMood(moodType) {
-        if (!this.moodData[moodType]) return;
+        if (!this.moodData[moodType] || this.isDemoRunning) return;
         
         this.currentMood = moodType;
+        const moodInfo = this.moodData[moodType];
         
         // Remove all mood classes
         Object.keys(this.moodData).forEach(mood => {
@@ -885,30 +888,25 @@ class TrelioMoodFlow {
         // Add new mood class
         this.cloud.classList.add(moodType);
         
-        // Update emotion label
-        const moodInfo = this.moodData[moodType];
-        this.emotionLabel.textContent = moodInfo.emoji;
+        // Update combined label (EMOJI + MOOD TOGETHER)
+        const emojiSpan = this.combinedLabel.querySelector('.label-emoji');
+        const textSpan = this.combinedLabel.querySelector('.label-text');
         
-        // Update mood display
-        this.moodDisplay.textContent = moodInfo.name;
-        this.moodDisplay.style.color = moodInfo.color;
-        this.moodDisplay.style.borderColor = moodInfo.color + '40';
-        this.moodDisplay.style.background = moodInfo.color + '15';
+        if (emojiSpan) emojiSpan.textContent = moodInfo.emoji;
+        if (textSpan) textSpan.textContent = moodInfo.name;
         
-        // Update explanation section
+        // Update status
+        this.moodStatus.textContent = moodInfo.status;
+        this.moodStatus.style.color = moodInfo.color;
+        this.moodStatus.style.borderColor = moodInfo.color + '40';
+        this.moodStatus.style.background = moodInfo.color + '15';
+        
+        // Update explanation
         this.updateExplanation(moodInfo);
         
-        // Cloud animation
-        this.cloud.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            this.cloud.style.transform = 'scale(1)';
-        }, 300);
-        
-        // Emotion label bounce
-        this.emotionLabel.style.animation = 'none';
-        setTimeout(() => {
-            this.emotionLabel.style.animation = 'emotionBounce 0.6s ease';
-        }, 10);
+        // Animations
+        this.animateCloudChange();
+        this.animateLabel();
     }
     
     updateExplanation(moodInfo) {
@@ -916,27 +914,39 @@ class TrelioMoodFlow {
             this.titleEl.textContent = moodInfo.title;
             this.textEl.textContent = moodInfo.text;
             
-            // Update button texts based on mood
+            // Update buttons
             this.tryBtn.innerHTML = `<span>${moodInfo.action}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>`;
             
-            this.demoBtn.innerHTML = `<span>Watch ${moodInfo.name.split(' & ')[0]} Demo</span>
+            this.demoBtn.innerHTML = `<span>See ${moodInfo.name} Demo</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polygon points="5 3 19 12 5 21 5 3"/>
                 </svg>`;
         }
     }
     
+    animateCloudChange() {
+        this.cloud.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            this.cloud.style.transform = 'scale(1)';
+        }, 300);
+    }
+    
+    animateLabel() {
+        this.combinedLabel.style.animation = 'none';
+        setTimeout(() => {
+            this.combinedLabel.style.animation = 'labelBounce 0.6s ease';
+        }, 10);
+    }
+    
     highlightNode(node) {
-        // Reset all nodes first
         this.nodes.forEach(n => {
             n.style.zIndex = '10';
             n.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.05)';
         });
         
-        // Highlight current node
         node.style.zIndex = '100';
         node.style.boxShadow = '0 16px 40px rgba(56, 189, 248, 0.25)';
     }
@@ -964,11 +974,11 @@ class TrelioMoodFlow {
     }
     
     animateCloud() {
-        // Gentle pulsing animation for happy/calm/peaceful states
         setInterval(() => {
-            if (this.cloud.classList.contains('happy') || 
-                this.cloud.classList.contains('calm') ||
-                this.cloud.classList.contains('peaceful')) {
+            if (!this.isDemoRunning && 
+                (this.cloud.classList.contains('happy') || 
+                 this.cloud.classList.contains('calm') ||
+                 this.cloud.classList.contains('peaceful'))) {
                 this.cloud.style.transform = 'scale(1.02)';
                 setTimeout(() => {
                     this.cloud.style.transform = 'scale(1)';
@@ -978,19 +988,17 @@ class TrelioMoodFlow {
     }
     
     autoRotateMoods() {
-        // Auto rotate through moods for demonstration
         let currentIndex = Object.keys(this.moodData).indexOf(this.currentMood);
         const moods = Object.keys(this.moodData);
         
         setInterval(() => {
-            // Only rotate if user isn't interacting
-            if (!document.querySelector('.flow-node:hover') && 
-                !this.cloud.matches(':hover') &&
-                !document.querySelector('.flow-node:active')) {
+            if (!this.isDemoRunning && 
+                !document.querySelector('.flow-node:hover') && 
+                !this.cloud.matches(':hover')) {
                 currentIndex = (currentIndex + 1) % moods.length;
                 this.changeMood(moods[currentIndex]);
             }
-        }, 10000); // Change every 10 seconds
+        }, 10000);
     }
     
     showFeaturePopup(nodeId) {
@@ -1036,12 +1044,11 @@ class TrelioMoodFlow {
         const feature = features[nodeId];
         if (!feature) return;
         
-        // Create a nice popup instead of alert
         this.createFeaturePopup(feature);
     }
     
     createFeaturePopup(feature) {
-        // Remove existing popup if any
+        // Remove existing popup
         const existingPopup = document.querySelector('.feature-popup');
         if (existingPopup) existingPopup.remove();
         
@@ -1066,30 +1073,32 @@ class TrelioMoodFlow {
         
         popup.innerHTML = `
             <div style="text-align: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 15px;">${feature.title.split(' ')[0]}</div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">${feature.title.split(' ')[0]}</div>
                 <h3 style="color: var(--text-main); margin-bottom: 15px; font-size: 1.4rem;">${feature.title}</h3>
                 <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-size: 1rem;">${feature.description}</p>
-                <div style="display: flex; gap: 12px; justify-content: center;">
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                     <button class="popup-close-btn" style="
                         background: transparent;
                         border: 1px solid var(--border);
                         color: var(--text-muted);
-                        padding: 10px 20px;
+                        padding: 12px 24px;
                         border-radius: 50px;
                         cursor: pointer;
                         font-weight: 600;
                         transition: all 0.3s ease;
+                        min-width: 100px;
                     ">Close</button>
                     <button class="popup-action-btn" style="
                         background: ${feature.color};
                         border: none;
                         color: white;
-                        padding: 10px 25px;
+                        padding: 12px 28px;
                         border-radius: 50px;
                         cursor: pointer;
                         font-weight: 600;
                         transition: all 0.3s ease;
                         box-shadow: 0 4px 15px ${feature.color}40;
+                        min-width: 140px;
                     ">${feature.action}</button>
                 </div>
             </div>
@@ -1097,7 +1106,7 @@ class TrelioMoodFlow {
         
         document.body.appendChild(popup);
         
-        // Add overlay
+        // Overlay
         const overlay = document.createElement('div');
         overlay.className = 'popup-overlay';
         overlay.style.cssText = `
@@ -1115,7 +1124,7 @@ class TrelioMoodFlow {
         document.body.appendChild(overlay);
         document.body.style.overflow = 'hidden';
         
-        // Add CSS animations
+        // Add animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes popupFadeIn {
@@ -1126,63 +1135,36 @@ class TrelioMoodFlow {
                 from { opacity: 0; }
                 to { opacity: 1; }
             }
-            .popup-close-btn:hover {
-                background: var(--bg-alt) !important;
-                transform: translateY(-2px);
-            }
-            .popup-action-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px ${feature.color}60 !important;
-            }
         `;
         document.head.appendChild(style);
         
-        // Event listeners for popup
-        popup.querySelector('.popup-close-btn').addEventListener('click', () => {
-            this.closePopup(popup, overlay, style);
-        });
+        // Event listeners
+        const closeBtn = popup.querySelector('.popup-close-btn');
+        const actionBtn = popup.querySelector('.popup-action-btn');
         
-        popup.querySelector('.popup-action-btn').addEventListener('click', () => {
+        const closePopup = () => {
+            popup.remove();
+            overlay.remove();
+            style.remove();
+            document.body.style.overflow = '';
+        };
+        
+        closeBtn.addEventListener('click', closePopup);
+        actionBtn.addEventListener('click', () => {
             alert(`Opening: ${feature.action}`);
-            this.closePopup(popup, overlay, style);
+            closePopup();
         });
         
-        overlay.addEventListener('click', () => {
-            this.closePopup(popup, overlay, style);
-        });
+        overlay.addEventListener('click', closePopup);
         
-        // Close on escape
+        // Escape key
         const escapeHandler = (e) => {
             if (e.key === 'Escape') {
-                this.closePopup(popup, overlay, style);
+                closePopup();
                 document.removeEventListener('keydown', escapeHandler);
             }
         };
         document.addEventListener('keydown', escapeHandler);
-    }
-    
-    closePopup(popup, overlay, style) {
-        if (popup) popup.remove();
-        if (overlay) overlay.remove();
-        if (style) style.remove();
-        document.body.style.overflow = '';
-    }
-    
-    adjustNodePositions() {
-        // Adjust node positions based on screen size to prevent overlap
-        const width = window.innerWidth;
-        
-        if (width < 600) {
-            // Very small screens
-            document.querySelectorAll('.flow-node').forEach(node => {
-                node.style.transform = 'scale(0.9)';
-            });
-        } else {
-            // Reset transforms
-            document.querySelectorAll('.flow-node').forEach(node => {
-                node.style.transform = '';
-            });
-        }
     }
     
     triggerTryApp() {
@@ -1190,17 +1172,18 @@ class TrelioMoodFlow {
         if (downloadBtn) {
             downloadBtn.click();
         } else {
-            // Fallback alert
-            alert("🚀 Launching Trelio App...");
+            alert("🚀 Launching Trelio...");
         }
     }
     
     triggerMoodDemo() {
-        // Create a quick mood transition demo
+        if (this.isDemoRunning) return;
+        
+        this.isDemoRunning = true;
         const moods = Object.keys(this.moodData);
         let demoIndex = 0;
         
-        // Disable interactions during demo
+        // Disable interactions
         this.nodes.forEach(node => {
             node.style.pointerEvents = 'none';
         });
@@ -1213,24 +1196,23 @@ class TrelioMoodFlow {
                 clearInterval(demoInterval);
                 setTimeout(() => {
                     this.resetToDefault();
-                    // Re-enable interactions
                     this.nodes.forEach(node => {
                         node.style.pointerEvents = 'auto';
                     });
+                    this.isDemoRunning = false;
                 }, 2000);
             }
-        }, 1000); // Change mood every 1 second for demo
+        }, 1000);
         
-        // Stop demo after completion
         setTimeout(() => {
             clearInterval(demoInterval);
+            this.isDemoRunning = false;
         }, moods.length * 1000 + 1000);
     }
 }
 
-// Initialize when DOM is loaded
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Add a small delay to ensure SVG is rendered
     setTimeout(() => {
         new TrelioMoodFlow();
     }, 300);
