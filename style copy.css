@@ -2727,3 +2727,543 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 
+/* =========================================
+   HOW IT WORKS SECTION - INTERACTIVE PIPELINE
+========================================= */
+.works-section {
+    padding: 120px 5%;
+    background: linear-gradient(180deg, var(--bg-body) 0%, rgba(15, 23, 42, 0.8) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.works-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+}
+
+.works-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 80px;
+}
+
+.works-header h2 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 20px 0 30px;
+    line-height: 1.1;
+}
+
+/* Pipeline Container */
+.pipeline-container {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    position: relative;
+    min-height: 500px;
+}
+
+.pipeline-track {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--primary-blue) 0%,
+        rgba(56, 189, 248, 0.3) 50%,
+        var(--primary-blue) 100%);
+    border-radius: 10px;
+    z-index: 1;
+    overflow: visible;
+}
+
+.pipeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%);
+    animation: pipelineFlow 3s linear infinite;
+    border-radius: 10px;
+}
+
+/* Journey Marble */
+.journey-marble {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+    animation: marbleJourney 8s ease-in-out infinite;
+}
+
+.marble-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #00a3ff, #38bdf8);
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+}
+
+.marble-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: marblePulse 2s ease-in-out infinite;
+}
+
+/* Pipeline Steps */
+.pipeline-steps {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 80px;
+}
+
+.pipeline-step {
+    position: relative;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-marker {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    border: 3px solid var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    z-index: 3;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.step-marker:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+}
+
+.marker-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+}
+
+.marker-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.step-marker:hover .marker-glow {
+    opacity: 1;
+}
+
+/* Step Cards */
+.step-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0.8;
+    transform: translateY(20px);
+    width: 100%;
+    max-width: 320px;
+}
+
+.pipeline-step:hover .step-card {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 20px 60px rgba(0, 163, 255, 0.15);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.step-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.step-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    text-align: center;
+}
+
+.step-description p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.step-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-alt);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.detail-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.detail-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Path Selector */
+.path-selector {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.path-option {
+    background: var(--bg-alt);
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.path-option:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
+    background: rgba(56, 189, 248, 0.05);
+}
+
+.path-option[data-path="ai"]:hover {
+    border-color: #00a3ff;
+    background: rgba(0, 163, 255, 0.05);
+}
+
+.path-option[data-path="peer"]:hover {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.path-option[data-path="professional"]:hover {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.path-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.path-name {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+.path-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Ecosystem */
+.ecosystem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.ecosystem-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-alt);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.ecosystem-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.ecosystem-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Step CTA */
+.step-cta {
+    width: 100%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, var(--primary-blue), #0ea5e9);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.step-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+}
+
+/* Stats Bar */
+.works-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: 80px auto 0;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid var(--border);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes pipelineFlow {
+    0% {
+        transform: translateX(-100%) translateY(-50%);
+    }
+    100% {
+        transform: translateX(100%) translateY(-50%);
+    }
+}
+
+@keyframes marbleJourney {
+    0% {
+        left: 0;
+    }
+    33% {
+        left: 33.33%;
+    }
+    66% {
+        left: 66.66%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes marblePulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .works-header h2 {
+        font-size: 2.8rem;
+    }
+    
+    .pipeline-steps {
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+    }
+    
+    .pipeline-step {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .pipeline-track {
+        display: none;
+    }
+    
+    .journey-marble {
+        display: none;
+    }
+    
+    .works-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 30px;
+    }
+    
+    .step-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile (480px - 768px) */
+@media (max-width: 768px) {
+    .works-section {
+        padding: 80px 5%;
+    }
+    
+    .works-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .step-card {
+        padding: 25px;
+        max-width: 100%;
+    }
+    
+    .ecosystem {
+        grid-template-columns: 1fr;
+    }
+    
+    .works-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 25px;
+    }
+    
+    .stat-item {
+        padding: 15px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .step-marker {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .marker-number {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small Mobile (below 480px) */
+@media (max-width: 480px) {
+    .works-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .step-card {
+        padding: 20px;
+    }
+    
+    .step-icon {
+        font-size: 36px;
+    }
+    
+    .step-title {
+        font-size: 1.2rem;
+    }
+    
+    .path-selector {
+        grid-template-columns: 1fr;
+    }
+    
+    .works-stats {
+        padding: 20px 15px;
+    }
+}
+
+/* Dark Theme Adjustments */
+[data-theme="dark"] .step-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .pipeline-track {
+    background: linear-gradient(90deg, 
+        rgba(56, 189, 248, 0.8) 0%,
+        rgba(56, 189, 248, 0.2) 50%,
+        rgba(56, 189, 248, 0.8) 100%);
+}
+
+[data-theme="dark"] .works-stats {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.05);
+}

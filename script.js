@@ -715,88 +715,114 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', handleResize);
 });
 
-// Add this to your existing script.js file
-
-// How It Works Section Interactions
+// Pipeline Interactions
 document.addEventListener('DOMContentLoaded', function() {
-    // Path selection functionality
-    const pathOptions = document.querySelectorAll('.path-option');
-    const pathDetails = {
-        'user-path': document.getElementById('user-path'),
-        'therapist-path': document.getElementById('therapist-path')
-    };
-
-    pathOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove active class from all options
-            pathOptions.forEach(opt => opt.classList.remove('active-path'));
-            
-            // Add active class to clicked option
-            this.classList.add('active-path');
-            
-            // Hide all path details
-            Object.values(pathDetails).forEach(detail => {
-                detail.classList.remove('active');
-            });
-            
-            // Show selected path details
-            const path = this.classList.contains('path-user') ? 'user-path' : 'therapist-path';
-            pathDetails[path].classList.add('active');
-        });
-    });
-
-    // Animate step numbers on scroll
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const stepObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const stepNumber = entry.target.querySelector('.step-number');
-                stepNumber.style.animation = 'fadeIn 0.6s ease forwards';
-            }
-        });
-    }, observerOptions);
-
-    // Observe each process step
-    document.querySelectorAll('.process-step').forEach(step => {
-        stepObserver.observe(step);
-    });
-
-    // Connection lines animation
-    const connectionLines = document.querySelectorAll('.connection-line');
-    let lineIndex = 0;
+    // Initialize steps
+    const steps = document.querySelectorAll('.pipeline-step');
+    const marble = document.getElementById('journeyMarble');
     
-    function animateConnectionLines() {
-        if (lineIndex < connectionLines.length) {
-            connectionLines[lineIndex].style.animation = 'lineGlow 2s ease forwards';
-            lineIndex++;
-            setTimeout(animateConnectionLines, 500);
-        } else {
-            setTimeout(() => {
-                lineIndex = 0;
-                connectionLines.forEach(line => {
-                    line.style.animation = '';
+    // Step hover effects
+    steps.forEach((step, index) => {
+        const marker = step.querySelector('.step-marker');
+        const card = step.querySelector('.step-card');
+        
+        marker.addEventListener('mouseenter', () => {
+            // Move marble to this step
+            marble.style.left = `${(index * 33.33) + 16.66}%`;
+            
+            // Highlight this step
+            step.classList.add('active-step');
+        });
+        
+        marker.addEventListener('mouseleave', () => {
+            step.classList.remove('active-step');
+        });
+        
+        // Path selection
+        const pathOptions = step.querySelectorAll('.path-option');
+        if (pathOptions.length > 0) {
+            pathOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    pathOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
                 });
-                setTimeout(animateConnectionLines, 1000);
-            }, 2000);
+            });
         }
+    });
+    
+    // Animated number counters
+    const stats = document.querySelectorAll('.stat-number');
+    
+    function animateCounter(element, target) {
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 20);
     }
-
-    // Start animation when section is in view
-    const worksSection = document.querySelector('.works-section');
-    const sectionObserver = new IntersectionObserver((entries) => {
+    
+    // Start counters when section is in view
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                animateConnectionLines();
-                sectionObserver.unobserve(entry.target);
+                stats.forEach(stat => {
+                    const target = parseInt(stat.getAttribute('data-target'));
+                    animateCounter(stat, target);
+                });
+                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
-
+    }, { threshold: 0.5 });
+    
+    const worksSection = document.querySelector('.works-section');
     if (worksSection) {
-        sectionObserver.observe(worksSection);
+        observer.observe(worksSection);
+    }
+    
+    // Step CTA buttons
+    const ctaButtons = document.querySelectorAll('.step-cta');
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const step = this.closest('.pipeline-step');
+            const stepNumber = step.getAttribute('data-step');
+            
+            // Animate button press
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+            
+            // Trigger different actions based on step
+            switch(stepNumber) {
+                case '1':
+                    // Download action
+                    window.open('#download', '_blank');
+                    break;
+                case '3':
+                    // Start journey action
+                    window.location.href = '#signup';
+                    break;
+            }
+        });
+    });
+    
+    // Auto-animate marble on scroll
+    const marbleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                marble.style.animationPlayState = 'running';
+            } else {
+                marble.style.animationPlayState = 'paused';
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    if (marble) {
+        marbleObserver.observe(marble);
     }
 });
