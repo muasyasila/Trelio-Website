@@ -172,41 +172,47 @@
             <div class="flow-central">
                 <div class="cloud-wrapper">
                     <div class="mood-cloud" id="moodCloud">
-                        <!-- Cloud SVG with face -->
+                        <!-- Emotion label top-left -->
+                        <div class="emotion-label" id="emotionLabel">😊</div>
+                        
+                        <!-- New cute cloud SVG -->
                         <svg class="cloud-svg" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet">
-                            <!-- Cloud body -->
-                            <path class="cloud-body" d="M160,80 Q180,80 180,60 Q180,40 160,40 Q150,20 130,20 Q110,20 100,40 Q80,20 60,20 Q40,20 30,40 Q10,40 10,60 Q10,80 30,80 Q40,100 60,100 Q80,100 100,80 Q120,100 140,100 Q150,100 160,80 Z" 
+                            <!-- New cloud shape -->
+                            <path class="cloud-body" d="M180,100 Q200,100 200,80 Q200,60 180,60 Q170,40 150,40 Q130,40 120,60 Q100,40 80,40 Q60,40 50,60 Q30,60 30,80 Q30,100 50,100 Q60,120 80,120 Q100,120 120,100 Q140,120 160,120 Q170,120 180,100 Z" 
                                   fill="currentColor"/>
-                            <!-- Eyes -->
-                            <circle class="cloud-eye left-eye" cx="70" cy="60" r="6" fill="#0F1724"/>
-                            <circle class="cloud-eye right-eye" cx="130" cy="60" r="6" fill="#0F1724"/>
+                            <!-- Cute eyes -->
+                            <circle class="cloud-eye left-eye" cx="70" cy="70" r="8" fill="#0F1724"/>
+                            <circle class="cloud-eye right-eye" cx="130" cy="70" r="8" fill="#0F1724"/>
+                            <!-- Pupils -->
+                            <circle class="cloud-pupil left-pupil" cx="70" cy="70" r="3" fill="white"/>
+                            <circle class="cloud-pupil right-pupil" cx="130" cy="70" r="3" fill="white"/>
                             <!-- Mouth - changes with mood -->
-                            <path class="cloud-mouth" d="M80,85 Q100,95 120,85" fill="none" stroke="#0F1724" stroke-width="3" stroke-linecap="round"/>
+                            <path class="cloud-mouth" d="M80,95 Q100,105 120,95" fill="none" stroke="#0F1724" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="cloud-label">Your Mood Cloud</div>
-                    <div class="mood-display" id="moodDisplay">😊 Happy</div>
+                    <div class="mood-display" id="moodDisplay">Happy & Ready</div>
                 </div>
             </div>
 
-            <!-- Flow Nodes -->
+            <!-- Flow Nodes - Fixed positioning to prevent overlap -->
             <div class="flow-node node-1" data-node="1" data-mood="happy">
                 <div class="node-orb">
-                    <div class="node-icon">📲</div>
+                    <div class="node-icon">📱</div>
                 </div>
                 <div class="node-content">
-                    <h4>Download & Setup</h4>
+                    <h4>Download</h4>
                     <p>Get started in minutes</p>
                 </div>
             </div>
 
             <div class="flow-node node-2" data-node="2" data-mood="calm">
                 <div class="node-orb">
-                    <div class="node-icon">😊</div>
+                    <div class="node-icon">😌</div>
                 </div>
                 <div class="node-content">
-                    <h4>Mood Tracking</h4>
-                    <p>Daily emotional check-ins</p>
+                    <h4>Mood Check</h4>
+                    <p>Daily emotional tracking</p>
                 </div>
             </div>
 
@@ -215,17 +221,17 @@
                     <div class="node-icon">📊</div>
                 </div>
                 <div class="node-content">
-                    <h4>Smart Dashboard</h4>
+                    <h4>Dashboard</h4>
                     <p>Progress & relief tools</p>
                 </div>
             </div>
 
             <div class="flow-node node-4" data-node="4" data-mood="connected">
                 <div class="node-orb">
-                    <div class="node-icon">🤝</div>
+                    <div class="node-icon">👥</div>
                 </div>
                 <div class="node-content">
-                    <h4>Peer Community</h4>
+                    <h4>Community</h4>
                     <p>Safe student spaces</p>
                 </div>
             </div>
@@ -235,8 +241,8 @@
                     <div class="node-icon">🩺</div>
                 </div>
                 <div class="node-content">
-                    <h4>Professional Support</h4>
-                    <p>Licensed therapists</p>
+                    <h4>Therapist</h4>
+                    <p>Licensed professionals</p>
                 </div>
             </div>
 
@@ -248,11 +254,6 @@
                     <h4>Trelio AI</h4>
                     <p>24/7 companion</p>
                 </div>
-            </div>
-
-            <!-- Mood Indicator Lines (Optional visual) -->
-            <div class="mood-indicators">
-                <div class="indicator-line"></div>
             </div>
         </div>
 
@@ -267,7 +268,11 @@
                 <div class="mood-legend">
                     <div class="legend-item">
                         <span class="legend-color" style="background: #38bdf8;"></span>
-                        <span>Calm & Happy</span>
+                        <span>Happy & Ready</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #0ea5e9;"></span>
+                        <span>Calm & Peaceful</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-color" style="background: #f59e0b;"></span>
@@ -280,7 +285,7 @@
                 </div>
                 <div class="explanation-actions">
                     <button class="flow-btn flow-btn-primary" id="tryAppBtn">
-                        <span>Try Trelio</span>
+                        <span>Try Trelio Features</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>

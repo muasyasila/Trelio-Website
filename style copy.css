@@ -2728,7 +2728,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 /* =========================================
-   TRELIO FLOW SECTION - WITH MOOD CLOUD
+   TRELIO FLOW SECTION - IMPROVED VERSION
    ========================================= */
 
 /* Base Container */
@@ -2768,14 +2768,18 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     line-height: 1.6;
 }
 
-/* Flow Diagram Container */
+/* Flow Diagram Container - Fixed height to prevent overlap */
 .flow-diagram {
     position: relative;
-    height: 500px;
+    height: 600px;
     margin: 60px auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Central Cloud */
@@ -2796,14 +2800,34 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    position: relative;
 }
 
 .mood-cloud {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     position: relative;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+}
+
+/* Emotion Label - Top Left */
+.emotion-label {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    font-size: 1.8rem;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
 }
 
 .cloud-svg {
@@ -2816,9 +2840,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     transition: color 0.6s ease, filter 0.6s ease;
 }
 
+/* Mood States */
 .mood-cloud.happy .cloud-body {
     color: #38bdf8; /* Sky Blue */
     filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.3));
+}
+
+.mood-cloud.happy .emotion-label {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.3);
+    transform: rotate(10deg);
 }
 
 .mood-cloud.calm .cloud-body {
@@ -2826,9 +2857,21 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
 }
 
+.mood-cloud.calm .emotion-label {
+    background: rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.3);
+    transform: rotate(-5deg);
+}
+
 .mood-cloud.stressed .cloud-body {
     color: #f59e0b; /* Amber */
     filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
+}
+
+.mood-cloud.stressed .emotion-label {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+    transform: rotate(15deg);
 }
 
 .mood-cloud.anxious .cloud-body {
@@ -2836,9 +2879,21 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.3));
 }
 
+.mood-cloud.anxious .emotion-label {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    transform: rotate(-10deg);
+}
+
 .mood-cloud.peaceful .cloud-body {
     color: #10b981; /* Emerald */
     filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+}
+
+.mood-cloud.peaceful .emotion-label {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    transform: rotate(5deg);
 }
 
 .mood-cloud.supported .cloud-body {
@@ -2846,46 +2901,58 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
 }
 
+.mood-cloud.supported .emotion-label {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: rotate(-8deg);
+}
+
 .mood-cloud.connected .cloud-body {
     color: #ec4899; /* Pink */
     filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.3));
 }
 
+.mood-cloud.connected .emotion-label {
+    background: rgba(236, 72, 153, 0.1);
+    border-color: rgba(236, 72, 153, 0.3);
+    transform: rotate(12deg);
+}
+
 /* Cloud facial expressions */
 .mood-cloud.happy .cloud-mouth {
-    d: path("M70,85 Q100,105 130,85");
-    stroke-width: 4;
+    d: path("M70,95 Q100,110 130,95");
+    stroke-width: 5;
 }
 
 .mood-cloud.calm .cloud-mouth {
-    d: path("M80,85 Q100,90 120,85");
-    stroke-width: 3;
+    d: path("M80,95 Q100,100 120,95");
+    stroke-width: 4;
 }
 
 .mood-cloud.stressed .cloud-mouth {
-    d: path("M70,95 Q100,80 130,95");
-    stroke-width: 3;
+    d: path("M70,100 Q100,90 130,100");
+    stroke-width: 4;
 }
 
 .mood-cloud.anxious .cloud-mouth {
-    d: path("M70,95 Q100,85 130,95");
+    d: path("M75,100 Q100,95 125,100");
     stroke-width: 3;
-    stroke-dasharray: 3,3;
+    stroke-dasharray: 4,4;
 }
 
 .mood-cloud.peaceful .cloud-mouth {
-    d: path("M70,85 Q100,95 130,85");
-    stroke-width: 3;
+    d: path("M75,95 Q100,100 125,95");
+    stroke-width: 4;
 }
 
 .mood-cloud.supported .cloud-mouth {
-    d: path("M70,90 Q100,100 130,90");
-    stroke-width: 3;
+    d: path("M70,100 Q100,105 130,100");
+    stroke-width: 4;
 }
 
 .mood-cloud.connected .cloud-mouth {
-    d: path("M70,85 Q100,95 130,85");
-    stroke-width: 3;
+    d: path("M70,95 Q100,105 130,95");
+    stroke-width: 4;
 }
 
 .cloud-label {
@@ -2903,37 +2970,39 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     font-size: 0.9rem;
     color: var(--text-muted);
     background: rgba(56, 189, 248, 0.1);
-    padding: 6px 16px;
+    padding: 8px 18px;
     border-radius: 20px;
     border: 1px solid rgba(56, 189, 248, 0.2);
     transition: all 0.4s ease;
     font-weight: 600;
 }
 
-/* Flow Nodes */
+/* Flow Nodes - FIXED POSITIONING */
 .flow-node {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px;
+    gap: 14px;
+    padding: 16px;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
     z-index: 10;
     backdrop-filter: blur(10px);
-    width: 200px;
+    width: 180px;
+    max-width: 180px;
 }
 
 .flow-node:hover {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-6px) scale(1.04);
     border-color: var(--primary-blue);
     box-shadow: 
-        0 20px 40px rgba(56, 189, 248, 0.15),
-        0 0 0 1px rgba(56, 189, 248, 0.1);
+        0 16px 32px rgba(56, 189, 248, 0.12),
+        0 0 0 1px rgba(56, 189, 248, 0.08);
+    z-index: 15 !important; /* Bring to front on hover */
 }
 
 .flow-node.active {
@@ -2942,9 +3011,9 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 .node-orb {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
     background: linear-gradient(135deg, var(--bg-alt), var(--card-bg));
     display: flex;
     align-items: center;
@@ -2955,58 +3024,36 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 .flow-node:hover .node-orb {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.08) rotate(3deg);
     border-color: var(--primary-blue);
     background: rgba(56, 189, 248, 0.1);
 }
 
 .node-icon {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .node-content h4 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     margin-bottom: 4px;
     color: var(--text-main);
 }
 
 .node-content p {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     line-height: 1.3;
     opacity: 0.8;
 }
 
-/* Node Positions (Circular Layout) */
-.node-1 { top: 20%; left: 15%; }
-.node-2 { top: 15%; right: 20%; }
-.node-3 { top: 50%; right: 10%; transform: translateY(-50%); }
-.node-4 { bottom: 20%; right: 15%; }
-.node-5 { bottom: 15%; left: 20%; }
-.node-6 { top: 50%; left: 10%; transform: translateY(-50%); }
-
-/* Mood Indicators */
-.mood-indicators {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.indicator-line {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 2px;
-    height: 2px;
-    background: var(--primary-blue);
-    border-radius: 50%;
-    opacity: 0;
-}
+/* FIXED NODE POSITIONS - NO OVERLAP */
+.node-1 { top: 15%; left: 12%; z-index: 11; }
+.node-2 { top: 10%; right: 12%; z-index: 12; }
+.node-3 { top: 45%; right: 5%; transform: translateY(-50%); z-index: 13; }
+.node-4 { bottom: 15%; right: 12%; z-index: 14; }
+.node-5 { bottom: 10%; left: 12%; z-index: 13; }
+.node-6 { top: 45%; left: 5%; transform: translateY(-50%); z-index: 12; }
 
 /* Flow Explanation */
 .flow-explanation {
@@ -3053,11 +3100,15 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     gap: 10px;
     font-size: 0.9rem;
     color: var(--text-muted);
+    background: var(--bg-alt);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
 }
 
 .legend-color {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -3076,7 +3127,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 16px 32px;
+    padding: 15px 30px;
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
@@ -3115,7 +3166,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         transform: translateY(0) scale(1);
     }
     50% { 
-        transform: translateY(-15px) scale(1.02);
+        transform: translateY(-12px) scale(1.02);
     }
 }
 
@@ -3126,39 +3177,68 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 /* Node Floating Animations */
 @keyframes nodeFloat {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-8px); }
 }
 
 .node-1 { animation: nodeFloat 6s ease-in-out infinite; }
-.node-2 { animation: nodeFloat 6s ease-in-out infinite 0.5s; }
-.node-3 { animation: nodeFloat 6s ease-in-out infinite 1s; }
-.node-4 { animation: nodeFloat 6s ease-in-out infinite 1.5s; }
-.node-5 { animation: nodeFloat 6s ease-in-out infinite 2s; }
-.node-6 { animation: nodeFloat 6s ease-in-out infinite 2.5s; }
+.node-2 { animation: nodeFloat 6s ease-in-out infinite 0.3s; }
+.node-3 { animation: nodeFloat 6s ease-in-out infinite 0.6s; }
+.node-4 { animation: nodeFloat 6s ease-in-out infinite 0.9s; }
+.node-5 { animation: nodeFloat 6s ease-in-out infinite 1.2s; }
+.node-6 { animation: nodeFloat 6s ease-in-out infinite 1.5s; }
+
+/* Emotion Label Animation */
+@keyframes emotionBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(10deg); }
+}
+
+.mood-cloud:hover .emotion-label {
+    animation: emotionBounce 0.6s ease;
+}
 
 /* =========================================
-   MOBILE RESPONSIVENESS (CIRCULAR LAYOUT PRESERVED)
+   MOBILE RESPONSIVENESS - PERFECT VISIBILITY
    ========================================= */
 
 @media (max-width: 1024px) {
     .flow-diagram {
-        height: 450px;
-        transform: scale(0.9);
+        height: 550px;
+        max-width: 800px;
     }
     
     .flow-node {
-        width: 180px;
-        padding: 16px;
+        width: 160px;
+        padding: 14px;
     }
     
     .mood-cloud {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
     }
     
-    .mood-legend {
-        gap: 16px;
+    .emotion-label {
+        width: 45px;
+        height: 45px;
+        font-size: 1.6rem;
     }
+    
+    .node-orb {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .node-icon {
+        font-size: 1.5rem;
+    }
+    
+    /* Adjust positions for medium screens */
+    .node-1 { top: 15%; left: 8%; }
+    .node-2 { top: 10%; right: 8%; }
+    .node-3 { top: 45%; right: 3%; }
+    .node-4 { bottom: 15%; right: 8%; }
+    .node-5 { bottom: 10%; left: 8%; }
+    .node-6 { top: 45%; left: 3%; }
 }
 
 @media (max-width: 768px) {
@@ -3174,70 +3254,20 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 1.1rem;
     }
     
-    /* Mobile: Compact circular layout */
+    /* Mobile: Adjusted circular layout */
     .flow-diagram {
         height: 500px;
-        transform: scale(0.8);
+        max-width: 100%;
+        transform: none;
         margin: 40px auto;
     }
     
-    /* Adjust node positions for mobile */
-    .node-1 { top: 15%; left: 10%; }
-    .node-2 { top: 10%; right: 15%; }
-    .node-3 { top: 50%; right: 5%; transform: translateY(-50%); }
-    .node-4 { bottom: 15%; right: 10%; }
-    .node-5 { bottom: 10%; left: 15%; }
-    .node-6 { top: 50%; left: 5%; transform: translateY(-50%); }
-    
-    .flow-node {
-        width: 160px;
-        padding: 14px;
-    }
-    
-    .node-orb {
-        width: 48px;
-        height: 48px;
-    }
-    
-    .node-icon {
-        font-size: 1.5rem;
-    }
-    
-    .flow-explanation {
-        padding: 30px;
-        margin-top: 60px;
-        border-radius: 24px;
-    }
-    
-    .explanation-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .flow-btn {
-        width: 100%;
-        max-width: 280px;
-        justify-content: center;
-    }
-    
-    .mood-legend {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 600px) {
-    /* For very small screens, adjust further */
-    .flow-diagram {
-        transform: scale(0.7);
-        height: 450px;
-    }
-    
+    /* Scale down nodes for mobile */
     .flow-node {
         width: 140px;
         padding: 12px;
-        gap: 12px;
+        gap: 10px;
+        border-radius: 16px;
     }
     
     .node-content h4 {
@@ -3248,6 +3278,28 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 0.75rem;
     }
     
+    /* Adjust positions for mobile */
+    .node-1 { top: 12%; left: 5%; }
+    .node-2 { top: 8%; right: 5%; }
+    .node-3 { top: 45%; right: 2%; }
+    .node-4 { bottom: 12%; right: 5%; }
+    .node-5 { bottom: 8%; left: 5%; }
+    .node-6 { top: 45%; left: 2%; }
+    
+    /* Scale down cloud */
+    .mood-cloud {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .emotion-label {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+        top: -12px;
+        left: -12px;
+    }
+    
     .cloud-label {
         font-size: 1rem;
         padding: 8px 20px;
@@ -3255,7 +3307,69 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .mood-display {
         font-size: 0.8rem;
-        padding: 5px 12px;
+        padding: 6px 14px;
+    }
+    
+    .flow-explanation {
+        padding: 30px;
+        margin-top: 60px;
+        border-radius: 24px;
+    }
+    
+    .mood-legend {
+        gap: 12px;
+    }
+    
+    .legend-item {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .explanation-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .flow-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 14px 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* For very small screens, adjust layout */
+    .flow-diagram {
+        height: 450px;
+    }
+    
+    .flow-node {
+        width: 130px;
+        padding: 10px;
+    }
+    
+    .node-orb {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .node-icon {
+        font-size: 1.3rem;
+    }
+    
+    /* Tighten positions for small screens */
+    .node-1 { top: 10%; left: 3%; }
+    .node-2 { top: 6%; right: 3%; }
+    .node-3 { top: 45%; right: 1%; }
+    .node-4 { bottom: 10%; right: 3%; }
+    .node-5 { bottom: 6%; left: 3%; }
+    .node-6 { top: 45%; left: 1%; }
+    
+    .mood-cloud {
+        width: 110px;
+        height: 110px;
     }
 }
 
@@ -3277,8 +3391,34 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        transform: scale(0.65);
-        height: 400px;
+        height: 420px;
+    }
+    
+    .flow-node {
+        width: 120px;
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .node-content h4 {
+        font-size: 0.85rem;
+    }
+    
+    .node-content p {
+        font-size: 0.7rem;
+    }
+    
+    .mood-cloud {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .emotion-label {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+        top: -10px;
+        left: -10px;
     }
     
     .flow-explanation {
@@ -3293,23 +3433,17 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .explanation-text {
         font-size: 1rem;
     }
-    
-    .mood-cloud {
-        width: 100px;
-        height: 100px;
-    }
 }
 
 /* Special layout for landscape mobile */
 @media (max-height: 600px) and (orientation: landscape) {
     .flow-diagram {
-        height: 350px;
-        transform: scale(0.7);
+        height: 380px;
     }
     
     .flow-node {
-        width: 140px;
-        padding: 10px;
+        width: 110px;
+        padding: 6px;
     }
     
     .mood-cloud {
@@ -3344,12 +3478,34 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     border-color: rgba(56, 189, 248, 0.3);
 }
 
+[data-theme="dark"] .emotion-label {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .legend-item {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
 /* Performance Optimizations */
 @media (prefers-reduced-motion: reduce) {
     .mood-cloud,
     .flow-node,
+    .emotion-label,
     .flow-btn {
         animation: none !important;
         transition: none !important;
     }
+}
+
+/* Ensure no overlap with z-index management */
+.flow-node:hover {
+    z-index: 100 !important;
+}
+
+/* Prevent text selection */
+.flow-node, .mood-cloud, .flow-btn {
+    user-select: none;
+    -webkit-user-select: none;
 }

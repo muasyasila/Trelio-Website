@@ -719,12 +719,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// TRELIO FLOW WITH MOOD CLOUD
+// TRELIO MOOD FLOW - IMPROVED VERSION
 // =========================================
 
 class TrelioMoodFlow {
     constructor() {
         this.cloud = document.getElementById('moodCloud');
+        this.emotionLabel = document.getElementById('emotionLabel');
         this.moodDisplay = document.getElementById('moodDisplay');
         this.nodes = document.querySelectorAll('.flow-node');
         this.titleEl = document.getElementById('explanationTitle');
@@ -735,48 +736,63 @@ class TrelioMoodFlow {
         this.moodData = {
             'happy': {
                 color: '#38bdf8',
-                name: '😊 Happy',
+                emoji: '😊',
+                name: 'Happy & Ready',
                 title: 'Ready to Connect',
-                text: 'When you feel happy, Trelio helps you build positive habits and connect with uplifting communities.'
+                text: 'When you feel happy, Trelio helps you build positive habits and connect with uplifting communities.',
+                action: 'Explore Happy Features'
             },
             'calm': {
                 color: '#0ea5e9',
-                name: '😌 Calm',
+                emoji: '😌',
+                name: 'Calm & Peaceful',
                 title: 'Maintain Your Peace',
-                text: 'Feeling calm? Trelio helps you preserve this state with mindfulness exercises and peaceful communities.'
+                text: 'Feeling calm? Trelio helps you preserve this state with mindfulness exercises and peaceful communities.',
+                action: 'Try Calm Features'
             },
             'stressed': {
                 color: '#f59e0b',
-                name: '😰 Stressed',
+                emoji: '😰',
+                name: 'Stressed & Anxious',
                 title: 'Immediate Relief',
-                text: 'When stress hits, Trelio activates breathing exercises, stress journals, and calming music.'
+                text: 'When stress hits, Trelio activates breathing exercises, stress journals, and calming music.',
+                action: 'Get Stress Relief'
             },
             'anxious': {
                 color: '#ef4444',
-                name: '😥 Anxious',
+                emoji: '😥',
+                name: 'Anxious & Worried',
                 title: 'Anxiety Support',
-                text: 'Feeling anxious? Access immediate grounding techniques and connect with supportive peers.'
+                text: 'Feeling anxious? Access immediate grounding techniques and connect with supportive peers.',
+                action: 'Find Anxiety Help'
             },
             'peaceful': {
                 color: '#10b981',
-                name: '☮️ Peaceful',
+                emoji: '☮️',
+                name: 'Peaceful & Balanced',
                 title: 'Deep Relaxation',
-                text: 'In peaceful moments, Trelio offers meditation guides and gratitude journaling.'
+                text: 'In peaceful moments, Trelio offers meditation guides and gratitude journaling.',
+                action: 'Explore Peace Tools'
             },
             'supported': {
                 color: '#8b5cf6',
-                name: '🤗 Supported',
+                emoji: '🤗',
+                name: 'Supported & Cared',
                 title: 'Professional Care',
-                text: 'When you need extra support, Trelio connects you with licensed therapists.'
+                text: 'When you need extra support, Trelio connects you with licensed therapists.',
+                action: 'Get Professional Help'
             },
             'connected': {
                 color: '#ec4899',
-                name: '💞 Connected',
+                emoji: '💞',
+                name: 'Connected & Social',
                 title: 'Community Support',
-                text: 'Feeling connected? Join peer support circles and share experiences safely.'
+                text: 'Feeling connected? Join peer support circles and share experiences safely.',
+                action: 'Join Community'
             }
         };
         
+        this.currentMood = 'happy';
         this.init();
     }
     
@@ -784,6 +800,7 @@ class TrelioMoodFlow {
         this.setupEventListeners();
         this.animateCloud();
         this.autoRotateMoods();
+        this.setDefaultMood();
     }
     
     setupEventListeners() {
@@ -796,18 +813,31 @@ class TrelioMoodFlow {
             });
             
             node.addEventListener('mouseleave', () => {
-                this.resetCloud();
                 this.resetHighlights();
             });
             
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.showFeatureDetails(node.dataset.node);
+                this.showFeaturePopup(node.dataset.node);
+            });
+            
+            // Touch support for mobile
+            node.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const mood = node.dataset.mood;
+                this.changeMood(mood);
+                this.highlightNode(node);
             });
         });
         
         // Cloud click interaction
         this.cloud.addEventListener('click', () => {
+            this.randomMood();
+        });
+        
+        // Cloud touch for mobile
+        this.cloud.addEventListener('touchstart', (e) => {
+            e.preventDefault();
             this.randomMood();
         });
         
@@ -827,11 +857,25 @@ class TrelioMoodFlow {
             if (e.key === 'm' || e.key === 'M') {
                 this.randomMood();
             }
+            if (e.key === 'Escape') {
+                this.resetToDefault();
+            }
         });
+        
+        // Window resize - adjust layout
+        window.addEventListener('resize', () => {
+            this.adjustNodePositions();
+        });
+    }
+    
+    setDefaultMood() {
+        this.changeMood('happy');
     }
     
     changeMood(moodType) {
         if (!this.moodData[moodType]) return;
+        
+        this.currentMood = moodType;
         
         // Remove all mood classes
         Object.keys(this.moodData).forEach(mood => {
@@ -841,8 +885,11 @@ class TrelioMoodFlow {
         // Add new mood class
         this.cloud.classList.add(moodType);
         
-        // Update mood display
+        // Update emotion label
         const moodInfo = this.moodData[moodType];
+        this.emotionLabel.textContent = moodInfo.emoji;
+        
+        // Update mood display
         this.moodDisplay.textContent = moodInfo.name;
         this.moodDisplay.style.color = moodInfo.color;
         this.moodDisplay.style.borderColor = moodInfo.color + '40';
@@ -856,6 +903,12 @@ class TrelioMoodFlow {
         setTimeout(() => {
             this.cloud.style.transform = 'scale(1)';
         }, 300);
+        
+        // Emotion label bounce
+        this.emotionLabel.style.animation = 'none';
+        setTimeout(() => {
+            this.emotionLabel.style.animation = 'emotionBounce 0.6s ease';
+        }, 10);
     }
     
     updateExplanation(moodInfo) {
@@ -864,12 +917,12 @@ class TrelioMoodFlow {
             this.textEl.textContent = moodInfo.text;
             
             // Update button texts based on mood
-            this.tryBtn.innerHTML = `<span>Try ${moodInfo.name.split(' ')[1]} Features</span>
+            this.tryBtn.innerHTML = `<span>${moodInfo.action}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>`;
             
-            this.demoBtn.innerHTML = `<span>Watch ${moodInfo.name.split(' ')[1]} Demo</span>
+            this.demoBtn.innerHTML = `<span>Watch ${moodInfo.name.split(' & ')[0]} Demo</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polygon points="5 3 19 12 5 21 5 3"/>
                 </svg>`;
@@ -880,58 +933,38 @@ class TrelioMoodFlow {
         // Reset all nodes first
         this.nodes.forEach(n => {
             n.style.zIndex = '10';
-            n.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)';
+            n.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.05)';
         });
         
         // Highlight current node
-        node.style.zIndex = '15';
-        node.style.boxShadow = '0 20px 50px rgba(56, 189, 248, 0.25)';
+        node.style.zIndex = '100';
+        node.style.boxShadow = '0 16px 40px rgba(56, 189, 248, 0.25)';
     }
     
     resetHighlights() {
         this.nodes.forEach(node => {
             node.style.zIndex = '10';
-            node.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)';
+            node.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.05)';
         });
     }
     
-    resetCloud() {
-        // Return to default state
-        Object.keys(this.moodData).forEach(mood => {
-            this.cloud.classList.remove(mood);
-        });
-        
-        this.moodDisplay.textContent = '😊 Happy';
-        this.moodDisplay.style.color = '';
-        this.moodDisplay.style.borderColor = '';
-        this.moodDisplay.style.background = '';
-        
-        // Reset explanation
-        if (this.titleEl && this.textEl) {
-            this.titleEl.textContent = 'Your Mood Cloud Ecosystem';
-            this.textEl.textContent = 'Watch your cloud change color and expression as you explore Trelio\'s features. Each color represents a different emotional state that triggers specific support.';
-            
-            // Reset buttons
-            this.tryBtn.innerHTML = `<span>Try Trelio</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>`;
-            
-            this.demoBtn.innerHTML = `<span>Watch Mood Demo</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>`;
-        }
+    resetToDefault() {
+        this.changeMood('happy');
+        this.resetHighlights();
     }
     
     randomMood() {
         const moods = Object.keys(this.moodData);
-        const randomMood = moods[Math.floor(Math.random() * moods.length)];
+        let randomMood;
+        do {
+            randomMood = moods[Math.floor(Math.random() * moods.length)];
+        } while (randomMood === this.currentMood && moods.length > 1);
+        
         this.changeMood(randomMood);
     }
     
     animateCloud() {
-        // Pulsing animation
+        // Gentle pulsing animation for happy/calm/peaceful states
         setInterval(() => {
             if (this.cloud.classList.contains('happy') || 
                 this.cloud.classList.contains('calm') ||
@@ -941,61 +974,214 @@ class TrelioMoodFlow {
                     this.cloud.style.transform = 'scale(1)';
                 }, 500);
             }
-        }, 3000);
+        }, 4000);
     }
     
     autoRotateMoods() {
         // Auto rotate through moods for demonstration
-        let currentIndex = 0;
+        let currentIndex = Object.keys(this.moodData).indexOf(this.currentMood);
         const moods = Object.keys(this.moodData);
         
         setInterval(() => {
             // Only rotate if user isn't interacting
             if (!document.querySelector('.flow-node:hover') && 
-                !this.cloud.matches(':hover')) {
-                this.changeMood(moods[currentIndex]);
+                !this.cloud.matches(':hover') &&
+                !document.querySelector('.flow-node:active')) {
                 currentIndex = (currentIndex + 1) % moods.length;
+                this.changeMood(moods[currentIndex]);
             }
-        }, 8000); // Change every 8 seconds
+        }, 10000); // Change every 10 seconds
     }
     
-    showFeatureDetails(nodeId) {
+    showFeaturePopup(nodeId) {
         const features = {
             1: {
-                title: "Download & Setup",
+                title: "📱 Download & Setup",
                 description: "Get started in minutes with a secure, personalized profile. Set your preferences and goals from day one.",
-                action: "Download Now"
+                action: "Download Now",
+                color: "#38bdf8"
             },
             2: {
-                title: "Mood Tracking",
+                title: "😌 Mood Tracking",
                 description: "Daily emotional check-ins that adapt to your patterns. Your cloud changes color based on how you feel.",
-                action: "Track Your Mood"
+                action: "Track Your Mood",
+                color: "#0ea5e9"
             },
             3: {
-                title: "Smart Dashboard",
+                title: "📊 Smart Dashboard",
                 description: "Monitor progress and access immediate relief tools. Breathing exercises are just one tap away.",
-                action: "Explore Dashboard"
+                action: "Explore Dashboard",
+                color: "#f59e0b"
             },
             4: {
-                title: "Peer Community",
+                title: "👥 Peer Community",
                 description: "Connect with students who understand your journey. Join safe, moderated spaces for genuine connection.",
-                action: "Join Community"
+                action: "Join Community",
+                color: "#ec4899"
             },
             5: {
-                title: "Professional Support",
+                title: "🩺 Professional Support",
                 description: "Get matched with licensed therapists specializing in student mental health. Schedule sessions easily.",
-                action: "Find Therapist"
+                action: "Find Therapist",
+                color: "#8b5cf6"
             },
             6: {
-                title: "Trelio AI Companion",
+                title: "🤖 Trelio AI Companion",
                 description: "Available 24/7 to listen, ask thoughtful questions, and provide immediate empathetic support.",
-                action: "Chat with AI"
+                action: "Chat with AI",
+                color: "#10b981"
             }
         };
         
         const feature = features[nodeId];
-        if (feature) {
-            alert(`${feature.title}\n\n${feature.description}\n\n[${feature.action}]`);
+        if (!feature) return;
+        
+        // Create a nice popup instead of alert
+        this.createFeaturePopup(feature);
+    }
+    
+    createFeaturePopup(feature) {
+        // Remove existing popup if any
+        const existingPopup = document.querySelector('.feature-popup');
+        if (existingPopup) existingPopup.remove();
+        
+        // Create popup
+        const popup = document.createElement('div');
+        popup.className = 'feature-popup';
+        popup.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: popupFadeIn 0.3s ease;
+        `;
+        
+        popup.innerHTML = `
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">${feature.title.split(' ')[0]}</div>
+                <h3 style="color: var(--text-main); margin-bottom: 15px; font-size: 1.4rem;">${feature.title}</h3>
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-size: 1rem;">${feature.description}</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button class="popup-close-btn" style="
+                        background: transparent;
+                        border: 1px solid var(--border);
+                        color: var(--text-muted);
+                        padding: 10px 20px;
+                        border-radius: 50px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                    ">Close</button>
+                    <button class="popup-action-btn" style="
+                        background: ${feature.color};
+                        border: none;
+                        color: white;
+                        padding: 10px 25px;
+                        border-radius: 50px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 4px 15px ${feature.color}40;
+                    ">${feature.action}</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // Add overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'popup-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            animation: overlayFadeIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes popupFadeIn {
+                from { opacity: 0; transform: translate(-50%, -60%); }
+                to { opacity: 1; transform: translate(-50%, -50%); }
+            }
+            @keyframes overlayFadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            .popup-close-btn:hover {
+                background: var(--bg-alt) !important;
+                transform: translateY(-2px);
+            }
+            .popup-action-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px ${feature.color}60 !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Event listeners for popup
+        popup.querySelector('.popup-close-btn').addEventListener('click', () => {
+            this.closePopup(popup, overlay, style);
+        });
+        
+        popup.querySelector('.popup-action-btn').addEventListener('click', () => {
+            alert(`Opening: ${feature.action}`);
+            this.closePopup(popup, overlay, style);
+        });
+        
+        overlay.addEventListener('click', () => {
+            this.closePopup(popup, overlay, style);
+        });
+        
+        // Close on escape
+        const escapeHandler = (e) => {
+            if (e.key === 'Escape') {
+                this.closePopup(popup, overlay, style);
+                document.removeEventListener('keydown', escapeHandler);
+            }
+        };
+        document.addEventListener('keydown', escapeHandler);
+    }
+    
+    closePopup(popup, overlay, style) {
+        if (popup) popup.remove();
+        if (overlay) overlay.remove();
+        if (style) style.remove();
+        document.body.style.overflow = '';
+    }
+    
+    adjustNodePositions() {
+        // Adjust node positions based on screen size to prevent overlap
+        const width = window.innerWidth;
+        
+        if (width < 600) {
+            // Very small screens
+            document.querySelectorAll('.flow-node').forEach(node => {
+                node.style.transform = 'scale(0.9)';
+            });
+        } else {
+            // Reset transforms
+            document.querySelectorAll('.flow-node').forEach(node => {
+                node.style.transform = '';
+            });
         }
     }
     
@@ -1004,7 +1190,8 @@ class TrelioMoodFlow {
         if (downloadBtn) {
             downloadBtn.click();
         } else {
-            alert("Opening Trelio download...");
+            // Fallback alert
+            alert("🚀 Launching Trelio App...");
         }
     }
     
@@ -1013,6 +1200,11 @@ class TrelioMoodFlow {
         const moods = Object.keys(this.moodData);
         let demoIndex = 0;
         
+        // Disable interactions during demo
+        this.nodes.forEach(node => {
+            node.style.pointerEvents = 'none';
+        });
+        
         const demoInterval = setInterval(() => {
             this.changeMood(moods[demoIndex]);
             demoIndex++;
@@ -1020,15 +1212,19 @@ class TrelioMoodFlow {
             if (demoIndex >= moods.length) {
                 clearInterval(demoInterval);
                 setTimeout(() => {
-                    this.resetCloud();
+                    this.resetToDefault();
+                    // Re-enable interactions
+                    this.nodes.forEach(node => {
+                        node.style.pointerEvents = 'auto';
+                    });
                 }, 2000);
             }
-        }, 800); // Change mood every 800ms for demo
+        }, 1000); // Change mood every 1 second for demo
         
         // Stop demo after completion
         setTimeout(() => {
             clearInterval(demoInterval);
-        }, moods.length * 800 + 1000);
+        }, moods.length * 1000 + 1000);
     }
 }
 
@@ -1037,5 +1233,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a small delay to ensure SVG is rendered
     setTimeout(() => {
         new TrelioMoodFlow();
-    }, 500);
+    }, 300);
 });
