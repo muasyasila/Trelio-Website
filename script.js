@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// TRELIO MOOD FLOW - FINAL PERFECTED VERSION
+// TRELIO MOOD FLOW - NO POPUP VERSION
 // =========================================
 
 class TrelioMoodFlow {
@@ -812,7 +812,7 @@ class TrelioMoodFlow {
     }
     
     setupEventListeners() {
-        // Node hover interactions
+        // Node hover interactions - NO POPUP ON CLICK
         this.nodes.forEach(node => {
             node.addEventListener('mouseenter', () => {
                 const mood = node.dataset.mood;
@@ -824,9 +824,18 @@ class TrelioMoodFlow {
                 this.resetHighlights();
             });
             
+            // Click just changes mood - NO POPUP
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.showFeaturePopup(node.dataset.node);
+                const mood = node.dataset.mood;
+                this.changeMood(mood);
+                this.highlightNode(node);
+                
+                // Visual feedback
+                node.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    node.style.transform = '';
+                }, 200);
             });
             
             // Touch support
@@ -1001,178 +1010,23 @@ class TrelioMoodFlow {
         }, 10000);
     }
     
-    showFeaturePopup(nodeId) {
-        const features = {
-            1: {
-                title: "📱 Download & Setup",
-                description: "Get started in minutes with a secure, personalized profile. Set your preferences and goals from day one.",
-                action: "Download Now",
-                color: "#38bdf8"
-            },
-            2: {
-                title: "😌 Mood Tracking",
-                description: "Daily emotional check-ins that adapt to your patterns. Your cloud changes color based on how you feel.",
-                action: "Track Your Mood",
-                color: "#0ea5e9"
-            },
-            3: {
-                title: "📊 Smart Dashboard",
-                description: "Monitor progress and access immediate relief tools. Breathing exercises are just one tap away.",
-                action: "Explore Dashboard",
-                color: "#f59e0b"
-            },
-            4: {
-                title: "👥 Peer Community",
-                description: "Connect with students who understand your journey. Join safe, moderated spaces for genuine connection.",
-                action: "Join Community",
-                color: "#ec4899"
-            },
-            5: {
-                title: "🩺 Professional Support",
-                description: "Get matched with licensed therapists specializing in student mental health. Schedule sessions easily.",
-                action: "Find Therapist",
-                color: "#8b5cf6"
-            },
-            6: {
-                title: "🤖 Trelio AI Companion",
-                description: "Available 24/7 to listen, ask thoughtful questions, and provide immediate empathetic support.",
-                action: "Chat with AI",
-                color: "#10b981"
-            }
-        };
-        
-        const feature = features[nodeId];
-        if (!feature) return;
-        
-        this.createFeaturePopup(feature);
-    }
-    
-    createFeaturePopup(feature) {
-        // Remove existing popup
-        const existingPopup = document.querySelector('.feature-popup');
-        if (existingPopup) existingPopup.remove();
-        
-        // Create popup
-        const popup = document.createElement('div');
-        popup.className = 'feature-popup';
-        popup.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 30px;
-            z-index: 1000;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: popupFadeIn 0.3s ease;
-        `;
-        
-        popup.innerHTML = `
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">${feature.title.split(' ')[0]}</div>
-                <h3 style="color: var(--text-main); margin-bottom: 15px; font-size: 1.4rem;">${feature.title}</h3>
-                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-size: 1rem;">${feature.description}</p>
-                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                    <button class="popup-close-btn" style="
-                        background: transparent;
-                        border: 1px solid var(--border);
-                        color: var(--text-muted);
-                        padding: 12px 24px;
-                        border-radius: 50px;
-                        cursor: pointer;
-                        font-weight: 600;
-                        transition: all 0.3s ease;
-                        min-width: 100px;
-                    ">Close</button>
-                    <button class="popup-action-btn" style="
-                        background: ${feature.color};
-                        border: none;
-                        color: white;
-                        padding: 12px 28px;
-                        border-radius: 50px;
-                        cursor: pointer;
-                        font-weight: 600;
-                        transition: all 0.3s ease;
-                        box-shadow: 0 4px 15px ${feature.color}40;
-                        min-width: 140px;
-                    ">${feature.action}</button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(popup);
-        
-        // Overlay
-        const overlay = document.createElement('div');
-        overlay.className = 'popup-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-            animation: overlayFadeIn 0.3s ease;
-        `;
-        
-        document.body.appendChild(overlay);
-        document.body.style.overflow = 'hidden';
-        
-        // Add animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes popupFadeIn {
-                from { opacity: 0; transform: translate(-50%, -60%); }
-                to { opacity: 1; transform: translate(-50%, -50%); }
-            }
-            @keyframes overlayFadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Event listeners
-        const closeBtn = popup.querySelector('.popup-close-btn');
-        const actionBtn = popup.querySelector('.popup-action-btn');
-        
-        const closePopup = () => {
-            popup.remove();
-            overlay.remove();
-            style.remove();
-            document.body.style.overflow = '';
-        };
-        
-        closeBtn.addEventListener('click', closePopup);
-        actionBtn.addEventListener('click', () => {
-            alert(`Opening: ${feature.action}`);
-            closePopup();
-        });
-        
-        overlay.addEventListener('click', closePopup);
-        
-        // Escape key
-        const escapeHandler = (e) => {
-            if (e.key === 'Escape') {
-                closePopup();
-                document.removeEventListener('keydown', escapeHandler);
-            }
-        };
-        document.addEventListener('keydown', escapeHandler);
-    }
-    
     triggerTryApp() {
         const downloadBtn = document.querySelector('.open-modal');
         if (downloadBtn) {
             downloadBtn.click();
         } else {
-            alert("🚀 Launching Trelio...");
+            // Simple feedback
+            this.tryBtn.innerHTML = `<span>Opening...</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>`;
+            
+            setTimeout(() => {
+                this.tryBtn.innerHTML = `<span>Try Trelio</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>`;
+            }, 1500);
         }
     }
     
@@ -1182,6 +1036,12 @@ class TrelioMoodFlow {
         this.isDemoRunning = true;
         const moods = Object.keys(this.moodData);
         let demoIndex = 0;
+        
+        // Visual feedback on button
+        this.demoBtn.innerHTML = `<span>Demo Running...</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>`;
         
         // Disable interactions
         this.nodes.forEach(node => {
@@ -1200,6 +1060,12 @@ class TrelioMoodFlow {
                         node.style.pointerEvents = 'auto';
                     });
                     this.isDemoRunning = false;
+                    
+                    // Reset button
+                    this.demoBtn.innerHTML = `<span>See Demo</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>`;
                 }, 2000);
             }
         }, 1000);

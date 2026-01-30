@@ -2728,7 +2728,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 /* =========================================
-   TRELIO FLOW SECTION - PERFECTED VERSION
+   TRELIO FLOW SECTION - MOBILE POSITION FIXED
    ========================================= */
 
 /* Base Container */
@@ -2840,6 +2840,9 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     font-weight: 700;
     color: var(--text-main);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
 }
 
 .cloud-svg {
@@ -3004,6 +3007,8 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     border-radius: 50px;
     border: 1px solid var(--border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    z-index: 21;
+    position: relative;
 }
 
 .mood-status {
@@ -3018,9 +3023,11 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     text-align: center;
     max-width: 180px;
     line-height: 1.3;
+    z-index: 21;
+    position: relative;
 }
 
-/* Flow Nodes - FIXED for mobile (no squeezing) */
+/* Flow Nodes - Desktop positions (no blocking) */
 .flow-node {
     position: absolute;
     display: flex;
@@ -3035,8 +3042,8 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     cursor: pointer;
     z-index: 10;
     backdrop-filter: blur(10px);
-    width: 200px; /* Fixed width */
-    min-width: 200px; /* Prevent squeezing */
+    width: 200px;
+    min-width: 200px;
     max-width: 200px;
 }
 
@@ -3079,7 +3086,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 .node-content {
     flex: 1;
-    min-width: 0; /* Prevent text overflow */
+    min-width: 0;
 }
 
 .node-content h4 {
@@ -3104,13 +3111,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     overflow: hidden;
 }
 
-/* FIXED NODE POSITIONS - NO OVERLAP, NO SQUEEZING */
-.node-1 { top: 15%; left: 10%; z-index: 11; }
-.node-2 { top: 10%; right: 10%; z-index: 12; }
-.node-3 { top: 45%; right: 5%; transform: translateY(-50%); z-index: 13; }
-.node-4 { bottom: 15%; right: 10%; z-index: 14; }
-.node-5 { bottom: 10%; left: 10%; z-index: 13; }
-.node-6 { top: 45%; left: 5%; transform: translateY(-50%); z-index: 12; }
+/* DESKTOP NODE POSITIONS - No blocking */
+.node-1 { top: 20%; left: 12%; z-index: 11; } /* Higher up */
+.node-2 { top: 15%; right: 12%; z-index: 12; }
+.node-3 { top: 50%; right: 8%; transform: translateY(-50%); z-index: 13; } /* Moved right */
+.node-4 { bottom: 20%; right: 12%; z-index: 14; }
+.node-5 { bottom: 15%; left: 12%; z-index: 13; }
+.node-6 { top: 50%; left: 8%; transform: translateY(-50%); z-index: 12; } /* Moved left */
 
 /* Flow Explanation */
 .flow-explanation {
@@ -3261,7 +3268,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 .node-6 { animation: nodeFloat 6s ease-in-out infinite 1s; }
 
 /* =========================================
-   MOBILE RESPONSIVENESS - FIXED SQUEEZING
+   MOBILE RESPONSIVENESS - PERFECT POSITIONS
    ========================================= */
 
 @media (max-width: 1024px) {
@@ -3271,7 +3278,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-node {
-        width: 180px; /* Slightly smaller but not squeezed */
+        width: 180px;
         padding: 16px;
     }
     
@@ -3293,6 +3300,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .label-text {
         font-size: 0.8rem;
+        max-width: 60px;
     }
 }
 
@@ -3309,20 +3317,20 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 1.1rem;
     }
     
-    /* Mobile: Adjusted layout - NO SQUEEZING */
+    /* Mobile: Adjusted positions to prevent blocking */
     .flow-diagram {
-        height: 500px;
+        height: 520px; /* Slightly taller for better spacing */
         max-width: 100%;
         margin: 40px auto;
     }
     
-    /* Mobile nodes: Keep readable size */
+    /* Mobile nodes */
     .flow-node {
         width: 160px;
         padding: 14px;
         gap: 12px;
         border-radius: 16px;
-        min-width: 160px; /* Prevent squeezing */
+        min-width: 160px;
     }
     
     .node-orb {
@@ -3347,59 +3355,99 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         line-height: 1.3;
     }
     
-    /* Adjust positions for mobile - more space */
-    .node-1 { top: 12%; left: 5%; }
-    .node-2 { top: 8%; right: 5%; }
-    .node-3 { top: 45%; right: 2%; }
-    .node-4 { bottom: 12%; right: 5%; }
-    .node-5 { bottom: 8%; left: 5%; }
-    .node-6 { top: 45%; left: 2%; }
+    /* MOBILE POSITIONS - NO BLOCKING! */
+    .node-1 { 
+        top: 5%; /* MUCH HIGHER - won't block emotion label */
+        left: 5%; 
+        z-index: 11; 
+    }
+    
+    .node-2 { 
+        top: 5%; /* Higher up */
+        right: 5%; 
+        z-index: 12; 
+    }
+    
+    .node-3 { 
+        top: 40%; /* Lower to avoid cloud label */
+        right: 2%; 
+        transform: translateY(-50%); 
+        z-index: 13; 
+    }
+    
+    .node-4 { 
+        bottom: 15%; 
+        right: 5%; 
+        z-index: 14; 
+    }
+    
+    .node-5 { 
+        bottom: 10%; 
+        left: 5%; 
+        z-index: 13; 
+    }
+    
+    .node-6 { 
+        top: 40%; /* Lower to avoid cloud label */
+        left: 2%; 
+        transform: translateY(-50%); 
+        z-index: 12; 
+    }
+    
+    /* Adjust cloud position */
+    .flow-central {
+        top: 45%; /* Move cloud slightly down */
+    }
     
     /* Scale down cloud */
     .mood-cloud {
-        width: 130px;
-        height: 130px;
+        width: 120px;
+        height: 120px;
     }
     
     .combined-label {
-        min-width: 85px;
+        min-width: 80px;
         padding: 5px 10px;
-        top: -18px;
-        left: -18px;
+        top: -15px;
+        left: -15px;
+        z-index: 30; /* Ensure it's above everything */
     }
     
     .label-emoji {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
     .label-text {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        max-width: 50px;
     }
     
     .cloud-label {
-        font-size: 1rem;
-        padding: 8px 20px;
+        font-size: 0.95rem;
+        padding: 8px 18px;
+        margin-top: 5px; /* Add spacing */
     }
     
     .mood-status {
-        font-size: 0.85rem;
-        padding: 7px 16px;
-        max-width: 160px;
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        max-width: 140px;
+        margin-top: 5px;
     }
     
     .flow-explanation {
         padding: 30px;
-        margin-top: 60px;
+        margin-top: 50px;
         border-radius: 24px;
     }
     
     .mood-legend {
-        gap: 12px;
+        gap: 10px;
     }
     
     .legend-item {
         padding: 6px 12px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         white-space: nowrap;
     }
     
@@ -3411,16 +3459,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     .flow-btn {
         width: 100%;
-        max-width: 280px;
+        max-width: 260px;
         justify-content: center;
         padding: 14px 24px;
     }
 }
 
 @media (max-width: 600px) {
-    /* For small screens - adjust layout */
+    /* For small screens - further adjustments */
     .flow-diagram {
-        height: 480px;
+        height: 500px;
     }
     
     .flow-node {
@@ -3447,28 +3495,29 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         -webkit-line-clamp: 2;
     }
     
-    /* Tighten positions */
-    .node-1 { top: 10%; left: 3%; }
-    .node-2 { top: 6%; right: 3%; }
-    .node-3 { top: 45%; right: 1%; }
-    .node-4 { bottom: 10%; right: 3%; }
-    .node-5 { bottom: 6%; left: 3%; }
-    .node-6 { top: 45%; left: 1%; }
+    /* Adjust positions even more */
+    .node-1 { top: 4%; left: 3%; }
+    .node-2 { top: 4%; right: 3%; }
+    .node-3 { top: 38%; right: 1%; }
+    .node-4 { bottom: 12%; right: 3%; }
+    .node-5 { bottom: 8%; left: 3%; }
+    .node-6 { top: 38%; left: 1%; }
     
     .mood-cloud {
-        width: 120px;
-        height: 120px;
+        width: 110px;
+        height: 110px;
     }
     
     .combined-label {
-        min-width: 80px;
+        min-width: 75px;
         padding: 4px 8px;
-        top: -15px;
-        left: -15px;
+        top: -12px;
+        left: -12px;
     }
     
     .label-text {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        max-width: 45px;
     }
 }
 
@@ -3490,7 +3539,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        height: 450px;
+        height: 480px;
     }
     
     .flow-node {
@@ -3508,24 +3557,33 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         -webkit-line-clamp: 2;
     }
     
+    /* Final mobile positions */
+    .node-1 { top: 3%; left: 2%; }
+    .node-2 { top: 3%; right: 2%; }
+    .node-3 { top: 38%; right: 0%; }
+    .node-4 { bottom: 10%; right: 2%; }
+    .node-5 { bottom: 6%; left: 2%; }
+    .node-6 { top: 38%; left: 0%; }
+    
     .mood-cloud {
-        width: 110px;
-        height: 110px;
+        width: 100px;
+        height: 100px;
     }
     
     .combined-label {
-        min-width: 75px;
+        min-width: 70px;
         padding: 4px 8px;
-        top: -12px;
-        left: -12px;
+        top: -10px;
+        left: -10px;
     }
     
     .label-emoji {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .label-text {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
+        max-width: 40px;
     }
     
     .flow-explanation {
@@ -3542,15 +3600,15 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .legend-item {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         padding: 5px 10px;
     }
 }
 
-/* Landscape mobile */
+/* Landscape mobile - special adjustments */
 @media (max-height: 600px) and (orientation: landscape) {
     .flow-diagram {
-        height: 400px;
+        height: 380px;
     }
     
     .flow-node {
@@ -3559,9 +3617,17 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .mood-cloud {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
+    
+    /* Adjust positions for landscape */
+    .node-1 { top: 10%; left: 3%; }
+    .node-2 { top: 10%; right: 3%; }
+    .node-3 { top: 50%; right: 1%; }
+    .node-4 { bottom: 10%; right: 3%; }
+    .node-5 { bottom: 10%; left: 3%; }
+    .node-6 { top: 50%; left: 1%; }
 }
 
 /* Dark Mode */
@@ -3611,13 +3677,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
 }
 
-/* Prevent text overflow */
-.flow-node, .mood-cloud, .flow-btn {
-    user-select: none;
-    -webkit-user-select: none;
+/* Ensure no blocking */
+.flow-central {
+    z-index: 20;
 }
 
-/* Ensure no text falls out */
-.node-content {
-    overflow: hidden;
+.combined-label {
+    z-index: 25;
+}
+
+.cloud-label,
+.mood-status {
+    z-index: 21;
 }
