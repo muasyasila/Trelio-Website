@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// TRELIO MOOD FLOW - FINAL PERFECT POSITIONS
+// TRELIO How it works MOOD FLOW - FINAL PERFECT POSITIONS
 // =========================================
 
 class TrelioMoodFlow {
