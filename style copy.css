@@ -2728,7 +2728,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 /* =========================================
-   TRELIO FLOW SECTION - PERFECT POSITIONS
+   TRELIO FLOW SECTION - FINAL POSITIONS
    ========================================= */
 
 /* Base Container */
@@ -2792,14 +2792,14 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px; /* Reduced gap for mobile */
+    gap: 12px;
 }
 
 .cloud-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* Reduced gap for mobile */
+    gap: 10px;
     position: relative;
 }
 
@@ -2811,7 +2811,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
 }
 
-/* Combined Label - Emoji + Mood TOGETHER top-left */
+/* Combined Label */
 .combined-label {
     position: absolute;
     top: -25px;
@@ -2851,7 +2851,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 .cloud-body {
-    color: #38bdf8; /* Default blue */
+    color: #38bdf8;
     transition: color 0.6s ease, filter 0.6s ease;
 }
 
@@ -3003,20 +3003,19 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     color: var(--text-main);
     font-size: 1.1rem;
     background: var(--card-bg);
-    padding: 8px 20px; /* Reduced padding for mobile */
+    padding: 8px 20px;
     border-radius: 50px;
     border: 1px solid var(--border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     z-index: 21;
     position: relative;
-    margin-top: -5px; /* Closer to cloud */
 }
 
 .mood-status {
     font-size: 0.9rem;
     color: var(--text-muted);
     background: rgba(56, 189, 248, 0.1);
-    padding: 6px 16px; /* Reduced padding for mobile */
+    padding: 6px 16px;
     border-radius: 20px;
     border: 1px solid rgba(56, 189, 248, 0.2);
     transition: all 0.4s ease;
@@ -3026,7 +3025,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     line-height: 1.3;
     z-index: 21;
     position: relative;
-    margin-top: -5px; /* Closer to cloud label */
 }
 
 /* Flow Nodes */
@@ -3113,13 +3111,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     overflow: hidden;
 }
 
-/* DESKTOP NODE POSITIONS - WITH SPACING */
+/* DESKTOP NODE POSITIONS */
 .node-1 { top: 20%; left: 12%; z-index: 11; }
 .node-2 { top: 15%; right: 12%; z-index: 12; }
-.node-3 { top: 48%; right: 12%; transform: translateY(-50%); z-index: 13; } /* MOVED RIGHT FOR SPACE */
-.node-4 { bottom: 18%; right: 12%; z-index: 14; } /* MOVED UP FOR SPACE */
-.node-5 { bottom: 13%; left: 12%; z-index: 13; } /* MOVED UP FOR SPACE */
-.node-6 { top: 48%; left: 12%; transform: translateY(-50%); z-index: 12; } /* MOVED LEFT FOR SPACE */
+.node-3 { top: 48%; right: 12%; transform: translateY(-50%); z-index: 13; }
+.node-4 { bottom: 18%; right: 12%; z-index: 14; }
+.node-5 { bottom: 13%; left: 12%; z-index: 13; }
+.node-6 { top: 48%; left: 12%; transform: translateY(-50%); z-index: 12; }
 
 /* Flow Explanation */
 .flow-explanation {
@@ -3284,13 +3282,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         padding: 16px;
     }
     
-    /* TABLET POSITIONS - MORE SPACE BETWEEN CARDS */
+    /* TABLET POSITIONS */
     .node-1 { top: 18%; left: 10%; }
     .node-2 { top: 14%; right: 10%; }
-    .node-3 { top: 50%; right: 10%; transform: translateY(-50%); } /* More right for space */
-    .node-4 { bottom: 20%; right: 10%; } /* More up for space */
-    .node-5 { bottom: 15%; left: 10%; } /* More up for space */
-    .node-6 { top: 50%; left: 10%; transform: translateY(-50%); } /* More left for space */
+    .node-3 { top: 50%; right: 10%; transform: translateY(-50%); }
+    .node-4 { bottom: 20%; right: 10%; }
+    .node-5 { bottom: 15%; left: 10%; }
+    .node-6 { top: 50%; left: 10%; transform: translateY(-50%); }
     
     .mood-cloud {
         width: 140px;
@@ -3312,16 +3310,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 0.8rem;
         max-width: 60px;
     }
-    
-    .cloud-label {
-        padding: 7px 18px;
-        font-size: 1rem;
-    }
-    
-    .mood-status {
-        padding: 5px 14px;
-        font-size: 0.85rem;
-    }
 }
 
 /* =========================================
@@ -3341,34 +3329,31 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 1.1rem;
     }
     
-    /* Mobile: Adjusted positions to prevent blocking */
+    /* Mobile: Adjusted positions */
     .flow-diagram {
-        height: 580px; /* Taller for better spacing */
+        height: 620px; /* Taller for better spacing */
         max-width: 100%;
         margin: 40px auto;
     }
     
-    /* Move cloud slightly up for mobile */
+    /* Move cloud higher for mobile */
     .flow-central {
-        top: 42%; /* Higher up on mobile */
-        gap: 8px; /* Even tighter spacing */
+        top: 40%; /* Higher up */
     }
     
     .cloud-wrapper {
-        gap: 6px; /* Very tight spacing */
+        gap: 8px;
     }
     
     .cloud-label {
         padding: 6px 16px;
         font-size: 0.95rem;
-        margin-top: -8px; /* Closer to cloud */
     }
     
     .mood-status {
         padding: 5px 12px;
         font-size: 0.8rem;
         max-width: 150px;
-        margin-top: -5px; /* Closer to label */
     }
     
     /* Mobile nodes */
@@ -3402,7 +3387,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         line-height: 1.3;
     }
     
-    /* MOBILE POSITIONS - PERFECTLY SPACED */
+    /* MOBILE POSITIONS - DASHBOARD & TRELIO AI BELOW CLOUD TEXT */
     .node-1 { 
         top: 4%; /* Higher */
         left: 5%; 
@@ -3416,26 +3401,26 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .node-3 { 
-        top: 52%; /* RIGHT BELOW CLOUD - not higher */
+        top: 58%; /* LOWER - BELOW CLOUD TEXT */
         right: 5%; 
         transform: none; 
         z-index: 13; 
     }
     
     .node-4 { 
-        bottom: 8%; /* LOWER */
+        bottom: 8%; /* KEPT SAME - Community */
         right: 5%; 
         z-index: 14; 
     }
     
     .node-5 { 
-        bottom: 4%; /* LOWER */
+        bottom: 4%; /* KEPT SAME - Therapist */
         left: 5%; 
         z-index: 13; 
     }
     
     .node-6 { 
-        top: 52%; /* RIGHT BELOW CLOUD - not higher */
+        top: 58%; /* LOWER - BELOW CLOUD TEXT */
         left: 5%; 
         transform: none; 
         z-index: 12; 
@@ -3497,7 +3482,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 @media (max-width: 600px) {
     /* For small screens - further adjustments */
     .flow-diagram {
-        height: 550px;
+        height: 580px;
     }
     
     .flow-node {
@@ -3524,13 +3509,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         -webkit-line-clamp: 2;
     }
     
-    /* Adjust positions even more */
+    /* Adjust positions */
     .node-1 { top: 3%; left: 3%; }
     .node-2 { top: 3%; right: 3%; }
-    .node-3 { top: 50%; right: 3%; } /* Still right below cloud */
-    .node-4 { bottom: 6%; right: 3%; } /* Even lower */
-    .node-5 { bottom: 2%; left: 3%; } /* Even lower */
-    .node-6 { top: 50%; left: 3%; } /* Still right below cloud */
+    .node-3 { top: 56%; right: 3%; } /* BELOW CLOUD TEXT */
+    .node-4 { bottom: 6%; right: 3%; } /* Community - same */
+    .node-5 { bottom: 2%; left: 3%; } /* Therapist - same */
+    .node-6 { top: 56%; left: 3%; } /* BELOW CLOUD TEXT */
     
     .mood-cloud {
         width: 110px;
@@ -3579,7 +3564,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        height: 520px;
+        height: 540px;
     }
     
     .flow-node {
@@ -3600,10 +3585,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Final mobile positions */
     .node-1 { top: 2%; left: 2%; }
     .node-2 { top: 2%; right: 2%; }
-    .node-3 { top: 48%; right: 2%; }
-    .node-4 { bottom: 5%; right: 2%; }
-    .node-5 { bottom: 1%; left: 2%; }
-    .node-6 { top: 48%; left: 2%; }
+    .node-3 { top: 54%; right: 2%; } /* BELOW CLOUD TEXT */
+    .node-4 { bottom: 5%; right: 2%; } /* Community - same */
+    .node-5 { bottom: 1%; left: 2%; } /* Therapist - same */
+    .node-6 { top: 54%; left: 2%; } /* BELOW CLOUD TEXT */
     
     .mood-cloud {
         width: 100px;
@@ -3645,7 +3630,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
 }
 
-/* Landscape mobile - special adjustments */
+/* Landscape mobile */
 @media (max-height: 600px) and (orientation: landscape) {
     .flow-diagram {
         height: 380px;
@@ -3664,10 +3649,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Adjust positions for landscape */
     .node-1 { top: 5%; left: 3%; }
     .node-2 { top: 5%; right: 3%; }
-    .node-3 { top: 50%; right: 3%; }
+    .node-3 { top: 55%; right: 3%; } /* BELOW CLOUD TEXT */
     .node-4 { bottom: 5%; right: 3%; }
     .node-5 { bottom: 5%; left: 3%; }
-    .node-6 { top: 50%; left: 3%; }
+    .node-6 { top: 55%; left: 3%; } /* BELOW CLOUD TEXT */
 }
 
 /* Dark Mode */
