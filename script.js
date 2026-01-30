@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// TRELIO MOOD FLOW - NO POPUP VERSION
+// TRELIO MOOD FLOW - FINAL PERFECTED
 // =========================================
 
 class TrelioMoodFlow {
@@ -812,7 +812,7 @@ class TrelioMoodFlow {
     }
     
     setupEventListeners() {
-        // Node hover interactions - NO POPUP ON CLICK
+        // Node hover interactions
         this.nodes.forEach(node => {
             node.addEventListener('mouseenter', () => {
                 const mood = node.dataset.mood;
@@ -824,7 +824,7 @@ class TrelioMoodFlow {
                 this.resetHighlights();
             });
             
-            // Click just changes mood - NO POPUP
+            // Click changes mood
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const mood = node.dataset.mood;
@@ -897,7 +897,7 @@ class TrelioMoodFlow {
         // Add new mood class
         this.cloud.classList.add(moodType);
         
-        // Update combined label (EMOJI + MOOD TOGETHER)
+        // Update combined label
         const emojiSpan = this.combinedLabel.querySelector('.label-emoji');
         const textSpan = this.combinedLabel.querySelector('.label-text');
         
@@ -1015,7 +1015,6 @@ class TrelioMoodFlow {
         if (downloadBtn) {
             downloadBtn.click();
         } else {
-            // Simple feedback
             this.tryBtn.innerHTML = `<span>Opening...</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1037,7 +1036,6 @@ class TrelioMoodFlow {
         const moods = Object.keys(this.moodData);
         let demoIndex = 0;
         
-        // Visual feedback on button
         this.demoBtn.innerHTML = `<span>Demo Running...</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon points="5 3 19 12 5 21 5 3"/>

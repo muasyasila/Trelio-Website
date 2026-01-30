@@ -2728,7 +2728,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 /* =========================================
-   TRELIO FLOW SECTION - MOBILE POSITION FIXED
+   TRELIO FLOW SECTION - PERFECT POSITIONS
    ========================================= */
 
 /* Base Container */
@@ -2792,14 +2792,14 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 12px; /* Reduced gap for mobile */
 }
 
 .cloud-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 10px; /* Reduced gap for mobile */
     position: relative;
 }
 
@@ -3003,19 +3003,20 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     color: var(--text-main);
     font-size: 1.1rem;
     background: var(--card-bg);
-    padding: 10px 24px;
+    padding: 8px 20px; /* Reduced padding for mobile */
     border-radius: 50px;
     border: 1px solid var(--border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     z-index: 21;
     position: relative;
+    margin-top: -5px; /* Closer to cloud */
 }
 
 .mood-status {
     font-size: 0.9rem;
     color: var(--text-muted);
     background: rgba(56, 189, 248, 0.1);
-    padding: 8px 18px;
+    padding: 6px 16px; /* Reduced padding for mobile */
     border-radius: 20px;
     border: 1px solid rgba(56, 189, 248, 0.2);
     transition: all 0.4s ease;
@@ -3025,9 +3026,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     line-height: 1.3;
     z-index: 21;
     position: relative;
+    margin-top: -5px; /* Closer to cloud label */
 }
 
-/* Flow Nodes - Desktop positions (no blocking) */
+/* Flow Nodes */
 .flow-node {
     position: absolute;
     display: flex;
@@ -3111,13 +3113,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     overflow: hidden;
 }
 
-/* DESKTOP NODE POSITIONS - No blocking */
-.node-1 { top: 20%; left: 12%; z-index: 11; } /* Higher up */
+/* DESKTOP NODE POSITIONS - WITH SPACING */
+.node-1 { top: 20%; left: 12%; z-index: 11; }
 .node-2 { top: 15%; right: 12%; z-index: 12; }
-.node-3 { top: 50%; right: 8%; transform: translateY(-50%); z-index: 13; } /* Moved right */
-.node-4 { bottom: 20%; right: 12%; z-index: 14; }
-.node-5 { bottom: 15%; left: 12%; z-index: 13; }
-.node-6 { top: 50%; left: 8%; transform: translateY(-50%); z-index: 12; } /* Moved left */
+.node-3 { top: 48%; right: 12%; transform: translateY(-50%); z-index: 13; } /* MOVED RIGHT FOR SPACE */
+.node-4 { bottom: 18%; right: 12%; z-index: 14; } /* MOVED UP FOR SPACE */
+.node-5 { bottom: 13%; left: 12%; z-index: 13; } /* MOVED UP FOR SPACE */
+.node-6 { top: 48%; left: 12%; transform: translateY(-50%); z-index: 12; } /* MOVED LEFT FOR SPACE */
 
 /* Flow Explanation */
 .flow-explanation {
@@ -3268,10 +3270,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 .node-6 { animation: nodeFloat 6s ease-in-out infinite 1s; }
 
 /* =========================================
-   MOBILE RESPONSIVENESS - PERFECT POSITIONS
+   TABLET RESPONSIVENESS (1024px - 769px)
    ========================================= */
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-width: 769px) {
     .flow-diagram {
         height: 550px;
         max-width: 800px;
@@ -3281,6 +3283,14 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         width: 180px;
         padding: 16px;
     }
+    
+    /* TABLET POSITIONS - MORE SPACE BETWEEN CARDS */
+    .node-1 { top: 18%; left: 10%; }
+    .node-2 { top: 14%; right: 10%; }
+    .node-3 { top: 50%; right: 10%; transform: translateY(-50%); } /* More right for space */
+    .node-4 { bottom: 20%; right: 10%; } /* More up for space */
+    .node-5 { bottom: 15%; left: 10%; } /* More up for space */
+    .node-6 { top: 50%; left: 10%; transform: translateY(-50%); } /* More left for space */
     
     .mood-cloud {
         width: 140px;
@@ -3302,7 +3312,21 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 0.8rem;
         max-width: 60px;
     }
+    
+    .cloud-label {
+        padding: 7px 18px;
+        font-size: 1rem;
+    }
+    
+    .mood-status {
+        padding: 5px 14px;
+        font-size: 0.85rem;
+    }
 }
+
+/* =========================================
+   MOBILE RESPONSIVENESS (768px and below)
+   ========================================= */
 
 @media (max-width: 768px) {
     .trelio-flow-section {
@@ -3319,9 +3343,32 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     
     /* Mobile: Adjusted positions to prevent blocking */
     .flow-diagram {
-        height: 520px; /* Slightly taller for better spacing */
+        height: 580px; /* Taller for better spacing */
         max-width: 100%;
         margin: 40px auto;
+    }
+    
+    /* Move cloud slightly up for mobile */
+    .flow-central {
+        top: 42%; /* Higher up on mobile */
+        gap: 8px; /* Even tighter spacing */
+    }
+    
+    .cloud-wrapper {
+        gap: 6px; /* Very tight spacing */
+    }
+    
+    .cloud-label {
+        padding: 6px 16px;
+        font-size: 0.95rem;
+        margin-top: -8px; /* Closer to cloud */
+    }
+    
+    .mood-status {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        max-width: 150px;
+        margin-top: -5px; /* Closer to label */
     }
     
     /* Mobile nodes */
@@ -3355,48 +3402,43 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         line-height: 1.3;
     }
     
-    /* MOBILE POSITIONS - NO BLOCKING! */
+    /* MOBILE POSITIONS - PERFECTLY SPACED */
     .node-1 { 
-        top: 5%; /* MUCH HIGHER - won't block emotion label */
+        top: 4%; /* Higher */
         left: 5%; 
         z-index: 11; 
     }
     
     .node-2 { 
-        top: 5%; /* Higher up */
+        top: 4%; /* Higher */
         right: 5%; 
         z-index: 12; 
     }
     
     .node-3 { 
-        top: 40%; /* Lower to avoid cloud label */
-        right: 2%; 
-        transform: translateY(-50%); 
+        top: 52%; /* RIGHT BELOW CLOUD - not higher */
+        right: 5%; 
+        transform: none; 
         z-index: 13; 
     }
     
     .node-4 { 
-        bottom: 15%; 
+        bottom: 8%; /* LOWER */
         right: 5%; 
         z-index: 14; 
     }
     
     .node-5 { 
-        bottom: 10%; 
+        bottom: 4%; /* LOWER */
         left: 5%; 
         z-index: 13; 
     }
     
     .node-6 { 
-        top: 40%; /* Lower to avoid cloud label */
-        left: 2%; 
-        transform: translateY(-50%); 
+        top: 52%; /* RIGHT BELOW CLOUD - not higher */
+        left: 5%; 
+        transform: none; 
         z-index: 12; 
-    }
-    
-    /* Adjust cloud position */
-    .flow-central {
-        top: 45%; /* Move cloud slightly down */
     }
     
     /* Scale down cloud */
@@ -3410,7 +3452,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         padding: 5px 10px;
         top: -15px;
         left: -15px;
-        z-index: 30; /* Ensure it's above everything */
+        z-index: 30;
     }
     
     .label-emoji {
@@ -3420,19 +3462,6 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .label-text {
         font-size: 0.7rem;
         max-width: 50px;
-    }
-    
-    .cloud-label {
-        font-size: 0.95rem;
-        padding: 8px 18px;
-        margin-top: 5px; /* Add spacing */
-    }
-    
-    .mood-status {
-        font-size: 0.8rem;
-        padding: 6px 14px;
-        max-width: 140px;
-        margin-top: 5px;
     }
     
     .flow-explanation {
@@ -3468,7 +3497,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 @media (max-width: 600px) {
     /* For small screens - further adjustments */
     .flow-diagram {
-        height: 500px;
+        height: 550px;
     }
     
     .flow-node {
@@ -3496,12 +3525,12 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* Adjust positions even more */
-    .node-1 { top: 4%; left: 3%; }
-    .node-2 { top: 4%; right: 3%; }
-    .node-3 { top: 38%; right: 1%; }
-    .node-4 { bottom: 12%; right: 3%; }
-    .node-5 { bottom: 8%; left: 3%; }
-    .node-6 { top: 38%; left: 1%; }
+    .node-1 { top: 3%; left: 3%; }
+    .node-2 { top: 3%; right: 3%; }
+    .node-3 { top: 50%; right: 3%; } /* Still right below cloud */
+    .node-4 { bottom: 6%; right: 3%; } /* Even lower */
+    .node-5 { bottom: 2%; left: 3%; } /* Even lower */
+    .node-6 { top: 50%; left: 3%; } /* Still right below cloud */
     
     .mood-cloud {
         width: 110px;
@@ -3518,6 +3547,17 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     .label-text {
         font-size: 0.65rem;
         max-width: 45px;
+    }
+    
+    .cloud-label {
+        padding: 5px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .mood-status {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        max-width: 130px;
     }
 }
 
@@ -3539,7 +3579,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        height: 480px;
+        height: 520px;
     }
     
     .flow-node {
@@ -3558,12 +3598,12 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* Final mobile positions */
-    .node-1 { top: 3%; left: 2%; }
-    .node-2 { top: 3%; right: 2%; }
-    .node-3 { top: 38%; right: 0%; }
-    .node-4 { bottom: 10%; right: 2%; }
-    .node-5 { bottom: 6%; left: 2%; }
-    .node-6 { top: 38%; left: 0%; }
+    .node-1 { top: 2%; left: 2%; }
+    .node-2 { top: 2%; right: 2%; }
+    .node-3 { top: 48%; right: 2%; }
+    .node-4 { bottom: 5%; right: 2%; }
+    .node-5 { bottom: 1%; left: 2%; }
+    .node-6 { top: 48%; left: 2%; }
     
     .mood-cloud {
         width: 100px;
@@ -3622,12 +3662,12 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* Adjust positions for landscape */
-    .node-1 { top: 10%; left: 3%; }
-    .node-2 { top: 10%; right: 3%; }
-    .node-3 { top: 50%; right: 1%; }
-    .node-4 { bottom: 10%; right: 3%; }
-    .node-5 { bottom: 10%; left: 3%; }
-    .node-6 { top: 50%; left: 1%; }
+    .node-1 { top: 5%; left: 3%; }
+    .node-2 { top: 5%; right: 3%; }
+    .node-3 { top: 50%; right: 3%; }
+    .node-4 { bottom: 5%; right: 3%; }
+    .node-5 { bottom: 5%; left: 3%; }
+    .node-6 { top: 50%; left: 3%; }
 }
 
 /* Dark Mode */
@@ -3675,18 +3715,4 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         animation: none !important;
         transition: none !important;
     }
-}
-
-/* Ensure no blocking */
-.flow-central {
-    z-index: 20;
-}
-
-.combined-label {
-    z-index: 25;
-}
-
-.cloud-label,
-.mood-status {
-    z-index: 21;
 }
