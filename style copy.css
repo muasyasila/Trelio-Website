@@ -2728,7 +2728,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 /* =========================================
-   TRELIO FLOW SECTION - FINAL POSITIONS
+   TRELIO FLOW SECTION - FINAL MOBILE POSITIONS
    ========================================= */
 
 /* Base Container */
@@ -2811,7 +2811,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
 }
 
-/* Combined Label */
+/* Combined Label - Emoji + Mood TOGETHER top-left */
 .combined-label {
     position: absolute;
     top: -25px;
@@ -2851,7 +2851,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 .cloud-body {
-    color: #38bdf8;
+    color: #38bdf8; /* Default blue */
     transition: color 0.6s ease, filter 0.6s ease;
 }
 
@@ -3009,6 +3009,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     z-index: 21;
     position: relative;
+    margin-top: -5px;
 }
 
 .mood-status {
@@ -3025,6 +3026,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     line-height: 1.3;
     z-index: 21;
     position: relative;
+    margin-top: -5px;
 }
 
 /* Flow Nodes */
@@ -3310,6 +3312,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 0.8rem;
         max-width: 60px;
     }
+    
+    .cloud-label {
+        padding: 7px 18px;
+        font-size: 1rem;
+    }
+    
+    .mood-status {
+        padding: 5px 14px;
+        font-size: 0.85rem;
+    }
 }
 
 /* =========================================
@@ -3329,31 +3341,34 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 1.1rem;
     }
     
-    /* Mobile: Adjusted positions */
+    /* Mobile layout */
     .flow-diagram {
-        height: 620px; /* Taller for better spacing */
+        height: 580px;
         max-width: 100%;
         margin: 40px auto;
     }
     
-    /* Move cloud higher for mobile */
+    /* Cloud positioning */
     .flow-central {
         top: 40%; /* Higher up */
+        gap: 8px;
     }
     
     .cloud-wrapper {
-        gap: 8px;
+        gap: 6px;
     }
     
     .cloud-label {
         padding: 6px 16px;
         font-size: 0.95rem;
+        margin-top: -8px;
     }
     
     .mood-status {
         padding: 5px 12px;
         font-size: 0.8rem;
         max-width: 150px;
+        margin-top: -5px;
     }
     
     /* Mobile nodes */
@@ -3387,7 +3402,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         line-height: 1.3;
     }
     
-    /* MOBILE POSITIONS - DASHBOARD & TRELIO AI BELOW CLOUD TEXT */
+    /* MOBILE POSITIONS - PERFECTED */
     .node-1 { 
         top: 4%; /* Higher */
         left: 5%; 
@@ -3401,26 +3416,26 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .node-3 { 
-        top: 58%; /* LOWER - BELOW CLOUD TEXT */
+        top: 58%; /* BELOW mood-status (was 52%) */
         right: 5%; 
         transform: none; 
         z-index: 13; 
     }
     
     .node-4 { 
-        bottom: 8%; /* KEPT SAME - Community */
+        bottom: 12%; /* HIGHER (was 8%) */
         right: 5%; 
         z-index: 14; 
     }
     
     .node-5 { 
-        bottom: 4%; /* KEPT SAME - Therapist */
+        bottom: 8%; /* HIGHER (was 4%) */
         left: 5%; 
         z-index: 13; 
     }
     
     .node-6 { 
-        top: 58%; /* LOWER - BELOW CLOUD TEXT */
+        top: 58%; /* BELOW mood-status (was 52%) */
         left: 5%; 
         transform: none; 
         z-index: 12; 
@@ -3480,9 +3495,9 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 }
 
 @media (max-width: 600px) {
-    /* For small screens - further adjustments */
+    /* For small screens */
     .flow-diagram {
-        height: 580px;
+        height: 550px;
     }
     
     .flow-node {
@@ -3512,10 +3527,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Adjust positions */
     .node-1 { top: 3%; left: 3%; }
     .node-2 { top: 3%; right: 3%; }
-    .node-3 { top: 56%; right: 3%; } /* BELOW CLOUD TEXT */
-    .node-4 { bottom: 6%; right: 3%; } /* Community - same */
-    .node-5 { bottom: 2%; left: 3%; } /* Therapist - same */
-    .node-6 { top: 56%; left: 3%; } /* BELOW CLOUD TEXT */
+    .node-3 { top: 56%; right: 3%; } /* BELOW mood-status */
+    .node-4 { bottom: 10%; right: 3%; } /* HIGHER */
+    .node-5 { bottom: 6%; left: 3%; } /* HIGHER */
+    .node-6 { top: 56%; left: 3%; } /* BELOW mood-status */
     
     .mood-cloud {
         width: 110px;
@@ -3564,7 +3579,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        height: 540px;
+        height: 520px;
     }
     
     .flow-node {
@@ -3585,10 +3600,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Final mobile positions */
     .node-1 { top: 2%; left: 2%; }
     .node-2 { top: 2%; right: 2%; }
-    .node-3 { top: 54%; right: 2%; } /* BELOW CLOUD TEXT */
-    .node-4 { bottom: 5%; right: 2%; } /* Community - same */
-    .node-5 { bottom: 1%; left: 2%; } /* Therapist - same */
-    .node-6 { top: 54%; left: 2%; } /* BELOW CLOUD TEXT */
+    .node-3 { top: 54%; right: 2%; } /* BELOW mood-status */
+    .node-4 { bottom: 8%; right: 2%; } /* HIGHER */
+    .node-5 { bottom: 4%; left: 2%; } /* HIGHER */
+    .node-6 { top: 54%; left: 2%; } /* BELOW mood-status */
     
     .mood-cloud {
         width: 100px;
@@ -3649,10 +3664,10 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Adjust positions for landscape */
     .node-1 { top: 5%; left: 3%; }
     .node-2 { top: 5%; right: 3%; }
-    .node-3 { top: 55%; right: 3%; } /* BELOW CLOUD TEXT */
-    .node-4 { bottom: 5%; right: 3%; }
-    .node-5 { bottom: 5%; left: 3%; }
-    .node-6 { top: 55%; left: 3%; } /* BELOW CLOUD TEXT */
+    .node-3 { top: 52%; right: 3%; } /* BELOW mood-status */
+    .node-4 { bottom: 8%; right: 3%; } /* HIGHER */
+    .node-5 { bottom: 5%; left: 3%; } /* HIGHER */
+    .node-6 { top: 52%; left: 3%; } /* BELOW mood-status */
 }
 
 /* Dark Mode */
