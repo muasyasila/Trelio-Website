@@ -3341,16 +3341,16 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         font-size: 1.1rem;
     }
     
-    /* Mobile layout */
+    /* Mobile layout - increased height for better spacing */
     .flow-diagram {
-        height: 580px;
+        height: 680px; /* Increased from 580px */
         max-width: 100%;
         margin: 40px auto;
     }
     
     /* Cloud positioning */
     .flow-central {
-        top: 40%; /* Higher up */
+        top: 35%; /* Higher up to make room below */
         gap: 8px;
     }
     
@@ -3403,42 +3403,45 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     /* MOBILE POSITIONS - PERFECTED */
+    /* Top row nodes */
     .node-1 { 
-        top: 4%; /* Higher */
+        top: 5%; 
         left: 5%; 
         z-index: 11; 
     }
     
     .node-2 { 
-        top: 4%; /* Higher */
+        top: 5%; 
         right: 5%; 
         z-index: 12; 
     }
     
+    /* Middle row nodes - BELOW mood-status */
     .node-3 { 
-        top: 58%; /* BELOW mood-status (was 52%) */
+        top: 60%; /* Dashboard - BELOW mood-status */
         right: 5%; 
         transform: none; 
         z-index: 13; 
     }
     
+    .node-6 { 
+        top: 60%; /* Trelio AI - BELOW mood-status */
+        left: 5%; 
+        transform: none; 
+        z-index: 12; 
+    }
+    
+    /* Bottom row nodes - with more spacing */
     .node-4 { 
-        bottom: 12%; /* HIGHER (was 8%) */
+        bottom: 12%; /* Community */
         right: 5%; 
         z-index: 14; 
     }
     
     .node-5 { 
-        bottom: 8%; /* HIGHER (was 4%) */
+        bottom: 12%; /* Therapist */
         left: 5%; 
         z-index: 13; 
-    }
-    
-    .node-6 { 
-        top: 58%; /* BELOW mood-status (was 52%) */
-        left: 5%; 
-        transform: none; 
-        z-index: 12; 
     }
     
     /* Scale down cloud */
@@ -3497,7 +3500,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 @media (max-width: 600px) {
     /* For small screens */
     .flow-diagram {
-        height: 550px;
+        height: 650px; /* Increased from 550px */
     }
     
     .flow-node {
@@ -3524,13 +3527,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         -webkit-line-clamp: 2;
     }
     
-    /* Adjust positions */
-    .node-1 { top: 3%; left: 3%; }
-    .node-2 { top: 3%; right: 3%; }
-    .node-3 { top: 56%; right: 3%; } /* BELOW mood-status */
-    .node-4 { bottom: 10%; right: 3%; } /* HIGHER */
-    .node-5 { bottom: 6%; left: 3%; } /* HIGHER */
-    .node-6 { top: 56%; left: 3%; } /* BELOW mood-status */
+    /* Adjust positions with more vertical spacing */
+    .node-1 { top: 4%; left: 3%; }
+    .node-2 { top: 4%; right: 3%; }
+    .node-3 { top: 58%; right: 3%; } /* Dashboard - BELOW mood-status */
+    .node-6 { top: 58%; left: 3%; } /* Trelio AI - BELOW mood-status */
+    .node-4 { bottom: 10%; right: 3%; } /* Community - more space from bottom */
+    .node-5 { bottom: 10%; left: 3%; } /* Therapist - more space from bottom */
     
     .mood-cloud {
         width: 110px;
@@ -3579,7 +3582,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     }
     
     .flow-diagram {
-        height: 520px;
+        height: 620px; /* Increased from 520px */
     }
     
     .flow-node {
@@ -3597,13 +3600,13 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
         -webkit-line-clamp: 2;
     }
     
-    /* Final mobile positions */
-    .node-1 { top: 2%; left: 2%; }
-    .node-2 { top: 2%; right: 2%; }
-    .node-3 { top: 54%; right: 2%; } /* BELOW mood-status */
-    .node-4 { bottom: 8%; right: 2%; } /* HIGHER */
-    .node-5 { bottom: 4%; left: 2%; } /* HIGHER */
-    .node-6 { top: 54%; left: 2%; } /* BELOW mood-status */
+    /* Final mobile positions with maximum spacing */
+    .node-1 { top: 3%; left: 2%; }
+    .node-2 { top: 3%; right: 2%; }
+    .node-3 { top: 56%; right: 2%; } /* Dashboard - BELOW mood-status */
+    .node-6 { top: 56%; left: 2%; } /* Trelio AI - BELOW mood-status */
+    .node-4 { bottom: 8%; right: 2%; } /* Community - more space */
+    .node-5 { bottom: 8%; left: 2%; } /* Therapist - more space */
     
     .mood-cloud {
         width: 100px;
@@ -3648,7 +3651,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 /* Landscape mobile */
 @media (max-height: 600px) and (orientation: landscape) {
     .flow-diagram {
-        height: 380px;
+        height: 420px; /* Increased from 380px */
     }
     
     .flow-node {
@@ -3664,10 +3667,50 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     /* Adjust positions for landscape */
     .node-1 { top: 5%; left: 3%; }
     .node-2 { top: 5%; right: 3%; }
-    .node-3 { top: 52%; right: 3%; } /* BELOW mood-status */
-    .node-4 { bottom: 8%; right: 3%; } /* HIGHER */
-    .node-5 { bottom: 5%; left: 3%; } /* HIGHER */
-    .node-6 { top: 52%; left: 3%; } /* BELOW mood-status */
+    .node-3 { top: 54%; right: 3%; } /* Dashboard - BELOW mood-status */
+    .node-6 { top: 54%; left: 3%; } /* Trelio AI - BELOW mood-status */
+    .node-4 { bottom: 8%; right: 3%; } /* Community */
+    .node-5 { bottom: 8%; left: 3%; } /* Therapist */
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+    .flow-diagram {
+        height: 600px; /* Adjusted for very small screens */
+    }
+    
+    .flow-node {
+        width: 130px;
+        padding: 8px;
+    }
+    
+    .node-content h4 {
+        font-size: 0.8rem;
+    }
+    
+    .node-content p {
+        font-size: 0.65rem;
+    }
+    
+    /* More compact positions */
+    .node-1 { top: 3%; left: 2%; }
+    .node-2 { top: 3%; right: 2%; }
+    .node-3 { top: 54%; right: 2%; } /* Dashboard - BELOW mood-status */
+    .node-6 { top: 54%; left: 2%; } /* Trelio AI - BELOW mood-status */
+    .node-4 { bottom: 6%; right: 2%; } /* Community */
+    .node-5 { bottom: 6%; left: 2%; } /* Therapist */
+    
+    .mood-cloud {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .combined-label {
+        min-width: 65px;
+        padding: 3px 6px;
+        top: -8px;
+        left: -8px;
+    }
 }
 
 /* Dark Mode */
