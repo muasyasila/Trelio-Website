@@ -168,7 +168,7 @@
 
         <!-- Interactive Flow Diagram -->
         <div class="flow-diagram">
-            <!-- Central Cloud -->
+            <!-- Central Cloud - USING TRELIO LOGO DESIGN -->
             <div class="flow-central">
                 <div class="cloud-wrapper">
                     <div class="mood-cloud" id="moodCloud">
@@ -178,16 +178,23 @@
                             <span class="label-text">Happy</span>
                         </div>
                         
-                        <!-- Flat-bottom cloud SVG -->
-                        <svg class="cloud-svg" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet">
-                            <!-- Flat bottom cloud -->
-                            <path class="cloud-body" d="M180,100 Q200,100 200,80 Q200,60 180,60 Q170,40 150,40 Q130,40 120,60 Q100,40 80,40 Q60,40 50,60 Q30,60 30,80 Q30,100 50,100 L50,120 L150,120 L150,100 Q160,120 180,120 Q200,120 200,100 L180,100 Z" 
+                        <!-- Trelio Logo Cloud SVG -->
+                        <svg class="cloud-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                            <!-- Cloud body from Trelio logo -->
+                            <path class="cloud-body" d="M50 20c-6 0-11.4 3.8-13.4 9.2-1.1-.1-2.3-.2-3.4-.2-8.5 0-15.4 7-15.4 15.4S28.7 60 37.2 60h25.6c7.3 0 13.2-5.9 13.2-13.2 0-5.6-3.5-10.3-8.5-12.2.1-.3.2-.7.2-1 0-7.3-5.9-13.2-13.2-13.2-2.5 0-4.8.7-6.9 1.9C45.8 21.7 42 20 38.3 20H50z" 
                                   fill="currentColor"/>
-                            <!-- Cute eyes -->
-                            <circle class="cloud-eye left-eye" cx="70" cy="70" r="8" fill="#0F1724"/>
-                            <circle class="cloud-eye right-eye" cx="130" cy="70" r="8" fill="#0F1724"/>
-                            <!-- Smile mouth -->
-                            <path class="cloud-mouth" d="M80,95 Q100,110 120,95" fill="none" stroke="#0F1724" stroke-width="4" stroke-linecap="round"/>
+                            
+                            <!-- Eyes -->
+                            <circle class="cloud-eye left-eye" cx="38" cy="45" r="3" fill="#0F1724"/>
+                            <circle class="cloud-eye right-eye" cx="62" cy="45" r="3" fill="#0F1724"/>
+                            
+                            <!-- Smile -->
+                            <path class="cloud-mouth" d="M43 55c2.5 0 3.5 1.5 3.5 1.5s1-1.5 4.5-1.5" 
+                                  fill="none" stroke="#0F1724" stroke-width="2" stroke-linecap="round"/>
+                            
+                            <!-- Blush cheeks -->
+                            <circle class="cloud-blush left-blush" cx="33" cy="48" r="4" fill="#FFB4C2" opacity="0.5"/>
+                            <circle class="cloud-blush right-blush" cx="67" cy="48" r="4" fill="#FFB4C2" opacity="0.5"/>
                         </svg>
                     </div>
                     <div class="cloud-label">Your Mood Cloud</div>

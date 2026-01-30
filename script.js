@@ -913,9 +913,114 @@ class TrelioMoodFlow {
         // Update explanation
         this.updateExplanation(moodInfo);
         
+        // Update facial expressions
+        this.updateCloudExpression(moodType);
+        
         // Animations
         this.animateCloudChange();
         this.animateLabel();
+    }
+    
+    updateCloudExpression(moodType) {
+        const mouth = this.cloud.querySelector('.cloud-mouth');
+        const eyes = this.cloud.querySelectorAll('.cloud-eye');
+        const blush = this.cloud.querySelectorAll('.cloud-blush');
+        
+        if (!mouth) return;
+        
+        const expressions = {
+            'happy': {
+                mouth: 'M40 54c2.5 0 3.5 2 3.5 2s1-2 4.5-2',
+                mouthWidth: 2.5,
+                eyeRadius: 3.2,
+                eyeY: 44,
+                blushOpacity: 0.7,
+                blushRadius: 4.5
+            },
+            'calm': {
+                mouth: 'M43 55c1.5 0 2.5 1 2.5 1s0.5-1 2.5-1',
+                mouthWidth: 2,
+                eyeRadius: 3,
+                eyeY: 45,
+                blushOpacity: 0.4,
+                blushRadius: 4,
+                blushColor: '#0EA5E9'
+            },
+            'stressed': {
+                mouth: 'M43 58c2.5 0 3.5 -1 3.5 -1s1 1 4.5 1',
+                mouthWidth: 2,
+                eyeRadius: 2.5,
+                eyeY: 46,
+                blushOpacity: 0.3,
+                blushRadius: 4,
+                blushColor: '#F59E0B'
+            },
+            'anxious': {
+                mouth: 'M40 58 Q50 54 60 58',
+                mouthWidth: 2.5,
+                eyeRadius: 2,
+                eyeY: 47,
+                blushOpacity: 0.8,
+                blushRadius: 3,
+                blushColor: '#EF4444'
+            },
+            'peaceful': {
+                mouth: 'M42 55 Q50 53 58 55',
+                mouthWidth: 2,
+                eyeRadius: 3,
+                eyeY: 45,
+                blushOpacity: 0.5,
+                blushRadius: 4,
+                blushColor: '#10B981'
+            },
+            'supported': {
+                mouth: 'M40 54c3 0 4 1.5 4 1.5s1-1.5 5-1.5',
+                mouthWidth: 2.5,
+                eyeRadius: 3,
+                eyeY: 45,
+                blushOpacity: 0.6,
+                blushRadius: 4,
+                blushColor: '#8B5CF6'
+            },
+            'connected': {
+                mouth: 'M38 54c4 0 5 2 5 2s2-2 6-2',
+                mouthWidth: 2.5,
+                eyeRadius: 3.5,
+                eyeY: 44,
+                blushOpacity: 0.7,
+                blushRadius: 4.5,
+                blushColor: '#EC4899'
+            }
+        };
+        
+        const expr = expressions[moodType] || expressions.happy;
+        
+        // Update mouth
+        if (mouth) {
+            mouth.setAttribute('d', expr.mouth);
+            mouth.setAttribute('stroke-width', expr.mouthWidth);
+        }
+        
+        // Update eyes
+        if (eyes.length > 0) {
+            eyes.forEach(eye => {
+                eye.setAttribute('r', expr.eyeRadius);
+                eye.setAttribute('cy', expr.eyeY);
+            });
+        }
+        
+        // Update blush
+        if (blush.length > 0) {
+            blush.forEach(blushCircle => {
+                blushCircle.setAttribute('opacity', expr.blushOpacity);
+                blushCircle.setAttribute('r', expr.blushRadius);
+                if (expr.blushColor) {
+                    blushCircle.setAttribute('fill', expr.blushColor);
+                } else {
+                    blushCircle.setAttribute('fill', '#FFB4C2');
+                }
+            });
+        }
     }
     
     updateExplanation(moodInfo) {
