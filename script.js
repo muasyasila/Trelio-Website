@@ -732,6 +732,15 @@ class TrelioMoodFlow {
         this.textEl = document.getElementById('explanationText');
         this.tryBtn = document.getElementById('tryAppBtn');
         this.demoBtn = document.getElementById('watchDemoBtn');
+        this.cloudSvg = this.cloud.querySelector('.cloud-svg');
+        
+        // Store eye elements for mouse tracking
+        this.leftPupil = null;
+        this.rightPupil = null;
+        this.leftEye = null;
+        this.rightEye = null;
+        this.leftHighlight = null;
+        this.rightHighlight = null;
         
         this.moodData = {
             'happy': {
@@ -801,6 +810,9 @@ class TrelioMoodFlow {
         
         this.currentMood = 'happy';
         this.isDemoRunning = false;
+        this.isMouseTracking = false;
+        this.eyeMovementFactor = 0.15; // Reduced for less creepy movement
+        this.maxPupilMovement = 0.8; // Reduced max movement
         this.init();
     }
     
@@ -809,6 +821,7 @@ class TrelioMoodFlow {
         this.animateCloud();
         this.setDefaultMood();
         this.autoRotateMoods();
+        this.setupEyeTracking();
     }
     
     setupEventListeners() {
@@ -877,6 +890,146 @@ class TrelioMoodFlow {
                 this.resetToDefault();
             }
         });
+        
+        // Mouse move tracking for eye movement
+        document.addEventListener('mousemove', (e) => {
+            if (this.isMouseTracking && this.leftPupil && this.rightPupil) {
+                this.updateEyeMovement(e);
+            }
+        });
+        
+        // Enable mouse tracking when mouse enters cloud
+        this.cloud.addEventListener('mouseenter', () => {
+            this.isMouseTracking = true;
+        });
+        
+        // Disable mouse tracking when mouse leaves cloud
+        this.cloud.addEventListener('mouseleave', () => {
+            this.isMouseTracking = false;
+            this.resetEyePositions();
+        });
+    }
+    
+    setupEyeTracking() {
+        // Get eye elements after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            this.leftPupil = this.cloud.querySelector('.left-pupil');
+            this.rightPupil = this.cloud.querySelector('.right-pupil');
+            this.leftEye = this.cloud.querySelector('.left-eye');
+            this.rightEye = this.cloud.querySelector('.right-eye');
+            this.leftHighlight = this.cloud.querySelector('.left-highlight');
+            this.rightHighlight = this.cloud.querySelector('.right-highlight');
+            
+            // Set initial positions
+            this.resetEyePositions();
+        }, 100);
+    }
+    
+    updateEyeMovement(e) {
+        if (!this.leftPupil || !this.rightPupil || !this.cloudSvg) return;
+        
+        const cloudRect = this.cloud.getBoundingClientRect();
+        
+        // Calculate relative mouse position within cloud
+        const mouseX = e.clientX - cloudRect.left;
+        const mouseY = e.clientY - cloudRect.top;
+        
+        // Normalize to 0-1 range within cloud
+        const relX = (mouseX / cloudRect.width) - 0.5;
+        const relY = (mouseY / cloudRect.height) - 0.5;
+        
+        // Get eye center positions from current attributes
+        const leftEyeX = parseFloat(this.leftEye.getAttribute('cx'));
+        const leftEyeY = parseFloat(this.leftEye.getAttribute('cy'));
+        const rightEyeX = parseFloat(this.rightEye.getAttribute('cx'));
+        const rightEyeY = parseFloat(this.rightEye.getAttribute('cy'));
+        
+        // Calculate new pupil positions with smoother, more natural movement
+        const leftPupilNewX = leftEyeX + Math.max(-this.maxPupilMovement, 
+                                                 Math.min(this.maxPupilMovement, relX * this.eyeMovementFactor * 100));
+        const leftPupilNewY = leftEyeY + Math.max(-this.maxPupilMovement, 
+                                                 Math.min(this.maxPupilMovement, relY * this.eyeMovementFactor * 100));
+        
+        const rightPupilNewX = rightEyeX + Math.max(-this.maxPupilMovement, 
+                                                  Math.min(this.maxPupilMovement, relX * this.eyeMovementFactor * 100));
+        const rightPupilNewY = rightEyeY + Math.max(-this.maxPupilMovement, 
+                                                  Math.min(this.maxPupilMovement, relY * this.eyeMovementFactor * 100));
+        
+        // Update pupils
+        this.leftPupil.setAttribute('cx', leftPupilNewX);
+        this.leftPupil.setAttribute('cy', leftPupilNewY);
+        this.rightPupil.setAttribute('cx', rightPupilNewX);
+        this.rightPupil.setAttribute('cy', rightPupilNewY);
+        
+        // Update highlights (move them slightly less than pupils for natural look)
+        const highlightFactor = 0.7;
+        if (this.leftHighlight) {
+            const leftHighlightNewX = leftEyeX - 1 + (leftPupilNewX - leftEyeX) * highlightFactor;
+            const leftHighlightNewY = leftEyeY - 1 + (leftPupilNewY - leftEyeY) * highlightFactor;
+            this.leftHighlight.setAttribute('cx', leftHighlightNewX);
+            this.leftHighlight.setAttribute('cy', leftHighlightNewY);
+        }
+        
+        if (this.rightHighlight) {
+            const rightHighlightNewX = rightEyeX - 1 + (rightPupilNewX - rightEyeX) * highlightFactor;
+            const rightHighlightNewY = rightEyeY - 1 + (rightPupilNewY - rightEyeY) * highlightFactor;
+            this.rightHighlight.setAttribute('cx', rightHighlightNewX);
+            this.rightHighlight.setAttribute('cy', rightHighlightNewY);
+        }
+    }
+    
+    resetEyePositions() {
+        if (this.leftPupil && this.rightPupil) {
+            // Reset to center of eyes based on current mood
+            const mood = this.currentMood;
+            let eyeY = 43;
+            let pupilY = 43;
+            
+            // Adjust based on mood expression
+            switch(mood) {
+                case 'happy':
+                    eyeY = 43;
+                    pupilY = 43;
+                    break;
+                case 'stressed':
+                    eyeY = 44;
+                    pupilY = 44;
+                    break;
+                case 'anxious':
+                    eyeY = 44.5;
+                    pupilY = 44.5;
+                    break;
+                case 'connected':
+                    eyeY = 42.5;
+                    pupilY = 42.5;
+                    break;
+                default:
+                    eyeY = 43;
+                    pupilY = 43;
+            }
+            
+            // Reset pupils to eye centers
+            this.leftPupil.setAttribute('cx', 38);
+            this.leftPupil.setAttribute('cy', pupilY);
+            this.rightPupil.setAttribute('cx', 62);
+            this.rightPupil.setAttribute('cy', pupilY);
+            
+            // Reset highlights
+            if (this.leftHighlight) {
+                this.leftHighlight.setAttribute('cx', 37);
+                this.leftHighlight.setAttribute('cy', pupilY - 1);
+            }
+            if (this.rightHighlight) {
+                this.rightHighlight.setAttribute('cx', 61);
+                this.rightHighlight.setAttribute('cy', pupilY - 1);
+            }
+            
+            // Update eye positions if needed
+            if (this.leftEye && this.rightEye) {
+                this.leftEye.setAttribute('cy', eyeY);
+                this.rightEye.setAttribute('cy', eyeY);
+            }
+        }
     }
     
     setDefaultMood() {
@@ -916,6 +1069,9 @@ class TrelioMoodFlow {
         // Update facial expressions
         this.updateCloudExpression(moodType);
         
+        // Reset eye positions to mood-appropriate position
+        setTimeout(() => this.resetEyePositions(), 50);
+        
         // Animations
         this.animateCloudChange();
         this.animateLabel();
@@ -924,6 +1080,7 @@ class TrelioMoodFlow {
     updateCloudExpression(moodType) {
         const mouth = this.cloud.querySelector('.cloud-mouth');
         const eyes = this.cloud.querySelectorAll('.cloud-eye');
+        const pupils = this.cloud.querySelectorAll('.eye-pupil');
         const blush = this.cloud.querySelectorAll('.cloud-blush');
         
         if (!mouth) return;
@@ -932,63 +1089,84 @@ class TrelioMoodFlow {
             'happy': {
                 mouth: 'M40 54c2.5 0 3.5 2 3.5 2s1-2 4.5-2',
                 mouthWidth: 2.5,
-                eyeRadius: 3.2,
-                eyeY: 44,
+                eyeRadius: 3.5,
+                eyeY: 43,
+                pupilRadius: 1.5,
+                pupilY: 43,
                 blushOpacity: 0.7,
-                blushRadius: 4.5
+                blushRadius: 3.2,
+                blushY: 50
             },
             'calm': {
                 mouth: 'M43 55c1.5 0 2.5 1 2.5 1s0.5-1 2.5-1',
                 mouthWidth: 2,
-                eyeRadius: 3,
-                eyeY: 45,
+                eyeRadius: 3.5,
+                eyeY: 43,
+                pupilRadius: 1.5,
+                pupilY: 43,
                 blushOpacity: 0.4,
-                blushRadius: 4,
+                blushRadius: 3.2,
+                blushY: 50,
                 blushColor: '#0EA5E9'
             },
             'stressed': {
                 mouth: 'M43 58c2.5 0 3.5 -1 3.5 -1s1 1 4.5 1',
                 mouthWidth: 2,
-                eyeRadius: 2.5,
-                eyeY: 46,
+                eyeRadius: 3,
+                eyeY: 44,
+                pupilRadius: 1.3,
+                pupilY: 44,
                 blushOpacity: 0.3,
-                blushRadius: 4,
+                blushRadius: 3,
+                blushY: 50,
                 blushColor: '#F59E0B'
             },
             'anxious': {
                 mouth: 'M40 58 Q50 54 60 58',
                 mouthWidth: 2.5,
-                eyeRadius: 2,
-                eyeY: 47,
+                eyeRadius: 2.8,
+                eyeY: 44.5,
+                pupilRadius: 1.2,
+                pupilY: 44.5,
                 blushOpacity: 0.8,
-                blushRadius: 3,
+                blushRadius: 2.8,
+                blushY: 50,
                 blushColor: '#EF4444'
             },
             'peaceful': {
                 mouth: 'M42 55 Q50 53 58 55',
                 mouthWidth: 2,
-                eyeRadius: 3,
-                eyeY: 45,
+                eyeRadius: 3.5,
+                eyeY: 43,
+                pupilRadius: 1.5,
+                pupilY: 43,
                 blushOpacity: 0.5,
-                blushRadius: 4,
+                blushRadius: 3.2,
+                blushY: 50,
                 blushColor: '#10B981'
             },
             'supported': {
                 mouth: 'M40 54c3 0 4 1.5 4 1.5s1-1.5 5-1.5',
                 mouthWidth: 2.5,
-                eyeRadius: 3,
-                eyeY: 45,
+                eyeRadius: 3.5,
+                eyeY: 43,
+                pupilRadius: 1.5,
+                pupilY: 43,
                 blushOpacity: 0.6,
-                blushRadius: 4,
+                blushRadius: 3.2,
+                blushY: 50,
                 blushColor: '#8B5CF6'
             },
             'connected': {
                 mouth: 'M38 54c4 0 5 2 5 2s2-2 6-2',
                 mouthWidth: 2.5,
-                eyeRadius: 3.5,
-                eyeY: 44,
+                eyeRadius: 3.8,
+                eyeY: 42.5,
+                pupilRadius: 1.6,
+                pupilY: 42.5,
                 blushOpacity: 0.7,
-                blushRadius: 4.5,
+                blushRadius: 3.5,
+                blushY: 50,
                 blushColor: '#EC4899'
             }
         };
@@ -1009,11 +1187,20 @@ class TrelioMoodFlow {
             });
         }
         
+        // Update pupils
+        if (pupils.length > 0) {
+            pupils.forEach(pupil => {
+                pupil.setAttribute('r', expr.pupilRadius);
+                pupil.setAttribute('cy', expr.pupilY);
+            });
+        }
+        
         // Update blush
         if (blush.length > 0) {
             blush.forEach(blushCircle => {
                 blushCircle.setAttribute('opacity', expr.blushOpacity);
                 blushCircle.setAttribute('r', expr.blushRadius);
+                blushCircle.setAttribute('cy', expr.blushY);
                 if (expr.blushColor) {
                     blushCircle.setAttribute('fill', expr.blushColor);
                 } else {
@@ -1075,6 +1262,7 @@ class TrelioMoodFlow {
     resetToDefault() {
         this.changeMood('happy');
         this.resetHighlights();
+        this.resetEyePositions();
     }
     
     randomMood() {
@@ -1150,6 +1338,9 @@ class TrelioMoodFlow {
         this.nodes.forEach(node => {
             node.style.pointerEvents = 'none';
         });
+        
+        // Disable mouse tracking during demo
+        this.isMouseTracking = false;
         
         const demoInterval = setInterval(() => {
             this.changeMood(moods[demoIndex]);

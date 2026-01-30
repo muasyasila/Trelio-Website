@@ -184,17 +184,30 @@
                             <path class="cloud-body" d="M50 20c-6 0-11.4 3.8-13.4 9.2-1.1-.1-2.3-.2-3.4-.2-8.5 0-15.4 7-15.4 15.4S28.7 60 37.2 60h25.6c7.3 0 13.2-5.9 13.2-13.2 0-5.6-3.5-10.3-8.5-12.2.1-.3.2-.7.2-1 0-7.3-5.9-13.2-13.2-13.2-2.5 0-4.8.7-6.9 1.9C45.8 21.7 42 20 38.3 20H50z" 
                                   fill="currentColor"/>
                             
-                            <!-- Eyes -->
-                            <circle class="cloud-eye left-eye" cx="38" cy="45" r="3" fill="#0F1724"/>
-                            <circle class="cloud-eye right-eye" cx="62" cy="45" r="3" fill="#0F1724"/>
+                            <!-- Eyes with pupils and white highlights -->
+                            <g class="cloud-eyes">
+                                <!-- Left eye -->
+                                <circle class="cloud-eye left-eye" cx="38" cy="43" r="3.5" fill="#0F1724"/>
+                                <!-- Left eye pupil -->
+                                <circle class="eye-pupil left-pupil" cx="38" cy="43" r="1.5" fill="#0F1724"/>
+                                <!-- Left eye white highlight -->
+                                <circle class="eye-highlight left-highlight" cx="37" cy="42" r="0.8" fill="white" opacity="0.9"/>
+                                
+                                <!-- Right eye -->
+                                <circle class="cloud-eye right-eye" cx="62" cy="43" r="3.5" fill="#0F1724"/>
+                                <!-- Right eye pupil -->
+                                <circle class="eye-pupil right-pupil" cx="62" cy="43" r="1.5" fill="#0F1724"/>
+                                <!-- Right eye white highlight -->
+                                <circle class="eye-highlight right-highlight" cx="61" cy="42" r="0.8" fill="white" opacity="0.9"/>
+                            </g>
                             
                             <!-- Smile -->
                             <path class="cloud-mouth" d="M43 55c2.5 0 3.5 1.5 3.5 1.5s1-1.5 4.5-1.5" 
                                   fill="none" stroke="#0F1724" stroke-width="2" stroke-linecap="round"/>
                             
-                            <!-- Blush cheeks -->
-                            <circle class="cloud-blush left-blush" cx="33" cy="48" r="4" fill="#FFB4C2" opacity="0.5"/>
-                            <circle class="cloud-blush right-blush" cx="67" cy="48" r="4" fill="#FFB4C2" opacity="0.5"/>
+                            <!-- Blush cheeks - smaller and positioned lower -->
+                            <circle class="cloud-blush left-blush" cx="33" cy="50" r="3.2" fill="#FFB4C2" opacity="0.5"/>
+                            <circle class="cloud-blush right-blush" cx="67" cy="50" r="3.2" fill="#FFB4C2" opacity="0.5"/>
                         </svg>
                     </div>
                     <div class="cloud-label">Your Mood Cloud</div>
