@@ -1331,3 +1331,97 @@ document.addEventListener('DOMContentLoaded', updateCurrentYear);
 if (document.getElementById('current-year')) {
     updateCurrentYear();
 }
+
+// Mission Section Counter Animation - FAST VERSION
+function animateMissionCounters() {
+    const stats = document.querySelectorAll('.tre-stat');
+    
+    stats.forEach(stat => {
+        const numberElement = stat.querySelector('.tre-stat-number');
+        const target = parseInt(numberElement.getAttribute('data-count'));
+        const suffix = numberElement.getAttribute('data-suffix') || '';
+        
+        // Start progress bar animation
+        stat.classList.add('progress-animating');
+        
+        // Fast animation (1 second)
+        const duration = 1000; // 1 second - FAST!
+        const steps = 30; // 30 frames for smoothness
+        const stepDuration = duration / steps;
+        let current = 0;
+        const increment = target / steps;
+        
+        // Add pop animation
+        numberElement.classList.add('animating');
+        
+        const counter = setInterval(() => {
+            current += increment;
+            
+            if (current >= target) {
+                current = target;
+                clearInterval(counter);
+                
+                // Remove animations after completion
+                setTimeout(() => {
+                    numberElement.classList.remove('animating');
+                    stat.classList.remove('progress-animating');
+                }, 300);
+            }
+            
+            // Format the number
+            let displayNumber;
+            if (target >= 1000) {
+                // For 10000, show as 10k
+                const value = Math.floor(current);
+                if (value >= 1000) {
+                    displayNumber = (value/1000).toFixed(value >= 10000 ? 0 : 1) + 'k';
+                } else {
+                    displayNumber = value;
+                }
+            } else {
+                displayNumber = Math.floor(current);
+            }
+            
+            // Update display
+            if (current === target) {
+                numberElement.textContent = displayNumber + suffix;
+            } else {
+                numberElement.textContent = displayNumber;
+            }
+            
+        }, stepDuration);
+    });
+}
+
+// Initialize counter when mission section is visible
+const missionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Start animation immediately
+            animateMissionCounters();
+            missionObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.3, // Trigger when 30% visible
+    rootMargin: '0px 0px -50px 0px' // Trigger 50px early
+});
+
+// Start observing the mission section
+const missionSection = document.querySelector('.tre-minimal-mission');
+if (missionSection) {
+    missionObserver.observe(missionSection);
+}
+
+// Optional: Add hover effect to restart animation
+document.querySelectorAll('.tre-stat').forEach(stat => {
+    stat.addEventListener('mouseenter', () => {
+        const numberElement = stat.querySelector('.tre-stat-number');
+        if (!numberElement.classList.contains('animating')) {
+            numberElement.classList.add('animating');
+            setTimeout(() => {
+                numberElement.classList.remove('animating');
+            }, 500);
+        }
+    });
+});

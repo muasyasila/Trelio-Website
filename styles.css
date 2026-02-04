@@ -4449,3 +4449,264 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 
 
+/* =========================================
+   MINIMAL MISSION SECTION WITH COUNTERS
+   ========================================= */
+
+.tre-minimal-mission {
+    padding: 80px 5%;
+    background: var(--bg-body);
+    position: relative;
+    overflow: hidden;
+}
+
+.tre-mission-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+/* Badge */
+.tre-mission-badge {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--primary-blue);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Title with rotating gradient words */
+.tre-mission-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text-main);
+}
+
+.tre-gradient-words {
+    display: inline-block;
+    position: relative;
+    height: 1.2em;
+    overflow: hidden;
+}
+
+.tre-gradient-word {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-blue), #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: wordCycle 9s infinite;
+}
+
+.tre-gradient-word:nth-child(1) { animation-delay: 0s; }
+.tre-gradient-word:nth-child(2) { animation-delay: 3s; }
+.tre-gradient-word:nth-child(3) { animation-delay: 6s; }
+
+@keyframes wordCycle {
+    0%, 20% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    25%, 30% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    35%, 100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+/* Subtitle */
+.tre-mission-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 50px;
+}
+
+/* Stats with Counter Animation */
+.tre-mission-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.tre-stat {
+    text-align: center;
+    min-width: 100px;
+    position: relative;
+}
+
+.tre-stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-blue), #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 8px;
+    display: inline-block;
+    min-width: 60px;
+    transition: transform 0.3s ease;
+}
+
+.tre-stat-number.animating {
+    animation: numberPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes numberPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Progress bar for counting */
+.tre-stat-progress {
+    width: 60px;
+    height: 3px;
+    background: rgba(56, 189, 248, 0.1);
+    border-radius: 2px;
+    margin: 8px auto 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tre-stat-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-blue), #0ea5e9);
+    border-radius: 2px;
+    transition: width 2s ease-out;
+}
+
+.tre-stat.progress-animating .tre-stat-progress::after {
+    width: 100%;
+}
+
+.tre-stat-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+    .tre-minimal-mission {
+        padding: 60px 5%;
+    }
+    
+    .tre-mission-title {
+        font-size: 2rem;
+    }
+    
+    .tre-mission-subtitle {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    
+    .tre-mission-stats {
+        gap: 30px;
+    }
+    
+    .tre-stat {
+        min-width: 80px;
+    }
+    
+    .tre-stat-number {
+        font-size: 2rem;
+    }
+    
+    .tre-stat-progress {
+        width: 50px;
+        margin: 6px auto 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tre-minimal-mission {
+        padding: 50px 4%;
+    }
+    
+    .tre-mission-title {
+        font-size: 1.8rem;
+    }
+    
+    .tre-mission-stats {
+        gap: 20px;
+    }
+    
+    .tre-stat {
+        min-width: 70px;
+    }
+    
+    .tre-stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .tre-stat-progress {
+        width: 40px;
+    }
+}
+
+/* Dark mode */
+[data-theme="dark"] .tre-mission-badge {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+[data-theme="dark"] .tre-stat-progress {
+    background: rgba(56, 189, 248, 0.05);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .tre-gradient-word {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        position: static;
+        display: inline;
+    }
+    
+    .tre-gradient-words {
+        height: auto;
+        overflow: visible;
+    }
+    
+    .tre-stat-number.animating,
+    .tre-stat-progress::after {
+        animation: none;
+        transition: none;
+    }
+}
