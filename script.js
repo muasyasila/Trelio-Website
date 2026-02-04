@@ -60,12 +60,12 @@ const isElementInViewport = (el) => {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 };
+
 // =========================================
-// THEME MANAGEMENT
+// THEME MANAGEMENT - FIXED DUPLICATE FUNCTION
 // =========================================
 
 const themeSwitch = document.getElementById('theme-switch');
-const savedTheme = localStorage.getItem('theme') || 'dark';
 
 const setTheme = (theme) => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -73,24 +73,34 @@ const setTheme = (theme) => {
     updateThemeToggleLabel();
 };
 
+// SINGLE DECLARATION of updateThemeToggleLabel
 const updateThemeToggleLabel = () => {
     if (!themeSwitch) return;
     const current = document.documentElement.getAttribute('data-theme') || 'light';
     themeSwitch.setAttribute('aria-label', `Switch to ${current === 'dark' ? 'light' : 'dark'} mode`);
+    themeSwitch.setAttribute('aria-pressed', current === 'dark');
 };
 
 // Initialize theme on page load
 const initializeTheme = () => {
-    setTheme(savedTheme);
-    updateThemeToggleLabel();
+    // Check if theme exists in localStorage, otherwise use system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Default to dark if no preference
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    setTheme(initialTheme);
     
     if (themeSwitch) {
         themeSwitch.addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme');
-            setTheme(current === 'dark' ? 'light' : 'dark');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
         });
     }
 };
+
 // =========================================
 // MODAL MANAGEMENT
 // =========================================
@@ -243,6 +253,7 @@ const initializeMoodGallery = () => {
         });
     }
 };
+
 // =========================================
 // NAVIGATION
 // =========================================
@@ -268,6 +279,7 @@ const initializeMobileNavigation = () => {
         });
     });
 };
+
 // =========================================
 // CAROUSEL SYSTEM (Fixed Laptop View)
 // =========================================
@@ -309,11 +321,11 @@ const updateIndicators = () => {
 // Fixed Laptop/Mobile Dimensions
 const getCarouselDimensions = () => {
     const width = window.innerWidth;
-    const isMobileDevice = width < 768; // Changed variable name to avoid conflict with utility function
+    const isMobileDevice = width < 768;
     
     return {
-        radiusX: isMobileDevice ? width * 0.45 : 420, // Tightened spread for laptop
-        radiusY: 10                             // FIXED: Set to 10 for both to stop the dip
+        radiusX: isMobileDevice ? width * 0.45 : 420,
+        radiusY: 10
     };
 };
 
@@ -323,7 +335,7 @@ const updateCarousel = () => {
     
     const { radiusX, radiusY } = getCarouselDimensions();
     const width = window.innerWidth;
-    const isMobileDevice = width < 768; // Changed variable name
+    const isMobileDevice = width < 768;
     const isSmallMobile = width < 480;
     
     carouselCards.forEach((card, i) => {
@@ -334,27 +346,20 @@ const updateCarousel = () => {
         
         const angle = (offset * 0.4) + 4.712;
         const x = Math.cos(angle) * radiusX;
+        const y = Math.sin(angle) * radiusY;
         
-// ... inside the carouselCards.forEach loop ...
-
-const isCenter = i === carouselIndex;
-
-// Change this to 20 or 30 to physically push the cards down 
-// if they are still touching the title.
-const verticalLift = 30; 
-
-const tilt = isMobileDevice ? offset * -5 : offset * -10; // Slightly reduced tilt for laptop
-const baseScale = isMobileDevice ? 0.7 : 0.85; 
-const centerScale = isMobileDevice ? 1.0 : 1.05;
-card.style.position = 'absolute';
-card.style.left = '50%';
-// Add this line to ensure it starts from the middle vertically
-card.style.top = '50%'; 
-
-card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-
-// Apply the transform - notice the use of verticalLift to move cards down
-card.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${verticalLift}px)) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
+        const isCenter = i === carouselIndex;
+        const verticalLift = 30;
+        const tilt = isMobileDevice ? offset * -5 : offset * -10;
+        const baseScale = isMobileDevice ? 0.7 : 0.85;
+        const centerScale = isMobileDevice ? 1.0 : 1.05;
+        
+        card.style.position = 'absolute';
+        card.style.left = '50%';
+        card.style.top = '50%';
+        card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+        
+        card.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px + ${verticalLift}px)) scale(${isCenter ? centerScale : baseScale}) rotate(${tilt}deg)`;
         
         card.style.zIndex = isCenter ? 100 : String(50 - Math.abs(offset));
         
@@ -473,6 +478,7 @@ const initializeCarousel = () => {
     initializeCarouselNavigation();
     initializeCardClickHandlers();
 };
+
 // =========================================
 // SHARE FUNCTIONALITY
 // =========================================
@@ -496,6 +502,7 @@ const initializeShareButton = () => {
         });
     });
 };
+
 // =========================================
 // SCROLL ANIMATIONS
 // =========================================
@@ -520,6 +527,7 @@ const initializeScrollAnimations = () => {
     
     return revealOnScroll;
 };
+
 // =========================================
 // VIDEO CONTROLS
 // =========================================
@@ -534,12 +542,10 @@ const initializeVideoControls = () => {
             const shouldPlay = video.hasAttribute('data-user-unmuted') || isInViewport;
             
             if (isInViewport && shouldPlay) {
-                // Video is in viewport and should play
                 if (video.paused) {
                     video.play().catch(e => console.log("Video play failed:", e));
                 }
             } else {
-                // Video is out of viewport - pause it
                 if (!video.paused) {
                     video.pause();
                 }
@@ -549,78 +555,62 @@ const initializeVideoControls = () => {
     
     // Initialize each video
     videos.forEach(video => {
-        // Start videos muted (browser requirement for autoplay)
         video.muted = true;
         video.setAttribute('playsinline', '');
         video.setAttribute('autoplay', '');
         video.setAttribute('loop', '');
         
-        // Store original mute state for reference
         video.setAttribute('data-originally-muted', 'true');
         
-        // Try to autoplay muted video
         video.play().catch(e => {
             console.log("Autoplay muted failed, will play on interaction:", e);
-            // Mark that we need user interaction
             video.setAttribute('data-needs-interaction', 'true');
         });
         
-        // Add click listener for sound toggle buttons
         const soundButton = video.parentElement.querySelector('.sound-toggle, [data-sound-video]');
         if (soundButton) {
             soundButton.addEventListener('click', function() {
                 if (video.muted) {
-                    // Unmute video
                     video.muted = false;
                     video.removeAttribute('data-originally-muted');
                     video.setAttribute('data-user-unmuted', 'true');
                     
-                    // Try to play if paused
                     if (video.paused) {
                         video.play().catch(e => console.log("Video play failed after unmute:", e));
                     }
                     
-                    // Update button icon
                     this.innerHTML = '🔊';
                     this.setAttribute('aria-label', 'Mute video');
                 } else {
-                    // Mute video
                     video.muted = true;
                     video.setAttribute('data-originally-muted', 'true');
                     video.removeAttribute('data-user-unmuted');
                     
-                    // Update button icon
                     this.innerHTML = '🔇';
                     this.setAttribute('aria-label', 'Unmute video');
                 }
             });
             
-            // Set initial button icon
             soundButton.innerHTML = video.muted ? '🔇' : '🔊';
             soundButton.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
         }
         
-        // Also allow unmuting by clicking the video itself
         video.addEventListener('click', () => {
             if (video.hasAttribute('data-needs-interaction')) {
                 video.removeAttribute('data-needs-interaction');
                 video.play().catch(e => console.log("Video play failed on click:", e));
             }
             
-            // If still muted, toggle mute
             if (video.muted && soundButton) {
                 soundButton.click();
             }
         });
         
-        // Handle video errors
         video.addEventListener('error', () => {
             console.error('Video error:', video.error);
         });
         
-        // Track time update to save position (optional)
         video.addEventListener('timeupdate', () => {
-            // Store current time in case we need to restore
             localStorage.setItem(`video-${video.src}-time`, video.currentTime);
         });
     });
@@ -628,26 +618,19 @@ const initializeVideoControls = () => {
     // Initial check
     handleVideoPlayback();
     
-    // Listen for scroll events
     window.addEventListener('scroll', handleVideoPlayback);
-    
-    // Also check when resizing
     window.addEventListener('resize', handleVideoPlayback);
     
-    // Handle page visibility (when user switches tabs)
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            // Page is hidden - pause all videos
             document.querySelectorAll('video').forEach(v => {
                 if (!v.paused) v.pause();
             });
         } else {
-            // Page is visible again - check which videos should play
             handleVideoPlayback();
         }
     });
     
-    // Also handle when user interacts with page (for autoplay policies)
     document.addEventListener('click', () => {
         document.querySelectorAll('video[data-needs-interaction]').forEach(v => {
             if (isElementInViewport(v)) {
@@ -657,6 +640,7 @@ const initializeVideoControls = () => {
         });
     });
 };
+
 // =========================================
 // MAIN INITIALIZATION
 // =========================================
@@ -694,29 +678,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // EVENT LISTENERS FOR RESIZE/SCROLL
     // =========================================
     
-    // Store resize handler to avoid duplicate listeners
     const handleResize = () => {
-        // Update mobile adjustments
         adjustPhoneUIForMobile();
         preventHorizontalScroll();
         updateMobileClass();
         
-        // Update carousel
         updateCarousel();
         createIndicators();
         
-        // Re-run scroll animations
         if (typeof revealOnScroll === 'function') {
             revealOnScroll();
         }
     };
     
-    // Add resize event listener (only once)
     window.addEventListener('resize', handleResize);
 });
-
-
-
 
 // =========================================
 // TRELIO How it works MOOD FLOW - FINAL PERFECT POSITIONS
@@ -734,7 +710,6 @@ class TrelioMoodFlow {
         this.demoBtn = document.getElementById('watchDemoBtn');
         this.cloudSvg = this.cloud.querySelector('.cloud-svg');
         
-        // Store eye elements for mouse tracking
         this.leftPupil = null;
         this.rightPupil = null;
         this.leftEye = null;
@@ -811,8 +786,8 @@ class TrelioMoodFlow {
         this.currentMood = 'happy';
         this.isDemoRunning = false;
         this.isMouseTracking = false;
-        this.eyeMovementFactor = 0.15; // Reduced for less creepy movement
-        this.maxPupilMovement = 0.8; // Reduced max movement
+        this.eyeMovementFactor = 0.15;
+        this.maxPupilMovement = 0.8;
         this.init();
     }
     
@@ -825,7 +800,6 @@ class TrelioMoodFlow {
     }
     
     setupEventListeners() {
-        // Node hover interactions
         this.nodes.forEach(node => {
             node.addEventListener('mouseenter', () => {
                 const mood = node.dataset.mood;
@@ -837,21 +811,18 @@ class TrelioMoodFlow {
                 this.resetHighlights();
             });
             
-            // Click changes mood
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const mood = node.dataset.mood;
                 this.changeMood(mood);
                 this.highlightNode(node);
                 
-                // Visual feedback
                 node.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     node.style.transform = '';
                 }, 200);
             });
             
-            // Touch support
             node.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 const mood = node.dataset.mood;
@@ -860,7 +831,6 @@ class TrelioMoodFlow {
             });
         });
         
-        // Cloud interactions
         this.cloud.addEventListener('click', () => {
             this.randomMood();
         });
@@ -870,7 +840,6 @@ class TrelioMoodFlow {
             this.randomMood();
         });
         
-        // Button interactions
         this.tryBtn.addEventListener('click', (e) => {
             e.preventDefault();
             this.triggerTryApp();
@@ -881,7 +850,6 @@ class TrelioMoodFlow {
             this.triggerMoodDemo();
         });
         
-        // Keyboard
         document.addEventListener('keydown', (e) => {
             if (e.key === 'm' || e.key === 'M') {
                 this.randomMood();
@@ -891,19 +859,16 @@ class TrelioMoodFlow {
             }
         });
         
-        // Mouse move tracking for eye movement
         document.addEventListener('mousemove', (e) => {
             if (this.isMouseTracking && this.leftPupil && this.rightPupil) {
                 this.updateEyeMovement(e);
             }
         });
         
-        // Enable mouse tracking when mouse enters cloud
         this.cloud.addEventListener('mouseenter', () => {
             this.isMouseTracking = true;
         });
         
-        // Disable mouse tracking when mouse leaves cloud
         this.cloud.addEventListener('mouseleave', () => {
             this.isMouseTracking = false;
             this.resetEyePositions();
@@ -911,7 +876,6 @@ class TrelioMoodFlow {
     }
     
     setupEyeTracking() {
-        // Get eye elements after a short delay to ensure DOM is ready
         setTimeout(() => {
             this.leftPupil = this.cloud.querySelector('.left-pupil');
             this.rightPupil = this.cloud.querySelector('.right-pupil');
@@ -920,7 +884,6 @@ class TrelioMoodFlow {
             this.leftHighlight = this.cloud.querySelector('.left-highlight');
             this.rightHighlight = this.cloud.querySelector('.right-highlight');
             
-            // Set initial positions
             this.resetEyePositions();
         }, 100);
     }
@@ -930,21 +893,17 @@ class TrelioMoodFlow {
         
         const cloudRect = this.cloud.getBoundingClientRect();
         
-        // Calculate relative mouse position within cloud
         const mouseX = e.clientX - cloudRect.left;
         const mouseY = e.clientY - cloudRect.top;
         
-        // Normalize to 0-1 range within cloud
         const relX = (mouseX / cloudRect.width) - 0.5;
         const relY = (mouseY / cloudRect.height) - 0.5;
         
-        // Get eye center positions from current attributes
         const leftEyeX = parseFloat(this.leftEye.getAttribute('cx'));
         const leftEyeY = parseFloat(this.leftEye.getAttribute('cy'));
         const rightEyeX = parseFloat(this.rightEye.getAttribute('cx'));
         const rightEyeY = parseFloat(this.rightEye.getAttribute('cy'));
         
-        // Calculate new pupil positions with smoother, more natural movement
         const leftPupilNewX = leftEyeX + Math.max(-this.maxPupilMovement, 
                                                  Math.min(this.maxPupilMovement, relX * this.eyeMovementFactor * 100));
         const leftPupilNewY = leftEyeY + Math.max(-this.maxPupilMovement, 
@@ -955,13 +914,11 @@ class TrelioMoodFlow {
         const rightPupilNewY = rightEyeY + Math.max(-this.maxPupilMovement, 
                                                   Math.min(this.maxPupilMovement, relY * this.eyeMovementFactor * 100));
         
-        // Update pupils
         this.leftPupil.setAttribute('cx', leftPupilNewX);
         this.leftPupil.setAttribute('cy', leftPupilNewY);
         this.rightPupil.setAttribute('cx', rightPupilNewX);
         this.rightPupil.setAttribute('cy', rightPupilNewY);
         
-        // Update highlights (move them slightly less than pupils for natural look)
         const highlightFactor = 0.7;
         if (this.leftHighlight) {
             const leftHighlightNewX = leftEyeX - 1 + (leftPupilNewX - leftEyeX) * highlightFactor;
@@ -980,12 +937,10 @@ class TrelioMoodFlow {
     
     resetEyePositions() {
         if (this.leftPupil && this.rightPupil) {
-            // Reset to center of eyes based on current mood
             const mood = this.currentMood;
             let eyeY = 43;
             let pupilY = 43;
             
-            // Adjust based on mood expression
             switch(mood) {
                 case 'happy':
                     eyeY = 43;
@@ -1008,13 +963,11 @@ class TrelioMoodFlow {
                     pupilY = 43;
             }
             
-            // Reset pupils to eye centers
             this.leftPupil.setAttribute('cx', 38);
             this.leftPupil.setAttribute('cy', pupilY);
             this.rightPupil.setAttribute('cx', 62);
             this.rightPupil.setAttribute('cy', pupilY);
             
-            // Reset highlights
             if (this.leftHighlight) {
                 this.leftHighlight.setAttribute('cx', 37);
                 this.leftHighlight.setAttribute('cy', pupilY - 1);
@@ -1024,7 +977,6 @@ class TrelioMoodFlow {
                 this.rightHighlight.setAttribute('cy', pupilY - 1);
             }
             
-            // Update eye positions if needed
             if (this.leftEye && this.rightEye) {
                 this.leftEye.setAttribute('cy', eyeY);
                 this.rightEye.setAttribute('cy', eyeY);
@@ -1042,37 +994,28 @@ class TrelioMoodFlow {
         this.currentMood = moodType;
         const moodInfo = this.moodData[moodType];
         
-        // Remove all mood classes
         Object.keys(this.moodData).forEach(mood => {
             this.cloud.classList.remove(mood);
         });
         
-        // Add new mood class
         this.cloud.classList.add(moodType);
         
-        // Update combined label
         const emojiSpan = this.combinedLabel.querySelector('.label-emoji');
         const textSpan = this.combinedLabel.querySelector('.label-text');
         
         if (emojiSpan) emojiSpan.textContent = moodInfo.emoji;
         if (textSpan) textSpan.textContent = moodInfo.name;
         
-        // Update status
         this.moodStatus.textContent = moodInfo.status;
         this.moodStatus.style.color = moodInfo.color;
         this.moodStatus.style.borderColor = moodInfo.color + '40';
         this.moodStatus.style.background = moodInfo.color + '15';
         
-        // Update explanation
         this.updateExplanation(moodInfo);
-        
-        // Update facial expressions
         this.updateCloudExpression(moodType);
         
-        // Reset eye positions to mood-appropriate position
         setTimeout(() => this.resetEyePositions(), 50);
         
-        // Animations
         this.animateCloudChange();
         this.animateLabel();
     }
@@ -1173,13 +1116,11 @@ class TrelioMoodFlow {
         
         const expr = expressions[moodType] || expressions.happy;
         
-        // Update mouth
         if (mouth) {
             mouth.setAttribute('d', expr.mouth);
             mouth.setAttribute('stroke-width', expr.mouthWidth);
         }
         
-        // Update eyes
         if (eyes.length > 0) {
             eyes.forEach(eye => {
                 eye.setAttribute('r', expr.eyeRadius);
@@ -1187,7 +1128,6 @@ class TrelioMoodFlow {
             });
         }
         
-        // Update pupils
         if (pupils.length > 0) {
             pupils.forEach(pupil => {
                 pupil.setAttribute('r', expr.pupilRadius);
@@ -1195,7 +1135,6 @@ class TrelioMoodFlow {
             });
         }
         
-        // Update blush
         if (blush.length > 0) {
             blush.forEach(blushCircle => {
                 blushCircle.setAttribute('opacity', expr.blushOpacity);
@@ -1215,7 +1154,6 @@ class TrelioMoodFlow {
             this.titleEl.textContent = moodInfo.title;
             this.textEl.textContent = moodInfo.text;
             
-            // Update buttons
             this.tryBtn.innerHTML = `<span>${moodInfo.action}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1334,12 +1272,10 @@ class TrelioMoodFlow {
                 <polygon points="5 3 19 12 5 21 5 3"/>
             </svg>`;
         
-        // Disable interactions
         this.nodes.forEach(node => {
             node.style.pointerEvents = 'none';
         });
         
-        // Disable mouse tracking during demo
         this.isMouseTracking = false;
         
         const demoInterval = setInterval(() => {
@@ -1355,7 +1291,6 @@ class TrelioMoodFlow {
                     });
                     this.isDemoRunning = false;
                     
-                    // Reset button
                     this.demoBtn.innerHTML = `<span>See Demo</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polygon points="5 3 19 12 5 21 5 3"/>
@@ -1377,3 +1312,22 @@ document.addEventListener('DOMContentLoaded', () => {
         new TrelioMoodFlow();
     }, 300);
 });
+
+
+// =========================================
+// UPDATE CURRENT YEAR IN FOOTER
+// =========================================
+const updateCurrentYear = () => {
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+};
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', updateCurrentYear);
+
+// Also update if the element appears dynamically
+if (document.getElementById('current-year')) {
+    updateCurrentYear();
+}
