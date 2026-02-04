@@ -4469,7 +4469,7 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
 
 /* Badge */
 .tre-mission-badge {
-    display: inline-block;
+  display: inline-block;
     background: rgba(56, 189, 248, 0.1);
     color: var(--primary-blue);
     padding: 8px 20px;
@@ -4602,11 +4602,30 @@ html:not([data-theme="dark"]) .theme-toggle-modern .moon-svg {
     width: 0%;
     background: linear-gradient(90deg, var(--primary-blue), #0ea5e9);
     border-radius: 2px;
-    transition: width 2s ease-out;
+    transition: width 1s ease-out;
+    /* Make it stay filled after animation */
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
 }
 
-.tre-stat.progress-animating .tre-stat-progress::after {
-    width: 100%;
+/* Use animation instead of transition for better control */
+.tre-stat.animate-progress .tre-stat-progress::after {
+    animation: fillProgress 1s ease-out forwards;
+}
+
+@keyframes fillProgress {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Keep it filled after animation */
+.tre-stat.completed .tre-stat-progress::after {
+    width: 100% !important;
+    animation: none !important;
 }
 
 .tre-stat-label {

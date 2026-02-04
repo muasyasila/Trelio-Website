@@ -1332,7 +1332,7 @@ if (document.getElementById('current-year')) {
     updateCurrentYear();
 }
 
-// Mission Section Counter Animation - FAST VERSION
+// Mission Section Counter Animation - FAST VERSION WITH FIXED PROGRESS BARS
 function animateMissionCounters() {
     const stats = document.querySelectorAll('.tre-stat');
     
@@ -1341,8 +1341,8 @@ function animateMissionCounters() {
         const target = parseInt(numberElement.getAttribute('data-count'));
         const suffix = numberElement.getAttribute('data-suffix') || '';
         
-        // Start progress bar animation
-        stat.classList.add('progress-animating');
+        // Start progress bar animation using CSS animation
+        stat.classList.add('animate-progress');
         
         // Fast animation (1 second)
         const duration = 1000; // 1 second - FAST!
@@ -1351,7 +1351,7 @@ function animateMissionCounters() {
         let current = 0;
         const increment = target / steps;
         
-        // Add pop animation
+        // Add pop animation to number
         numberElement.classList.add('animating');
         
         const counter = setInterval(() => {
@@ -1361,10 +1361,13 @@ function animateMissionCounters() {
                 current = target;
                 clearInterval(counter);
                 
-                // Remove animations after completion
+                // Mark as completed to keep progress bar filled
+                stat.classList.add('completed');
+                stat.classList.remove('animate-progress');
+                
+                // Remove number animation after completion
                 setTimeout(() => {
                     numberElement.classList.remove('animating');
-                    stat.classList.remove('progress-animating');
                 }, 300);
             }
             
@@ -1413,11 +1416,21 @@ if (missionSection) {
     missionObserver.observe(missionSection);
 }
 
-// Optional: Add hover effect to restart animation
+// Optional: Add hover effect to show progress bar pulse
 document.querySelectorAll('.tre-stat').forEach(stat => {
     stat.addEventListener('mouseenter', () => {
         const numberElement = stat.querySelector('.tre-stat-number');
         if (!numberElement.classList.contains('animating')) {
+            // Add a subtle pulse effect to completed progress bars
+            const progressBar = stat.querySelector('.tre-stat-progress');
+            if (progressBar && stat.classList.contains('completed')) {
+                progressBar.style.transform = 'scaleX(1.1)';
+                setTimeout(() => {
+                    progressBar.style.transform = 'scaleX(1)';
+                }, 200);
+            }
+            
+            // Bounce the number
             numberElement.classList.add('animating');
             setTimeout(() => {
                 numberElement.classList.remove('animating');
